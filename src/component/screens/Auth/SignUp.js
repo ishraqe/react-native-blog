@@ -62,7 +62,7 @@ class Login extends Component {
                     <CustomButton
                         onPress={this.signUpHandler}
                     >
-                        Login
+                       Get Started
                     </CustomButton>
                 </View>
             </View>

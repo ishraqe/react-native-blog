@@ -27,7 +27,6 @@ class SuccessScreen extends Component {
                             style={styles.successIcon}
                             source={require('../../../assets/successIcon.png')}
                         />
-                        
                     </View>
                 </View>
             </View>
