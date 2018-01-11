@@ -1,22 +1,30 @@
 import React from 'react';
-import { Text, TouchableOpacity } from 'react-native';
-
+import { View,Text, TouchableNativeFeedback } from 'react-native';
+import color from '../../assets/color';
 const CustomButton = (props) => {
-    const { buttonStyle, textStyle } = styles;
-
-    return (
-        <TouchableOpacity onPress={props.onPress} style={[buttonStyle, props.style]}>
-            <Text style={textStyle}>
+    const { buttonStyle, textStyle, disabledColor, disabledText } = styles;
+    const content = (
+        <View style={[buttonStyle, props.style, props.disable ? disabledColor : null]}>
+            <Text style={[textStyle, props.disable ? disabledText : null]}>
                 {props.children}
             </Text>
-        </TouchableOpacity>
+        </View>
+    );
+    
+    if (props.disable) {
+        return content;
+    }
+    return (
+        <TouchableNativeFeedback onPress={props.onPress} >
+           {content}
+        </TouchableNativeFeedback>
     );
 };
 
 const styles = {
     textStyle: {
         alignSelf: 'center',
-        color: '#3ac665',
+        color: color.themeColor,
         fontSize: 16,
         fontWeight: '600',
         paddingTop: 10,
@@ -25,9 +33,15 @@ const styles = {
     buttonStyle: {
         backgroundColor: '#fff',
         borderWidth: 1,
-        borderColor: '#3ac665',
+        borderColor: color.themeColor,
         width: '50%',
         borderRadius: 20
+    },
+    disabledColor : {
+        borderColor: color.greyColor
+    },
+    disabledText : {
+        color: color.greyColor
     }
 };
 

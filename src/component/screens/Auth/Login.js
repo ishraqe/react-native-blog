@@ -1,15 +1,49 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image, KeyboardAvoidingView } from 'react-native';
 import { CustomButton, Input } from "../../common";
-
+import validate from '../../../Utility/validation';
 
 class Login extends Component {
 
-    loginHandler() {
-        alert('login');
+    state = {
+        controls: {
+            email: {
+                value:'',
+                valid : false,
+                validationRules : {
+                    isEmail : true
+                },
+                touched :  false
+            },
+            password: {
+                value:'',
+                valid: false,
+                validationRules: {
+                    minLength: 6
+                },
+                touched: false
+            }
+        }
     }
 
-
+    loginHandler() {
+       
+    }
+    updateInputState = (key, val) => {
+        this.setState( prevState => {
+            return {
+                controls : {
+                    ...prevState.controls,
+                    [key] : {
+                        ...prevState.controls[key], 
+                        value : val,
+                        valid : validate(val, prevState.controls[key].validationRules),
+                        touched : true
+                    }
+                }
+            }
+        });
+    }
     render() {
         return (
             <KeyboardAvoidingView
@@ -27,12 +61,15 @@ class Login extends Component {
                             secureTextEntry={false}
                             iconName={'md-mail'}
                             placeholder={'E-mail'}
-                            style={styles.emailStyle}
                             returnKeyType={'next'}
                             keyboardType='email-address'
                             autoCorrect={false}
                             style={styles.inputStyle}
                             labelStyl={styles.labelStyle}
+                            value = {this.state.controls.email.value}
+                            onChangeText={val => this.updateInputState('email', val)}
+                            valid = {this.state.controls.email.valid}
+                            touched = {this.state.controls.email.touched}                            
                         />
                         <View style={styles.passwordButtonStyle}>
                             <Input
@@ -41,12 +78,20 @@ class Login extends Component {
                                 placeholder={'Password'}
                                 labelStyl={styles.labelStyle}
                                 style={styles.inputStyle}
+                                value={this.state.controls.password.value}
+                                onChangeText={ val => this.updateInputState('password', val)}
+                                valid={this.state.controls.password.valid}
+                                touched={this.state.controls.password.touched}         
                             />
                         </View>
                     </View>
                     <View style={styles.buttonContainer}>
                         <CustomButton
                             onPress={this.loginHandler}
+                            disable = {
+                                !this.state.controls.email.valid ||
+                                !this.state.controls.password.valid
+                            }
                         >
                             Login
                         </CustomButton>

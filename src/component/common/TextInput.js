@@ -1,15 +1,23 @@
 import React from 'react';
 import {View, Text, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import color from '../../assets/color';
 
-const Input = ({ label, iconName, value, onChangeText, placeholder, secureTextEntry, returnKeyType, keyboardType, autoCorrect, labelStyl, style})=>{
-
-    const {inputStyle, labelStyle, containerStyle} = styles;
+const Input = (props)=>{
+    const 
+        {
+            label, iconName, value, onChangeText, placeholder, 
+            secureTextEntry,returnKeyType, keyboardType, autoCorrect,
+            labelStyl, style, valid, touched
+        } = props;
+    
+    const {inputStyle, labelStyle, containerStyle, invalidColor} = styles;
+    
     return (
         <View style={containerStyle}>
             <Icon
                 size={30}
-                color='#b5b8bc'
+                color= {color.greyColor}
                 name={iconName}
                 style={[styles.labelStyle, labelStyl]}
             />
@@ -23,6 +31,7 @@ const Input = ({ label, iconName, value, onChangeText, placeholder, secureTextEn
                 returnKeyType={returnKeyType}
                 keyboardType={keyboardType}
                 autoCorrect={autoCorrect}
+                underlineColorAndroid={ !valid && touched ? 'red' : null  }
             />
         </View>
     );
