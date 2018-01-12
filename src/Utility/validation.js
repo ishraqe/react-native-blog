@@ -10,6 +10,9 @@ const validate = (val, rules) => {
             case 'minLength' : 
                 isValid = isValid && passwordValidator(val, rules[rule]);
                 break;
+            case 'lastName' : 
+                isValid = isValid && fullnameValidator(val);
+                break;
             default:
                 isValid= true;
         }
@@ -24,6 +27,11 @@ const emailValidator = (val) => {
 
 const passwordValidator = (val, minLength) => {
     return val.length >= minLength;
+}
+
+const fullnameValidator = (val) => {
+
+    return val.substring(val.split(' ')[0].length).trim().length > 0;   
 }
 
 export default validate;

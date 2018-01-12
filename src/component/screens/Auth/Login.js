@@ -23,7 +23,7 @@ class Login extends Component {
                 value:'',
                 valid: false,
                 validationRules: {
-                    minLength: 6
+                    minLength: 1
                 },
                 touched: false
             }
@@ -49,6 +49,7 @@ class Login extends Component {
         const password = this.state.controls.password.value;
         
         this.props.log_user_in({email, password});
+        Actions.lightbox();
     }
 
     updateInputState = (key, val) => {

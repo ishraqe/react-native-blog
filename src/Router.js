@@ -3,13 +3,35 @@ import { View, Text } from 'react-native';
 import { Scene, Router, Stack, Actions } from 'react-native-router-flux';
 
 
+/*==============================================
+             Authentication Routes
+=============================================*/
+
 import Auth from './component/screens/Auth/Auth';
 import Login from './component/screens/Auth/Login';
 import SuccessScreen from './component/screens/Auth/Success';
 import SignUpScreen from './component/screens/Auth/SignUp';
+
+/*==============================================
+             Drawer Routes
+=============================================*/
+
+import TabView from './component/screens/Drawer';
+
+/*==============================================
+             Blog Routes
+=============================================*/
+
 import Landing from './component/screens/Blog/Landing';
 import SingleBlog from './component/screens/Blog/SingleBlog';
-import TabView from './component/screens/Drawer';
+import MyBlog from './component/screens/Blog/MyBlog';
+import Search from './component/screens/Blog/Search';
+import CreateBlog from './component/screens/Blog/CreateBlog';
+
+
+
+
+
 
 
 const TabIcon = ({ selected, title }) => {
@@ -21,7 +43,7 @@ const TabIcon = ({ selected, title }) => {
 
 const RouterComponent = () => {
     return (
-        <Router navigationBarStyle={{ backgroundColor: '#fff' }} titleStyle={{ marginLeft: -40, color: '#3ac665', alignSelf: 'center' }} >
+        <Router navigationBarStyle={{ backgroundColor: '#fff' }} titleStyle={{  color: '#3ac665', alignSelf: 'center' }} >
             <Stack key="root" hideNavBar={true}>
                 <Stack key="first" >
                     <Scene
@@ -46,15 +68,13 @@ const RouterComponent = () => {
                     />
                     
                 </Stack>
-                <Scene key="lightbox" lightbox>
+                <Scene key="lightbox"  lightbox style={{color: 'green'}}>
                     <Scene key="drawer" drawer contentComponent={TabView}>
-                        <Scene key="tabbar" tabs={true} tabBarPosition={'bottom'}>
-                            <Scene key="tab1" title="Tab #1" hideTitle  navigationBarStyle={{ backgroundColor: 'red' }} titleStyle={{ color: 'white' }}>
-                                <Scene key="tab1_1" component={Landing} title="Tab #1_1" hideNavBar={true} onRight={() => alert("Right button")} rightTitle="Right" />
-                            </Scene>
-                            <Scene key="tab2" initial={true} title="Tab #2" >
-                                <Scene key="tab2_1" component={SingleBlog} title="Tab #2_1" hideNavBar={true} onLeft={() => alert("Left button!")} leftTitle="Left" />
-                            </Scene>
+                        <Scene key="tabbar" tabs={true} tabBarPosition={'bottom'} labelStyle={{ color: 'red', fontSize: 20 }}>
+                            <Scene key="tab1_1" component={Landing} tabBarLabel={`My Account`}  onRight={() => alert("Right button")} rightTitle="Right" />
+                            <Scene key="tab2_1" component={Search} title="Search"  onLeft={() => alert("Left button!")} leftTitle="Left" />
+                            <Scene key="tab3_1" component={CreateBlog} title="Create"  onLeft={() => alert("Left button!")} leftTitle="Left" />
+                            <Scene key="tab4_1" component={MyBlog} title="My Blog"  onLeft={() => alert("Left button!")} leftTitle="Left" />
                         </Scene>
                     </Scene>
                 </Scene>
