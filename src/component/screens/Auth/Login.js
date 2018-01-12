@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, KeyboardAvoidingView } from 'react-native';
+import { View, Text, StyleSheet, Image, KeyboardAvoidingView ,Dimensions} from 'react-native';
 import { CustomButton, Input } from "../../common";
 import validate from '../../../Utility/validation';
+import {Actions} from 'react-native-router-flux';
+import {connect} from 'react-redux';
+import {loginUser} from '../../../store/actions'
 
 class Login extends Component {
 
     state = {
+        viewMode: Dimensions.get('window').height > 500 ? 'potrait' : 'landscape',        
         controls: {
             email: {
                 value:'',
@@ -25,10 +29,28 @@ class Login extends Component {
             }
         }
     }
-
-    loginHandler() {
-       
+    constructor(props) {
+        super(props);
+        Dimensions.addEventListener('change', this.updateMode);
     }
+
+    componentWillUnmount() {
+        Dimensions.removeEventListener('change', this.updateMode);
+    }
+
+    updateMode = (dims) => {
+        this.setState({
+            viewMode: dims.window.height > 500 ? 'potrait' : 'landscape'
+        })
+    }
+
+    loginHandler = () => {
+        const email = this.state.controls.email.value;
+        const password = this.state.controls.password.value;
+        
+        this.props.log_user_in({email, password});
+    }
+
     updateInputState = (key, val) => {
         this.setState( prevState => {
             return {
@@ -44,18 +66,26 @@ class Login extends Component {
             }
         });
     }
+
+    renderImageContainer = () => {
+        const imageContainer = (
+            <View style={styles.imageContainer}>
+                <Image
+                    style={styles.iconStyle}
+                    source={require('../../../assets/loginIcon.png')}
+                />
+            </View>
+        );
+
+        if (this.state.viewMode === 'potrait') {
+            return imageContainer;
+        }
+    }
+
     render() {
         return (
-            <KeyboardAvoidingView
-                style={{flex:1}}
-            >
                 <View style={{ flex: 1, backgroundColor: '#fff' }}>
-                    <View style={styles.imageContainer}>
-                        <Image
-                            style={styles.iconStyle}
-                            source={require('../../../assets/loginIcon.png')}
-                        />
-                    </View>
+                    {this.renderImageContainer()}
                     <View style={styles.inputContainer}>
                         <Input
                             secureTextEntry={false}
@@ -69,7 +99,7 @@ class Login extends Component {
                             value = {this.state.controls.email.value}
                             onChangeText={val => this.updateInputState('email', val)}
                             valid = {this.state.controls.email.valid}
-                            touched = {this.state.controls.email.touched}                            
+                            touched = {this.state.controls.email.touched}                         
                         />
                         <View style={styles.passwordButtonStyle}>
                             <Input
@@ -81,7 +111,7 @@ class Login extends Component {
                                 value={this.state.controls.password.value}
                                 onChangeText={ val => this.updateInputState('password', val)}
                                 valid={this.state.controls.password.valid}
-                                touched={this.state.controls.password.touched}         
+                                touched={this.state.controls.password.touched}        
                             />
                         </View>
                     </View>
@@ -97,30 +127,30 @@ class Login extends Component {
                         </CustomButton>
                     </View>
                 </View>
-            </KeyboardAvoidingView>
         );
     }
 }
 
 const styles = StyleSheet.create({
     imageContainer: {
-        flex: 1.2,
+        width: '100%',
+        height : '50%',
         justifyContent: 'center',
         alignItems: 'center'
     },
     buttonContainer: {
-        flex: .5,
+        flex: 1,
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom:30
+        marginBottom : 30
     },
     iconStyle: {
         width: '70%',
         height: '100%'
     },
     inputContainer: {
-        flex: 1,
+        width: '100%',
         marginBottom:2 
     },
     inputStyle: {
@@ -137,4 +167,10 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Login;
+const mapDispatchToProps = dispatch => {
+   return {
+       log_user_in: ({ email, password }) => dispatch (loginUser({email, password}))
+   };
+};
+
+export default connect(null,mapDispatchToProps)(Login);

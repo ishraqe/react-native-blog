@@ -1,59 +1,79 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, KeyboardAvoidingView } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions } from 'react-native';
 import { CustomButton, Input } from "../../common";
 import {Actions} from 'react-native-router-flux';
 
 
 class Login extends Component {
 
-    signUpHandler= () => {
-        Actions.successScreen();
+    state = {
+        viewMode: Dimensions.get('window').height > 500 ? 'potrait' : 'landscape'
+    }
+    constructor(props) {
+        super(props);
+
+        Dimensions.addEventListener('change', this.updateMode);
     }
 
+    componentWillUnmount() {
+        Dimensions.removeEventListener('change', this.updateMode);
+    }
+
+    updateMode = (dims) => {
+        this.setState({
+            viewMode: dims.window.height > 500 ? 'potrait' : 'landscape'
+        })
+    }
+
+    renderImageContainer = () => {
+        const imageContainer = (
+            <View style={styles.imageContainer}>
+                <Image
+                    style={styles.iconStyle}
+                    source={require('../../../assets/signUpIcon.png')}
+                />
+            </View>
+        );
+
+        if (this.state.viewMode === 'potrait') {
+            return imageContainer;
+        }
+    }
+
+    signUpHandler = () => {
+        Actions.successScreen();
+    }
 
     render() {
         return (
             <View style={{ flex: 1, backgroundColor: '#fff' }}>
-                <View style={styles.imageContainer}>
-                    <Image
-                        style={styles.iconStyle}
-                        source={require('../../../assets/signUpIcon.png')}
-                    />
-                </View>
+                {this.renderImageContainer()}
                 <View style={styles.inputContainer}>
                     <Input
                         secureTextEntry={false}
                         iconName={'md-person'}
                         placeholder={'Fullname'}
-                        returnKeyType={'next'}
-                        autoCorrect={false}
                         style={styles.inputStyle}
-                        labelStyl={styles.labelStyle}
-                    />
-                    <Input
-                        secureTextEntry={false}
-                        iconName={'md-person'}
-                        placeholder={'Username'}
                         returnKeyType={'next'}
+                        keyboardType='email-address'
                         autoCorrect={false}
-                        style={styles.inputStyle}
                         labelStyl={styles.labelStyle}
                     />
                     <Input
                         secureTextEntry={false}
                         iconName={'md-mail'}
                         placeholder={'E-mail'}
-                        style={styles.emailStyle}
+                        style={styles.inputStyle}
                         returnKeyType={'next'}
                         keyboardType='email-address'
                         autoCorrect={false}
-                        style={styles.inputStyle}
                         labelStyl={styles.labelStyle}
                     />
                     <Input
                         secureTextEntry={true}
                         iconName={'md-lock'}
                         placeholder={'password'}
+                        returnKeyType={'done'}
                         labelStyl={styles.labelStyle}
                         style={styles.inputStyle}
                     />
@@ -72,24 +92,27 @@ class Login extends Component {
 
 const styles = StyleSheet.create({
     imageContainer: {
-        flex: 1,
+        width: '100%',
+        height: '50%',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginTop : 10
     },
     buttonContainer: {
-        flex: .5,
+        flex: 1,
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 8
+        marginBottom: 30
     },
     iconStyle: {
         width: '70%',
         height: '100%'
     },
     inputContainer: {
-        flex: 1,
-        marginTop: 2
+        width: '100%',
+        marginBottom: 2 ,
+        marginTop: 5
     },
     inputStyle: {
         color: '#000',

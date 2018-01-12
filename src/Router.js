@@ -47,16 +47,16 @@ const RouterComponent = () => {
                     
                 </Stack>
                 <Scene key="lightbox" lightbox>
-                <Scene key="drawer" drawer contentComponent={TabView}>
-                    <Scene key="tabbar" tabs={true} tabBarPosition={'bottom'}>
-                        <Scene key="tab1" title="Tab #1" hideTitle  navigationBarStyle={{ backgroundColor: 'red' }} titleStyle={{ color: 'white' }}>
-                            <Scene key="tab1_1" component={Landing} title="Tab #1_1" onRight={() => alert("Right button")} rightTitle="Right" />
-                        </Scene>
-                        <Scene key="tab2" initial={true} title="Tab #2" >
-                            <Scene key="tab2_1" component={SingleBlog} title="Tab #2_1" onLeft={() => alert("Left button!")} leftTitle="Left" />
+                    <Scene key="drawer" drawer contentComponent={TabView}>
+                        <Scene key="tabbar" tabs={true} tabBarPosition={'bottom'}>
+                            <Scene key="tab1" title="Tab #1" hideTitle  navigationBarStyle={{ backgroundColor: 'red' }} titleStyle={{ color: 'white' }}>
+                                <Scene key="tab1_1" component={Landing} title="Tab #1_1" hideNavBar={true} onRight={() => alert("Right button")} rightTitle="Right" />
+                            </Scene>
+                            <Scene key="tab2" initial={true} title="Tab #2" >
+                                <Scene key="tab2_1" component={SingleBlog} title="Tab #2_1" hideNavBar={true} onLeft={() => alert("Left button!")} leftTitle="Left" />
+                            </Scene>
                         </Scene>
                     </Scene>
-                </Scene>
                 </Scene>
             </Stack>
         </Router>
