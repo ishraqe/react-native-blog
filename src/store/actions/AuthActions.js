@@ -2,16 +2,26 @@ import {
     LOGIN_USER_SUCCESS,
     LOGIN_USER_FAIL,
     LOGIN_USER,
-    SIGNUP_USER
+    SIGNUP_USER,
+    SIGNUPUSER_USER_FAIL,
+    SIGNUPUSER_USER_SUCCESS,
+    USERINFO_FETCH_SUCCESS
 } from "./types";
 import firebase from 'firebase';
 import { Actions } from 'react-native-router-flux';
 
 
-export const signUpUser = ({email, password}) => {
+export const signUpUser = ({fullname, email, password}) => {
     return (dispatch) => {
         firebase.auth().createUserWithEmailAndPassword(email, password)
-            .then((user) => loginUserSuccess(dispatch, user))
+            .then((user) => {
+                const uid = user.uid;
+                firebase.database().ref('userInfo/' + uid).set({
+                       fullname : fullname 
+                }).then(
+                    (userInfo) => signupUserSuccess(dispatch, userInfo, user)
+                )
+            })
             .catch(() => loginUserFail(dispatch));
     }
 }
@@ -24,14 +34,15 @@ export const signupUserfail = (dispatch) => {
 };
 
 
-export const signupUserSuccess = (dispatch, user) => {
+export const signupUserSuccess = (dispatch, userInfo,user) => {
+
     dispatch({
         type: SIGNUPUSER_USER_SUCCESS,
-        payload: user
+        payload: {
+            user
+        }
     });
-
-    Actions.lightbox();
-
+    Actions.successScreen();
 }
 
 
@@ -62,3 +73,14 @@ export const loginUserSuccess = (dispatch, user) => {
 
     Actions.lightbox();
 };
+
+export const fetchUserInfo = () => {
+    const {currentUser} = firebase.auth();
+
+    return (dispatch) => {
+        firebase.database().ref('userInfo/' +currentUser.uid)
+        .on('value', snapshot=> {
+            dispatch ({type: USERINFO_FETCH_SUCCESS, payload: snapshot.val()});
+        });
+    };
+}

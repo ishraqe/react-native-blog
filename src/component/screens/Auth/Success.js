@@ -1,8 +1,17 @@
 import React, {Component} from 'react';
 import { View, Text, StyleSheet, Image} from 'react-native';
 import {CustomButton} from '../../common';
+import {connect} from 'react-redux';
+import { fetchUserInfo } from '../../../store/actions';
+import { Actions } from 'react-native-router-flux';
 
 class SuccessScreen extends Component {
+
+    componentWillMount() {
+        this.props.fetach_userInfo();
+    }
+
+
     render () {
         return (
             <View style={styles.container}>
@@ -14,7 +23,11 @@ class SuccessScreen extends Component {
                     <View style={styles.messageContainer}>
                         <Text style={styles.congoStyle}>Congratulations</Text>
                         <Text style={{marginBottom: 40}}>Thank you for signing up with us</Text>
-                        <CustomButton>Next</CustomButton>
+                        <CustomButton
+                            onPress = {() => Actions.lightbox()}
+                        >
+                            Next
+                        </CustomButton>
                     </View>
                 </View>
                 <View style={styles.iconContainer}>
@@ -74,16 +87,20 @@ const styles = StyleSheet.create({
     },
     iconContainer : {
         position: 'absolute',
-        top: 80,
-        left: 80,
+        top: 90,
+        left: 100,
         elevation:2
     },
     whiteWrpper : {
-        
+        shadowColor: '#202020',
+        shadowOffset: { width: 0, height: 0 },
+        shadowRadius: 5,
+        elevation: 5,
     },
     whiteImage : {
         height: 200,
         width: 200,
+        
     },
     successIcon : {
         position: 'absolute',
@@ -94,4 +111,10 @@ const styles = StyleSheet.create({
     }
 });
 
-export default SuccessScreen;
+const mapDispatchToProps = dispatch => {
+    return {
+        fetach_userInfo: () => dispatch(fetchUserInfo())
+    };
+}
+
+export default connect(null, mapDispatchToProps)(SuccessScreen);

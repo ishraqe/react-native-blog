@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image, Dimensions } from 'react-native';
 import { CustomButton, Input } from "../../common";
 import {Actions} from 'react-native-router-flux';
-
+import {connect} from 'react-redux';
 import validate from '../../../Utility/validation';
+
+import { signUpUser} from '../../../store/actions';
 
 
 
@@ -88,7 +90,11 @@ class SignUp extends Component {
     }
 
     signUpHandler = () => {
-        Actions.successScreen();
+        const fullname = this.state.controls.fullname.value;
+        const email = this.state.controls.email.value;
+        const password = this.state.controls.password.value;
+
+        this.props.signUp_user_in({fullname, email, password });
     }
 
     render() {
@@ -188,4 +194,10 @@ const styles = StyleSheet.create({
     },
 });
 
-export default SignUp;
+const mapDispatchToProps = dispatch => {
+    return {
+        signUp_user_in: ({fullname, email, password }) => dispatch(signUpUser({fullname, email, password }))
+    };
+};
+
+export default connect(null,mapDispatchToProps)(SignUp);
