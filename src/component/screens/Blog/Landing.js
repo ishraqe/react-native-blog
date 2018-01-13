@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
-import { ListView} from '../../common/List';
+import {ListView} from '../../common/List';
 
 class Landing extends Component {
     render() {
@@ -11,6 +11,18 @@ class Landing extends Component {
                         name: 'hello',
                         image: 'https://i.ytimg.com/vi/QX4j_zHAlw8/maxresdefault.jpg'
                     },
+                        {
+                            name: 'hello',
+                            image: 'https://i.ytimg.com/vi/QX4j_zHAlw8/maxresdefault.jpg'
+                        },
+                        {
+                            name: 'hello',
+                            image: 'https://i.ytimg.com/vi/QX4j_zHAlw8/maxresdefault.jpg'
+                        },
+                        {
+                            name: 'hello',
+                            image: 'https://i.ytimg.com/vi/QX4j_zHAlw8/maxresdefault.jpg'
+                        },
                         {
                             name: 'hello',
                             image: 'https://i.ytimg.com/vi/QX4j_zHAlw8/maxresdefault.jpg'

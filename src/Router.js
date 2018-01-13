@@ -77,6 +77,7 @@ const RouterComponent = () => {
                                 onRight={() => alert("Right button")} 
                                 rightTitle="Right"
                                 tabBarLabel= 'All'
+                                hideNavBar 
                                 tabBarIcon={({ focused }) => (
                                     <View style={{
                                         height: 80,
