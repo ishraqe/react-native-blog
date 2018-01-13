@@ -21,8 +21,10 @@ export default (state = INITIAL_STATE, actions) => {
     console.log(actions);
     switch (actions.type) {
         case LOGIN_USER:
+            console.log(actions);
             return { ...state, loading: true, error: '' };
         case LOGIN_USER_SUCCESS:
+            console.log(actions);
             return { ...state, user: actions.payload, ...INITIAL_STATE };
         case LOGIN_USER_FAIL:
             console.log(actions);
@@ -42,7 +44,7 @@ export default (state = INITIAL_STATE, actions) => {
             console.log(actions);
             return {
                 ...state,
-                error: 'Intruder Alert !!',
+                error: 'Sign Up failed !!',
                 password: '',
                 loading: false
             };

@@ -22,7 +22,7 @@ export const signUpUser = ({fullname, email, password}) => {
                     (userInfo) => signupUserSuccess(dispatch, userInfo, user)
                 )
             })
-            .catch(() => loginUserFail(dispatch));
+            .catch(() => signupUserfail(dispatch));
     }
 }
 
@@ -48,9 +48,7 @@ export const signupUserSuccess = (dispatch, userInfo,user) => {
 
 export const loginUser = ({ email, password }) => {
     return (dispatch) => {
-
         dispatch({ type: LOGIN_USER });
-
         firebase.auth().signInWithEmailAndPassword(email, password)
             .then((user) => loginUserSuccess(dispatch, user))
             .catch(() => loginUserFail(dispatch));

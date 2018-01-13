@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image, KeyboardAvoidingView ,Dimensions} from 'react-native';
-import { CustomButton, Input } from "../../common";
+import { CustomButton, Input, Spinner } from "../../common";
 import validate from '../../../Utility/validation';
 import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
@@ -47,9 +47,7 @@ class Login extends Component {
     loginHandler = () => {
         const email = this.state.controls.email.value;
         const password = this.state.controls.password.value;
-        
         this.props.log_user_in({email, password});
-        Actions.lightbox();
     }
 
     updateInputState = (key, val) => {
@@ -83,6 +81,30 @@ class Login extends Component {
         }
     }
 
+    renderButton = () => {
+        if (this.props.loading) {
+            return <Spinner size='large' />;
+        }
+        return (
+            <CustomButton
+                onPress={this.loginHandler}
+                disable={
+                    !this.state.controls.email.valid ||
+                    !this.state.controls.password.valid
+                }
+            > Login
+            </CustomButton>
+        );
+    }
+    renderErrorMessage() {
+        if (this.props.error) {
+            return (
+                <View style={{ marginBottom: 10 }}>
+                    <Text style={styles.errorMsgStyle}>{this.props.error}</Text>
+                </View>
+            );
+        }
+    }
     render() {
         return (
                 <View style={{ flex: 1, backgroundColor: '#fff' }}>
@@ -116,16 +138,9 @@ class Login extends Component {
                             />
                         </View>
                     </View>
+                    {this.renderErrorMessage()}
                     <View style={styles.buttonContainer}>
-                        <CustomButton
-                            onPress={this.loginHandler}
-                            disable = {
-                                !this.state.controls.email.valid ||
-                                !this.state.controls.password.valid
-                            }
-                        >
-                            Login
-                        </CustomButton>
+                        {this.renderButton()}
                     </View>
                 </View>
         );
@@ -164,9 +179,26 @@ const styles = StyleSheet.create({
         width: '20%'
     },
     passwordButtonStyle : {
-        marginBottom: 40
-    }
+        marginBottom: 10
+    },
+    errorMsgStyle: {
+        fontSize: 10,
+        alignSelf: 'center',
+        color: 'red'
+    },
 });
+
+const mapStateToProps = ({ auth }) => {
+    const { email, password, error, loading } = auth;
+    return {
+        email,
+        password,
+        error,
+        loading
+    };
+
+};
+
 
 const mapDispatchToProps = dispatch => {
    return {
@@ -174,4 +206,4 @@ const mapDispatchToProps = dispatch => {
    };
 };
 
-export default connect(null,mapDispatchToProps)(Login);
+export default connect(mapStateToProps,mapDispatchToProps)(Login);

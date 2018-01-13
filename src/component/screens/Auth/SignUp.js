@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image, Dimensions } from 'react-native';
-import { CustomButton, Input } from "../../common";
+import { CustomButton, Input, Spinner } from "../../common";
 import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
 import validate from '../../../Utility/validation';
@@ -96,6 +96,33 @@ class SignUp extends Component {
 
         this.props.signUp_user_in({fullname, email, password });
     }
+    renderButton = () => {
+        if (this.props.loading) {
+            return <Spinner size='large' />;
+        }
+        return (
+            <CustomButton
+                onPress={this.signUpHandler}
+                disable={
+                    !this.state.controls.email.valid ||
+                    !this.state.controls.password.valid ||
+                    !this.state.controls.fullname.valid
+                }
+            >
+                Get Started
+            </CustomButton>
+        );
+    }
+
+    renderErrorMessage() {
+        if (this.props.error) {
+            return (
+                <View style={{ marginBottom: 10 }}>
+                    <Text style={styles.errorMsgStyle}>{this.props.error}</Text>
+                </View>
+            );
+        }
+    }
 
     render() {
         return (
@@ -142,17 +169,9 @@ class SignUp extends Component {
                         touched={this.state.controls.password.touched}  
                     />
                 </View>
+                {this.renderErrorMessage()}
                 <View style={styles.buttonContainer}>
-                    <CustomButton
-                        onPress={this.signUpHandler}
-                        disable={
-                            !this.state.controls.email.valid ||
-                            !this.state.controls.password.valid ||
-                            !this.state.controls.fullname.valid
-                        }
-                    >
-                       Get Started
-                    </CustomButton>
+                   {this.renderButton()}
                 </View>
             </View>
         );
@@ -194,10 +213,21 @@ const styles = StyleSheet.create({
     },
 });
 
+const mapStateToProps = ({ auth }) => {
+    const { email, password, error, loading } = auth;
+    return {
+        email,
+        password,
+        error,
+        loading
+    };
+
+};
+
 const mapDispatchToProps = dispatch => {
     return {
         signUp_user_in: ({fullname, email, password }) => dispatch(signUpUser({fullname, email, password }))
     };
 };
 
-export default connect(null,mapDispatchToProps)(SignUp);
+export default connect(mapStateToProps,mapDispatchToProps)(SignUp);
