@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { Scene, Router, Stack, Actions } from 'react-native-router-flux';
-
-
+import Icon from 'react-native-vector-icons/Ionicons';
+import color from './assets/color'
 /*==============================================
              Authentication Routes
 =============================================*/
@@ -43,7 +43,7 @@ const TabIcon = ({ selected, title }) => {
 
 const RouterComponent = () => {
     return (
-        <Router navigationBarStyle={{ backgroundColor: '#fff' }} titleStyle={{  color: '#3ac665', alignSelf: 'center' }} >
+        <Router navigationBarStyle={{ backgroundColor: '#fff' }} titleStyle={{  color: color.themeColor, alignSelf: 'center' }} >
             <Stack key="root" hideNavBar={true}>
                 <Stack key="first" >
                     <Scene
@@ -68,13 +68,54 @@ const RouterComponent = () => {
                     />
                     
                 </Stack>
-                <Scene key="lightbox"  lightbox style={{color: 'green'}}>
+                <Scene key="lightbox" initial lightbox >
                     <Scene key="drawer" drawer contentComponent={TabView}>
-                        <Scene key="tabbar" tabs={true} tabBarPosition={'bottom'} labelStyle={{ color: 'red', fontSize: 20 }}>
-                            <Scene key="tab1_1" component={Landing} tabBarLabel={`My Account`}  onRight={() => alert("Right button")} rightTitle="Right" />
-                            <Scene key="tab2_1" component={Search} title="Search"  onLeft={() => alert("Left button!")} leftTitle="Left" />
-                            <Scene key="tab3_1" component={CreateBlog} title="Create"  onLeft={() => alert("Left button!")} leftTitle="Left" />
-                            <Scene key="tab4_1" component={MyBlog} title="My Blog"  onLeft={() => alert("Left button!")} leftTitle="Left" />
+                        <Scene key="tabbar" tabBarStyle={{ position: 'relative', overflow: 'visible'}} showLabel={true} activeBackgroundColor='#fff' activeTintColor={color.themeColor} tabs={true} tabBarPosition={'bottom'} >
+                            <Scene 
+                                key="tab1_1" 
+                                component={Landing} 
+                                onRight={() => alert("Right button")} 
+                                rightTitle="Right"
+                                tabBarLabel= 'All'
+                                tabBarIcon={({ focused }) => (
+                                    <View style={{
+                                        height: 80,
+                                        width: 80,
+                                        borderRadius: 100,
+                                        backgroundColor: '#FE6D64',
+                                        paddingTop: 15,
+                                        position: 'absolute',
+                                        overflow: 'visible',
+                                        top: -20
+                                    }}>
+                                        <Icon
+                                            size ={40}
+                                            name={`ios-list-outline`}
+                                            text={`My Account`}
+                                        />
+                                    </View>
+                                )} 
+                            />
+                            <Scene icon={({ focused }) => (
+                                <View>
+                                    <Icon
+                                        size={40}
+                                        name={`ios-search-outline`}
+                                        text={`My Account`}
+                                    />
+                                </View>
+                            )}  
+                            key="tab2_1" labelStyle={Actions.currentScene ? '#3ac665' : 'red'} component={Search} title="Search"  onLeft={() => alert("Left button!")} leftTitle="Left" />
+                            <Scene icon={({ focused }) => (
+                                <View>
+                                    <Icon
+                                        size={focused ? 60 : 20}
+                                        name={`ios-add-outline`}
+                                        text={`My Account`}
+                                    />
+                                </View>
+                            )}  key="tab3_1" component={CreateBlog} title="Create"  onLeft={() => alert("Left button!")} leftTitle="Left" />
+                        
                         </Scene>
                     </Scene>
                 </Scene>
@@ -82,5 +123,13 @@ const RouterComponent = () => {
         </Router>
     );
 };
+
+const styles = StyleSheet.create({
+    tabViewWrapperStyle : {
+        backgroundColor: color.themeColor,
+        position: 'absolute',
+        top:-50
+    }
+});
 
 export default RouterComponent;
