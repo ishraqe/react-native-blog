@@ -17,8 +17,9 @@ const styles ={
         shadowOpacity: 0.1,
         shadowRadius: 2,
         marginTop: 10,
-        marginRight: 5,
-        marginLeft: 5,
+        marginRight: 15,
+        marginLeft: 15,
+        marginBottom: 10,
         elevation: 1
     }
 };

@@ -16,7 +16,8 @@ const styles = {
         justifyContent: 'flex-start',
         flexDirection: 'column',
         borderColor: '#ddd',
-        position: 'relative'
+        position: 'relative',
+        borderRadius : 5
     }
 };
 

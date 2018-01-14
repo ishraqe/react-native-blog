@@ -16,7 +16,7 @@ import SignUpScreen from './component/screens/Auth/SignUp';
              Drawer Routes
 =============================================*/
 
-import TabView from './component/screens/Drawer';
+import Drawer from './component/screens/Drawer';
 
 /*==============================================
              Blog Routes
@@ -69,8 +69,13 @@ const RouterComponent = () => {
                     
                 </Stack>
                 <Scene key="lightbox" initial lightbox >
-                    <Scene key="drawer" drawer contentComponent={TabView}>
-                        <Scene key="tabbar" tabBarStyle={{ position: 'relative', overflow: 'visible'}} showLabel={true} activeBackgroundColor='#fff' activeTintColor={color.themeColor} tabs={true} tabBarPosition={'bottom'} >
+                    <Scene key="drawer" drawer contentComponent={Drawer}>
+                        <Scene key="tabbar" 
+                                tabBarStyle={{ position: 'relative', overflow: 'visible'}}
+                                 showLabel={true} activeBackgroundColor='#fff' 
+                                 activeTintColor={color.themeColor} tabs={true} 
+                                 tabBarPosition={'bottom'}
+                        >
                             <Scene 
                                 key="tab1_1" 
                                 component={Landing} 
@@ -118,6 +123,7 @@ const RouterComponent = () => {
                             )}  key="tab3_1" component={CreateBlog} title="Create"  onLeft={() => alert("Left button!")} leftTitle="Left" />
                         
                         </Scene>
+                        <Scene key='single_blog' component={SingleBlog} />
                     </Scene>
                 </Scene>
             </Stack>

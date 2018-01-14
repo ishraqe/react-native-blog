@@ -1,38 +1,49 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableWithoutFeedback, Image } from 'react-native';
+import React, {Component} from 'react';
+import { View, Text, StyleSheet, TouchableNativeFeedback, Image } from 'react-native';
 import { Card } from './Card';
 import {CardSection} from './CardSection';
+import {Actions} from 'react-native-router-flux';
 
 
-const ListView = (props) => {
-    return (
-        <TouchableWithoutFeedback>
-            <Card>
-                <CardSection>
-                    <View style={styles.coverContainerStyle}>
-                        <Image style = {styles.coverImageStyle} source={{ uri: 'https://d3n8a8pro7vhmx.cloudfront.net/taxpayers/pages/679/attachments/original/1499663166/4-ways-cheer-up-depressed-cat.jpg?1499663166'}} />
-                    </View>
-                    <View style={styles.titleContainerStyle}>
-                        <Text style={styles.titleStyle}>I have got a good cat. Her name is matilda. She is quite young for a cat. She is between 12 years old ...</Text>
-                    </View>
-                    <View style={styles.infoContainer}>
-                       <View style={styles.profileContainer}>
-                            <View style={styles.profileImageContainer}>
-                                <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg'}} style={styles.profileImageStyle} />
+class ListView extends Component {
+
+    onRowPress = () => {
+        Actions.single_blog({ post: this.props.item })
+    }
+
+    render() {
+        return (
+            <TouchableNativeFeedback onPress={this.onRowPress} >
+                <View pointerEvent="box-only" >
+                    <Card>
+                        <CardSection>
+                            <View style={styles.coverContainerStyle}>
+                                <Image style={styles.coverImageStyle} source={{ uri: this.props.item.image }} />
                             </View>
-                            <View style={styles.nameContainerStyle}>
-                                <Text style={styles.nameStyle}>Blake Lively</Text>
-                            </View>    
-                        </View>
-                        <View style={styles.timeContainer}>
-                            <Text style={styles.timeStyle}>5 minutes ago</Text>
-                        </View>
-                    </View>
-                </CardSection>    
-            </Card>
-        </TouchableWithoutFeedback>
-    );
-};
+                            <View style={styles.titleContainerStyle}>
+                                <Text style={styles.titleStyle}>I have got a good cat. Her name is matilda. She is quite young for a cat. She is between 12 years old ...</Text>
+                            </View>
+                            <View style={styles.infoContainer}>
+                                <View style={styles.profileContainer}>
+                                    <View style={styles.profileImageContainer}>
+                                        <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} style={styles.profileImageStyle} />
+                                    </View>
+                                    <View style={styles.nameContainerStyle}>
+                                        <Text style={styles.nameStyle}>Blake Lively</Text>
+                                    </View>
+                                </View>
+                                <View style={styles.timeContainer}>
+                                    <Text style={styles.timeStyle}>5 minutes ago</Text>
+                                </View>
+                            </View>
+                        </CardSection>
+                    </Card>
+                </View>
+            </TouchableNativeFeedback>
+        );
+    }
+   
+}
 
 const styles = StyleSheet.create({
     coverContainerStyle : {
@@ -104,4 +115,4 @@ const styles = StyleSheet.create({
 
 });
 
-export { ListView};
+export default ListView;
