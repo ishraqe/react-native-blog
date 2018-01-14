@@ -1,12 +1,26 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, Text, FlatList, StyleSheet, RefreshControl } from 'react-native';
 import ListView from '../../common/List'
 
 class Landing extends Component {
+    state = {
+            refreshing: false,
+        }
+
+    _onRefresh() {
+        this.setState({ refreshing: true });
+            this.setState({ refreshing: false });
+    }
     render() {
         return (
             <View>
                 <FlatList
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.refreshing}
+                            onRefresh={this._onRefresh.bind(this)}
+                        />
+                    }
                     data={[
                         {
                             name: 'hello',

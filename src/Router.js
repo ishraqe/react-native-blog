@@ -27,7 +27,7 @@ import SingleBlog from './component/screens/Blog/SingleBlog';
 import MyBlog from './component/screens/Blog/MyBlog';
 import Search from './component/screens/Blog/Search';
 import CreateBlog from './component/screens/Blog/CreateBlog';
-
+import Notifications from './component/screens/Blog/Notifications';
 
 
 
@@ -121,7 +121,16 @@ const RouterComponent = () => {
                                     />
                                 </View>
                             )}  key="tab3_1" component={CreateBlog} title="Create"  onLeft={() => alert("Left button!")} leftTitle="Left" />
-                        
+                            <Scene icon={({ focused }) => (
+                                <View>
+                                    <Icon
+                                        size={focused ? 60 : 20}
+                                        name={`ios-notifications-outline`}
+                                        text={`My Account`}
+                                    />
+                                </View>
+                            )} key="tab4_1" component={Notifications} title="Notifications" onLeft={() => alert("Left button!")} leftTitle="Left" />
+
                         </Scene>
                         <Scene key='single_blog' component={SingleBlog} />
                     </Scene>
