@@ -6,3 +6,8 @@ export const SIGNUP_USER = 'signup_user';
 export const SIGNUPUSER_USER_FAIL = 'signup_user_fail';
 export const SIGNUPUSER_USER_SUCCESS = 'signup_user_success';
 export const USERINFO_FETCH_SUCCESS = 'userinfo_fetch_success';
+
+
+export const POST_STORY ='post_story';
+export const POST_STORY_SUCCESS = 'post_story_success';
+export const POST_STORY_FAIL ='post_story_fail';

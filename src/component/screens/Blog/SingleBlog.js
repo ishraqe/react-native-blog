@@ -9,7 +9,6 @@ class SingleBlog extends Component {
     render() {
         return (
             <ScrollView>
-              
                     <View style = {styles.coverContainer}>
                         <Image source={{ uri: this.props.post.image}} style={styles.coverImageStyle} />
                     </View>
