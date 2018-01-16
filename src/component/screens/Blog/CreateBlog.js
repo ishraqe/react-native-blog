@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet, TextInput } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
-import { Input, CardSection} from '../../common';
+import { Input, CardSection, CustomButton} from '../../common';
 import {connect, Connect} from 'react-redux';
 import {postStory} from '../../../store/actions';
 
@@ -13,6 +13,7 @@ class MultilineTextInput extends Component {
                 editable={true}
                 maxLength={200}
                 placeholder='Share your story!!'
+                style={{borderWidth:1, borderColor: '#eee'}}
             />
         );
     }
@@ -22,7 +23,7 @@ class CreateBlog extends Component {
 
     state = {
         pickedImage: null,
-        text: 'Useless Multiline Placeholder',
+        text: '',
     }
 
     pickImageHandler = () => {
@@ -34,12 +35,21 @@ class CreateBlog extends Component {
             }else {
                 this.setState({
                     pickedImage: {
-                        uri: res.uri
+                        uri: res.uri,
+                        data : res
                     }
                 });
-                this.props.shareStory();
+                
             }
         });
+    }
+
+    shareStoryHandler = () => {
+        const description = this.state.text;
+        const imageUri = this.state.pickedImage.uri;
+        const imageData = this.state.pickedImage.data;
+        
+        this.props.shareStory(description, imageData );
     }
 
     renderImagePreview = () => {
@@ -65,7 +75,7 @@ class CreateBlog extends Component {
     render() {
         return (
             <View style={{backgroundColor: '#fff', height: '100%', padding: 10}}>
-                <CardSection>
+                <CardSection style={styles.cardStyle}>
                     <MultilineTextInput
                         multiline={true}
                         numberOfLines={4}
@@ -73,8 +83,16 @@ class CreateBlog extends Component {
                         value={this.state.text}
                     />
                 </CardSection>
-                <CardSection>
+                <CardSection style={styles.cardStyle}>
                     {this.renderImagePreview()}
+                </CardSection>
+                <CardSection style={styles.cardStyle} >
+                    <CustomButton
+                        style={{width: '100%'}}
+                        onPress={this.shareStoryHandler}
+                    >
+                        Share
+                    </CustomButton>
                 </CardSection>
             </View>
         );
@@ -101,6 +119,10 @@ const styles=  StyleSheet.create({
         justifyContent: 'center',
         borderRadius: 5,
 
+    },
+    cardStyle:{
+       marginTop: 20,
+       borderBottomWidth: 0
     }
 });
 
