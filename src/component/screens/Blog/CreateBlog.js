@@ -128,7 +128,7 @@ const styles=  StyleSheet.create({
 
 const mapDispatchTOProps = dispatch => {
     return {
-       shareStory: () => dispatch(postStory())
+       shareStory: (description, imageData) => dispatch(postStory(description, imageData))
     };
 };
 

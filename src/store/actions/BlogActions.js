@@ -8,10 +8,11 @@ import firebase from 'firebase';
 import { Actions } from 'react-native-router-flux';
 
 
-export const postStory = () => {
+export const postStory = (desc, imageData) => {
     return (dispatch) => {
         dispatch({
-             type: POST_STORY 
+             type: POST_STORY ,
+             payload: {desc, imageData}
         });
         // firebase.auth().signInWithEmailAndPassword(email, password)
         //     .then((user) => loginUserSuccess(dispatch, user))

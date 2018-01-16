@@ -13,7 +13,7 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, actions) => {
     switch (actions.type) {
         case POST_STORY:
-            console.log(actions);
+            console.log(actions.payload);
            break;
         case POST_STORY_SUCCESS:
             console.log(actions);
