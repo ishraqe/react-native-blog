@@ -4,7 +4,6 @@ import ImagePicker from 'react-native-image-picker';
 import { Input, CardSection, CustomButton} from '../../common';
 import {connect, Connect} from 'react-redux';
 import {postStory} from '../../../store/actions';
-import RNFetchBlob from 'react-native-fetch-blob';
 
 
 class MultilineTextInput extends Component {
@@ -37,8 +36,7 @@ class CreateBlog extends Component {
             }else {
                 this.setState({
                     pickedImage: {
-                        uri: res.uri,
-                        data : res
+                        uri: res.uri
                     }
                 });
                 
@@ -49,9 +47,9 @@ class CreateBlog extends Component {
     shareStoryHandler = () => {
         const description = this.state.text;
         const imageUri = this.state.pickedImage.uri;
-        const imageData = this.state.pickedImage.data;
+        const imageData = this.state.pickedImage.path;
         
-        this.props.shareStory(description, imageData );
+        this.props.shareStory(description, imageUri );
     }
 
     renderImagePreview = () => {
@@ -130,7 +128,7 @@ const styles=  StyleSheet.create({
 
 const mapDispatchTOProps = dispatch => {
     return {
-       shareStory: (description, imageData) => dispatch(postStory(description, imageData))
+        shareStory: (description, imageUri) => dispatch(postStory(description, imageUri))
     };
 };
 

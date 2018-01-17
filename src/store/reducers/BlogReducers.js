@@ -5,22 +5,21 @@ import {
 } from "../actions/types";
 
 const INITIAL_STATE = {
-    imageUrl: '',
-    description: ''
+    post: null
 };
 
 
 export default (state = INITIAL_STATE, actions) => {
     switch (actions.type) {
         case POST_STORY:
-            console.log(actions.payload);
-           break;
+            console.log(actions);
+            return state;
         case POST_STORY_SUCCESS:
             console.log(actions);
-            break;
+            return { ...state, post: actions.payload, ...INITIAL_STATE };
         case POST_STORY_FAIL:
             console.log(actions);
-            break;
+            return state;
         default:
             return state;
     }
