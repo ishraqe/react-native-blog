@@ -4,6 +4,8 @@ import ImagePicker from 'react-native-image-picker';
 import { Input, CardSection, CustomButton} from '../../common';
 import {connect, Connect} from 'react-redux';
 import {postStory} from '../../../store/actions';
+import RNFetchBlob from 'react-native-fetch-blob';
+
 
 class MultilineTextInput extends Component {
     render() {
