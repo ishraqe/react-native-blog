@@ -10,7 +10,6 @@ const CustomButton = (props) => {
             </Text>
         </View>
     );
-    
     if (props.disable) {
         return content;
     }
