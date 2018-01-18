@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
 import { View, Text, FlatList, StyleSheet, RefreshControl } from 'react-native';
-import ListView from '../../common/List'
-
+import ListView from '../../common/List';
+import { fetchAllBlog } from "../../../store/actions";
+import {connect} from 'react-redux';
+ 
 class Landing extends Component {
     state = {
-            refreshing: false,
-        }
+        refreshing: false,
+    }
+    
+    componentWillMount() {
+        this.props.fetch_allBlog();
+    }    
+
 
     _onRefresh() {
         this.setState({ refreshing: true });
@@ -62,4 +69,11 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Landing;
+
+const mapDispatchTOProps = dispatch => {
+    return {
+        fetch_allBlog : () => dispatch(fetchAllBlog())
+    };
+};
+
+export default connect(null,mapDispatchTOProps)(Landing);

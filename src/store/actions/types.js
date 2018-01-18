@@ -11,3 +11,6 @@ export const USERINFO_FETCH_SUCCESS = 'userinfo_fetch_success';
 export const POST_STORY ='post_story';
 export const POST_STORY_SUCCESS = 'post_story_success';
 export const POST_STORY_FAIL ='post_story_fail';
+
+export const ALL_BLOG_FETCH_SUCCESS ='all_blog_fetch_success';
+export const ALL_BLOG_FETCH_FAIL = 'all_blog_fetch_fail';

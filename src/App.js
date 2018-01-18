@@ -20,7 +20,9 @@ class App extends Component {
             storageBucket: "blog-react-native.appspot.com",
             messagingSenderId: "511570097836"
         };
-        firebase.initializeApp(config);
+        if (!firebase.apps.length) {
+            firebase.initializeApp(config);
+        }
     }
 
     render() {

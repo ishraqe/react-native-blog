@@ -1,6 +1,12 @@
 import React, {Component} from 'react';
 import { PropTypes } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Image, Switch } from "react-native";
+import {
+     StyleSheet,
+     Text, View, 
+     TouchableOpacity, 
+     Image, Switch,
+     TouchableWithoutFeedback 
+    } from "react-native";
 import LinearGradient from 'react-native-linear-gradient';
 import { Actions } from 'react-native-router-flux';
 import color from '../../assets/color';
@@ -44,11 +50,15 @@ class Drawer extends Component  {
                                     style = {styles.powerIconStyle}
                                 />
                             </TouchableOpacity>
-                        </View> 
-                        <View style={styles.profileContainer}>
-                            <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} style={styles.profileImageStyle} />
-                            <Text style={styles.nameStyle} >Blake Lively</Text>
                         </View>
+                        <TouchableWithoutFeedback
+                            onPress={Actions.profile_page}    
+                        >
+                            <View style={styles.profileContainer}>
+                                <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} style={styles.profileImageStyle} />
+                                <Text style={styles.nameStyle} >Blake Lively</Text>
+                            </View>
+                        </TouchableWithoutFeedback>
                     </View>
                 </LinearGradient>
                <View style= {styles.settingsContainer}>

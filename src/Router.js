@@ -28,6 +28,7 @@ import MyBlog from './component/screens/Blog/MyBlog';
 import Search from './component/screens/Blog/Search';
 import CreateBlog from './component/screens/Blog/CreateBlog';
 import Notifications from './component/screens/Blog/Notifications';
+import Profile from './component/screens/User/Profile';
 
 
 
@@ -68,13 +69,13 @@ const RouterComponent = () => {
                     />
                     
                 </Stack>
-                <Scene key="lightbox"  lightbox >
+                <Scene key="lightbox" initial  lightbox >
                     <Scene key="drawer" drawer contentComponent={Drawer}>
                         <Scene key="tabbar" 
                                 tabBarStyle={{ position: 'relative', overflow: 'visible'}}
-                                 showLabel={true} activeBackgroundColor='#fff' 
-                                 activeTintColor={color.themeColor} tabs={true} 
-                                 tabBarPosition={'bottom'}
+                                showLabel={true} activeBackgroundColor='#fff' 
+                                activeTintColor={color.themeColor} tabs={true} 
+                                tabBarPosition={'bottom'}
                         >
                             <Scene 
                                 key="tab1_1" 
@@ -133,6 +134,11 @@ const RouterComponent = () => {
 
                         </Scene>
                         <Scene key='single_blog' component={SingleBlog} />
+                        <Scene 
+                            key='profile_page' 
+                            component={Profile} 
+                            title={'Profile'}
+                        />
                     </Scene>
                 </Scene>
             </Stack>

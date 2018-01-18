@@ -112,10 +112,10 @@ const styles = StyleSheet.create({
     },
     potraitSignUpButton: {
         marginBottom: 10,
-        borderColor: '#b5b8bc'
+       
     },
     landscapeSignUpButton: {
-        borderColor: '#b5b8bc'
+        
     },
     potraitIconStyle: {
         width: '100%',

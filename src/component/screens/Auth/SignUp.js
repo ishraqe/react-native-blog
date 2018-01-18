@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { CustomButton, Input, Spinner } from "../../common";
 import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
@@ -126,6 +126,10 @@ class SignUp extends Component {
 
     render() {
         return (
+            <TouchableWithoutFeedback
+                onPress={Keyboard.dismiss}
+                accessible={false}
+            >
             <View style={{ flex: 1, backgroundColor: '#fff' }}>
                 {this.renderImageContainer()}
                 <View style={styles.inputContainer}>
@@ -174,6 +178,7 @@ class SignUp extends Component {
                    {this.renderButton()}
                 </View>
             </View>
+            </TouchableWithoutFeedback>
         );
     }
 }

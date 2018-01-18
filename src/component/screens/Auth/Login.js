@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, KeyboardAvoidingView ,Dimensions} from 'react-native';
-import { CustomButton, Input, Spinner } from "../../common";
+import { 
+    View, Text, StyleSheet, 
+    Image, KeyboardAvoidingView, Dimensions,
+     TouchableWithoutFeedback, Keyboard
+} from 'react-native';
+import { 
+    CustomButton, 
+    Input, Spinner 
+} from "../../common";
 import validate from '../../../Utility/validation';
 import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
@@ -45,6 +52,7 @@ class Login extends Component {
     }
 
     loginHandler = () => {
+       
         const email = this.state.controls.email.value;
         const password = this.state.controls.password.value;
         this.props.log_user_in({email, password});
@@ -107,6 +115,10 @@ class Login extends Component {
     }
     render() {
         return (
+            <TouchableWithoutFeedback
+            onPress={Keyboard.dismiss}
+            accessible={false}
+            >
                 <View style={{ flex: 1, backgroundColor: '#fff' }}>
                     {this.renderImageContainer()}
                     <View style={styles.inputContainer}>
@@ -143,6 +155,7 @@ class Login extends Component {
                         {this.renderButton()}
                     </View>
                 </View>
+            </TouchableWithoutFeedback>
         );
     }
 }
