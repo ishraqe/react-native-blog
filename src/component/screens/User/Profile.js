@@ -4,19 +4,61 @@ import {
     Text, 
     StyleSheet,
     Image,
-    TouchableOpacity
+    TouchableOpacity,
+    FlatList,
+    Dimensions,
+    ScrollView
 } from 'react-native';
 import { CustomButton } from '../../../component/common/index';
 import LinearGradient from 'react-native-linear-gradient';
 import color from '../../../assets/color';
 
+const { width, height } = Dimensions.get('window');
 
+const equalWidth = (width / 3) ;
 
 
 class Profile extends Component {
+
+    state = {
+        moviesList: []
+    }
+
+    _keyExtractor = (item, index) => item.id;
+
+    renderRowItem = (itemData) => {
+        return (
+            <View style={{padding:2}}>
+                <Image
+                    style={{ height: 120, width: equalWidth, }} 
+                    source={{ uri: itemData.item.imageUrl }} 
+                    resizeMode='cover' 
+                />
+            </View>
+        )
+    }
+
+    getMoviesFromApiAsync = () => {
+        return fetch('http://droidtute.com/reactexample/sample_api/getMovieList.php')
+            .then((response) => response.json())
+            .then((responseJson) => {
+                // alert(JSON.stringify(responseJson))
+                this.setState({ moviesList: responseJson.movieList }) // this will update state to re-render ui
+                return responseJson.movieList;
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
+
+    componentWillMount() {
+        { this.getMoviesFromApiAsync() }
+    }
+
+
     render () {
         return (
-            <View style={{flex:1}}>
+            <ScrollView style={{flex:1}}>
                 <View style={styles.container}>
                     <View style={styles.profileContainer}>
                         <View style={{flex:2}}>
@@ -39,13 +81,17 @@ class Profile extends Component {
                         </TouchableOpacity>
                     </View>
                     <View style={styles.photoContainer}>
-                        <View style={styles.textContainer}>
-                            <Text>Blake Lively</Text>
+                        <View style={styles.photosWrapper}>
+                            <FlatList
+                                data={this.state.moviesList}
+                                numColumns={3}
+                                keyExtractor={this._keyExtractor}
+                                renderItem={this.renderRowItem}
+                            />
                         </View>
-                        <Text>Blake Lively</Text>
                     </View>
                 </View>
-            </View>
+            </ScrollView>
         );
        
     }
@@ -58,11 +104,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff'
     },
     profileContainer:{
-        flex: 1.5,
+        flex: 2,
         justifyContent: 'center',
         alignItems: 'center',
         borderBottomWidth:1,
-        borderBottomColor: color.greyColor
+        borderBottomColor: color.greyColor,
     },
     profileImageStyle :{
         height: 120,
@@ -74,13 +120,16 @@ const styles = StyleSheet.create({
         fontSize: 25,
         fontWeight: 'bold',
         color: '#000',
-        top:30
+        marginTop: 25,
+        marginBottom:20
+        
     },
     gradientContainer: {
         borderWidth: 1,
         borderColor: 'transparent',
         width: '50%',
-        borderRadius: 20
+        borderRadius: 20,
+        marginBottom: 20
     },
     gradientWrapper: {
         flex:1,
@@ -103,6 +152,11 @@ const styles = StyleSheet.create({
         paddingTop: 10,
         paddingBottom: 10
     },
+    photosWrapper:{
+        flex: 1,
+        backgroundColor: '#F5FCFF',
+        flexDirection: 'column',
+    }
    
 });
 
