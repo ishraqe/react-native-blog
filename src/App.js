@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text} from 'react-native';
+import { View, Text, StatusBar} from 'react-native';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import ReduxThunk from 'redux-thunk';
@@ -8,6 +8,7 @@ import firebase from 'firebase';
 
 import RouterComponent from './Router';
 import reducers from './store/reducers';
+import color from './assets/color';
 
 class App extends Component {
 
@@ -29,11 +30,17 @@ class App extends Component {
         const store = createStore(reducers, {}, applyMiddleware(ReduxThunk))
 
         return (
-            <Provider store={store}>
-                <View style={{flex:1}}>
-                    <RouterComponent />
-                </View>
-            </Provider>
+            <View style={{flex:1}}>
+                <StatusBar
+                    backgroundColor={color.themeColor}
+                    barStyle='light-content'
+                />
+                <Provider store={store}>
+                    <View style={{flex:1}}>
+                        <RouterComponent />
+                    </View>
+                </Provider>
+            </View>
         );
     }
 }

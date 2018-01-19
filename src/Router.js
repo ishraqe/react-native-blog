@@ -35,16 +35,14 @@ import Profile from './component/screens/User/Profile';
 
 
 
-const TabIcon = ({ selected, title }) => {
-    return (
-        <Text style={{ color: selected ? 'red' : 'black' }}>{title}</Text>
-    );
-}
 
 
 const RouterComponent = () => {
     return (
-        <Router navigationBarStyle={{ backgroundColor: '#fff' }} titleStyle={{  color: color.themeColor, alignSelf: 'center' }} >
+        <Router navigationBarStyle={{ backgroundColor: '#fff' }} 
+        
+            titleStyle={{  color: color.themeColor, alignSelf: 'center'}} 
+        >
             <Stack key="root" hideNavBar={true}>
                 <Stack key="first" >
                     <Scene
@@ -80,10 +78,18 @@ const RouterComponent = () => {
                             <Scene 
                                 key="tab1_1" 
                                 component={Landing} 
-                                onRight={() => alert("Right button")} 
-                                rightTitle="Right"
+                                onRight={() => Actions.search_tab()} 
+                                renderRightButton={() => (
+                                    <Icon
+                                    
+                                        size={30}
+                                        name={`ios-search-outline`}
+                                        text={`My Account`}
+                                        style={{ color: color.greyColor, marginLeft: 10, marginRight: 10,  left: 1, }}
+                                    />
+                                )}
+                                title='Timeline'
                                 tabBarLabel= 'All'
-                                hideNavBar 
                                 tabBarIcon={({ focused }) => (
                                     <View style={{
                                         height: 80,
@@ -109,10 +115,11 @@ const RouterComponent = () => {
                                         size={40}
                                         name={`ios-search-outline`}
                                         text={`My Account`}
+                                        
                                     />
                                 </View>
                             )}  
-                            key="tab2_1" labelStyle={Actions.currentScene ? '#3ac665' : 'red'} component={Search} title="Search"  onLeft={() => alert("Left button!")} leftTitle="Left" />
+                            key="search_tab" labelStyle={Actions.currentScene ? '#3ac665' : 'red'} component={Search} title="Search"  onLeft={() => alert("Left button!")} leftTitle="Left" />
                             <Scene icon={({ focused }) => (
                                 <View>
                                     <Icon
@@ -134,7 +141,7 @@ const RouterComponent = () => {
 
                         </Scene>
                         <Scene key='single_blog' component={SingleBlog} />
-                        <Scene 
+                        <Scene d
                             key='profile_page' 
                             component={Profile} 
                             title={'Profile'}
@@ -151,6 +158,10 @@ const styles = StyleSheet.create({
         backgroundColor: color.themeColor,
         position: 'absolute',
         top:-50
+    },
+    searchView: {
+        height: 56,
+        backgroundColor: '#fff'
     }
 });
 

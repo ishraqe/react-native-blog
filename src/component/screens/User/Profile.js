@@ -9,7 +9,7 @@ import {
     Dimensions,
     ScrollView
 } from 'react-native';
-import { CustomButton } from '../../../component/common/index';
+import { CustomButton, Confirm } from '../../../component/common/index';
 import LinearGradient from 'react-native-linear-gradient';
 import color from '../../../assets/color';
 
@@ -21,20 +21,50 @@ const equalWidth = (width / 3) ;
 class Profile extends Component {
 
     state = {
-        moviesList: []
+        moviesList: [],
+        showModal: false
+    }
+
+
+    modalComponent = () => {
+        return (
+            <View style={{ width: '100%', flex: 1 }}>
+                <View style={styles.modalTopContainer}>
+                    <Text>Close</Text>
+                    <Text>11/15</Text>
+                    <Text>...</Text>                    
+                </View>
+                <View>
+                    <Text>Text</Text>
+
+                </View>
+                <View>
+
+                    <Text>Text</Text>
+                </View>
+
+            </View>
+        );
+       
     }
 
     _keyExtractor = (item, index) => item.id;
 
+
     renderRowItem = (itemData) => {
         return (
-            <View style={{padding:2}}>
-                <Image
-                    style={{ height: 120, width: equalWidth, }} 
-                    source={{ uri: itemData.item.imageUrl }} 
-                    resizeMode='cover' 
-                />
-            </View>
+            <TouchableOpacity onPress={()=> this.setState({
+                showModal : !this.state.showModal
+            })} >
+                <View style={{padding:2}}>
+                    <Image
+                        style={{ height: 120, width: equalWidth, }} 
+                        source={{ uri: itemData.item.imageUrl }} 
+                        resizeMode='cover' 
+                    />
+                </View>
+                
+            </TouchableOpacity>
         )
     }
 
@@ -81,6 +111,10 @@ class Profile extends Component {
                         </TouchableOpacity>
                     </View>
                     <View style={styles.photoContainer}>
+                        <View style={styles.info}>
+                            <Text style={{fontWeight: 'bold', fontSize: 25, color: '#000'}}>86</Text>
+                            <Text>Posts</Text>
+                        </View>
                         <View style={styles.photosWrapper}>
                             <FlatList
                                 data={this.state.moviesList}
@@ -91,6 +125,11 @@ class Profile extends Component {
                         </View>
                     </View>
                 </View>
+                <Confirm
+                    visible={this.state.showModal}
+                >
+                    {this.modalComponent()}
+                </Confirm>
             </ScrollView>
         );
        
@@ -156,8 +195,25 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#F5FCFF',
         flexDirection: 'column',
+    },
+    info : {
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 10,
+        marginBottom: 10
+    },
+    modalTopContainer : {
+        width: '100%',
+        flexDirection: 'row',
+        backgroundColor: '#eee',
+        height: '10%',
+        borderBottomWidth: 1,
+        borderBottomColor: color.greyColor,
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: 5
+
     }
-   
 });
 
 export default Profile;

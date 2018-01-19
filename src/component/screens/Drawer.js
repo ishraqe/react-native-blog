@@ -72,6 +72,12 @@ class Drawer extends Component  {
                         />
                     </View>
                     <TouchableOpacity>
+                        <Text style={{ fontSize: 19 }}>Home</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Text style={{ fontSize: 19 }}>Profile</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
                       <Text style= {{fontSize: 19}}>Settings</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={{

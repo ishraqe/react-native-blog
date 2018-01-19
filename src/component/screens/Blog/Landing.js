@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, StyleSheet, RefreshControl } from 'react-native';
+import { View, Animated,Text, FlatList, StyleSheet, RefreshControl, ScrollView } from 'react-native';
 import ListView from '../../common/List';
 import { fetchAllBlog } from "../../../store/actions";
 import {connect} from 'react-redux';
@@ -21,6 +21,9 @@ class Landing extends Component {
     render() {
         return (
             <View>
+                <Animated.View>
+                   
+                </Animated.View>
                 <FlatList
                     refreshControl={
                         <RefreshControl
