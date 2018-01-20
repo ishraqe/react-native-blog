@@ -37,7 +37,7 @@ class App extends Component {
                 />
                 <Provider store={store}>
                     <View style={{flex:1}}>
-                        <RouterComponent />
+                        <RouterComponent  />
                     </View>
                 </Provider>
             </View>

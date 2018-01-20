@@ -38,6 +38,17 @@ import Profile from './component/screens/User/Profile';
 
 
 class RouterComponent extends Component {
+
+    componentWillMount() {
+
+        console.log(this.props.key);
+    }
+    componentWillReceiveProps() {
+        console.log(this.props.key, 'props');
+        
+    }
+
+
     render () {
         return (
             <Router navigationBarStyle={{ backgroundColor: '#fff' }}
@@ -75,6 +86,7 @@ class RouterComponent extends Component {
                                 showLabel={true} activeBackgroundColor='#fff'
                                 activeTintColor={color.themeColor} tabs={true}
                                 tabBarPosition={'bottom'}
+                                
                             >
                                 <Scene
                                     key="landing_page"
@@ -89,7 +101,7 @@ class RouterComponent extends Component {
                                             style={{ color: color.greyColor, marginLeft: 10, marginRight: 10, left: 1, }}
                                         />
                                     )}
-                                    title='Timeline'
+                                    title={this.props.ok}
                                     tabBarLabel='All'
                                     tabBarIcon={({ focused }) => (
                                         <View style={{

@@ -3,87 +3,83 @@ import { View, Animated,Text, FlatList, StyleSheet, RefreshControl, ScrollView, 
 import ListView from '../../common/List';
 import { fetchAllBlog } from "../../../store/actions";
 import {connect} from 'react-redux';
-import { Actions } from 'react-native-router-flux';
+import {Router, Actions } from 'react-native-router-flux';
 
 class Landing extends Component {
     
 
     constructor(props) {
         super(props);
-        
-
         this.state = {
             refreshing: false,
-            height: new Animated.Value(0),
-            showNav: new Animated.Value({y:0}),
             triggerVariable: 0,
-            slide:  new Animated.ValueXY({x:0, y:0})
         }
-        this.slideIn = Animated.timing(
-            this.state.showNav, {
-                toValue: { y: 1 },
-                duration: 2000,
-                delay: 80,
-                easing: Easing.in(Easing.ease)
-            }
-        )
     }
-    
+
     componentWillMount() {
         this.props.fetch_allBlog();
-       
+        // Actions.refresh({
+        //     key: 'landing_page',
+        //     header: this.renderHeader()
+        // });
     }  
+
+    renderHeader = () => {
+        return (
+            <View>
+                <Text>Header</Text>
+            </View>
+        );
+    }
 
     isIncreasingSequence = (newVal) => {
         if (this.state.triggerVariable !== newVal) {
-            if(this.state.triggerVariable > newVal ) {
-                this._setAnimation(true);
-                Actions.refresh({ key: 'landing_page', ish: 'man' , hideNavBar: false });
-                
-                this.setState({
-                    triggerVariable : newVal
-                });
-            }else if (this.state.triggerVariable < newVal) {
-                this._setAnimation(true);
-                Actions.refresh({ key: 'landing_page', ish: 'man',hideNavBar: true });                
-                
-                this.setState({
-                    triggerVariable: newVal
-                });
+            if(this.state.triggerVariable >= 0 && newVal >0 ){
+                if (this.state.triggerVariable > newVal) {
 
-            }else if (this.triggerVariable == newVal) {
-                this._setAnimation(false);
-                Actions.refresh({ key: 'landing_page', ish: 'man',hideNavBar: false });
+                    let that = this;
+                    setTimeout(function () {
+                        that.setState({
+                            triggerVariable: newVal - 0.1
+                        });
+                        Actions.refresh({ key: 'landing_page', title: 'Timeline', hideTabBar: false, hideNavBar: false });
+                    }, 0);
 
-                this.setState({
-                    triggerVariable: newVal
-                });
+                } else if (this.state.triggerVariable < newVal) {
+                    let that = this;
+                    setTimeout(function () {
+                        that.setState({
+                            triggerVariable: newVal - 0.1
+                        });
+                        Actions.refresh({ key: 'landing_page', title: 'Timeline', hideTabBar: true, hideNavBar: true });
+                    }, 0);
+
+                } else if (this.triggerVariable == newVal) {
+                    let that = this;
+                    setTimeout(function () {
+                        that.setState({
+                            triggerVariable: newVal - 0.1
+                        });
+                        Actions.refresh({ key: 'landing_page', title: 'Timeline', hideTabBar: false, hideNavBar: false });
+                    }, 0);
+
+
+                }
             }
-            
         }
     }
   
     getScroll= (event) => {
         let scrollPosition = event.nativeEvent.contentOffset.y;
         this.isIncreasingSequence(scrollPosition);
-        
     }
     
-    _setAnimation(enable) {
-        Animated.timing(this.state.showNav, {
-            toValue: { y: 1 },
-            duration: 2000,
-            delay: 80,
-            easing: Easing.in(Easing.ease)
-        }).start()
-    } 
-
     _onRefresh() {
         this.setState({ refreshing: true });
         this.setState({ refreshing: false });
     }
     render() {
-
+      
         return (
             <Animated.View >
                 <FlatList
