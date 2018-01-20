@@ -1,30 +1,90 @@
 import React, { Component } from 'react';
-import { View, Animated,Text, FlatList, StyleSheet, RefreshControl, ScrollView } from 'react-native';
+import { View, Animated,Text, FlatList, StyleSheet, RefreshControl, ScrollView, Easing } from 'react-native';
 import ListView from '../../common/List';
 import { fetchAllBlog } from "../../../store/actions";
 import {connect} from 'react-redux';
- 
+import { Actions } from 'react-native-router-flux';
+
 class Landing extends Component {
-    state = {
-        refreshing: false,
+    
+
+    constructor(props) {
+        super(props);
+        Animated.timing(
+            this.state.slide, {
+                toValue: { x: 0, y: -100 },
+                duration: 200,
+                delay: 100,
+                easing: Easing.in(Easing.ease)
+            }
+        ).start()
+
+        this.state = {
+            refreshing: false,
+            height: new Animated.Value(0),
+            showNav: false,
+            triggerVariable: 0,
+            slide:  new Animated.Value({x:0, y:0})
+        }
     }
     
     componentWillMount() {
         this.props.fetch_allBlog();
-    }    
+       
+    }  
 
+    isIncreasingSequence = (newVal) => {
+        if (this.state.triggerVariable !== newVal) {
+            if(this.state.triggerVariable > newVal ) {
+                this._setAnimation(true);
+                Actions.refresh({ key: 'landing_page', hideNavBar: false });
+                
+                this.setState({
+                    triggerVariable : newVal
+                });
+            }else if (this.state.triggerVariable < newVal) {
+                this._setAnimation(true);
+                Actions.refresh({ key: 'landing_page', hideNavBar: true });                
+                
+                this.setState({
+                    triggerVariable: newVal
+                });
+
+            }else if (this.triggerVariable == newVal) {
+                this._setAnimation(false);
+                Actions.refresh({ key: 'landing_page', hideNavBar: false });
+
+                this.setState({
+                    triggerVariable: newVal
+                });
+            }
+            
+        }
+    }
+  
+    getScroll= (event) => {
+        let scrollPosition = event.nativeEvent.contentOffset.y;
+        this.isIncreasingSequence(scrollPosition);
+        
+    }
+    
+    _setAnimation() {
+       
+    } 
 
     _onRefresh() {
         this.setState({ refreshing: true });
-            this.setState({ refreshing: false });
+        this.setState({ refreshing: false });
     }
     render() {
+
+        const slideStyle= this.state.slide.getTranslateTransform();
         return (
-            <View>
-                <Animated.View>
-                   
-                </Animated.View>
+            <Animated.View 
+                style={slideStyle}>
                 <FlatList
+                    onScroll={this.getScroll}
+                    scrollEventThrottle={16}
                     refreshControl={
                         <RefreshControl
                             refreshing={this.state.refreshing}
@@ -60,7 +120,7 @@ class Landing extends Component {
                     keyExtractor={(item, index) => index}
                 >
                 </FlatList>
-            </View>
+            </Animated.View>
         );
     }
 }

@@ -76,7 +76,7 @@ const RouterComponent = () => {
                                 tabBarPosition={'bottom'}
                         >
                             <Scene 
-                                key="tab1_1" 
+                                key="landing_page" 
                                 component={Landing} 
                                 onRight={() => Actions.search_tab()} 
                                 renderRightButton={() => (

@@ -40,7 +40,7 @@ class SingleBlog extends Component {
                                 name={'ios-text-outline'}
                                 style={styles.iconComment}
                             />
-                        <Text style={styles.commentTextStyle} >26</Text>
+                            <Text style={styles.commentTextStyle} >26</Text>
                         </View>
                     </View>    
             </ScrollView>

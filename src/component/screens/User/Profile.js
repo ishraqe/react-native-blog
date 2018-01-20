@@ -12,6 +12,8 @@ import {
 import { CustomButton, Confirm } from '../../../component/common/index';
 import LinearGradient from 'react-native-linear-gradient';
 import color from '../../../assets/color';
+import Icon from 'react-native-vector-icons/Ionicons';
+import Carousel from 'react-native-snap-carousel';
 
 const { width, height } = Dimensions.get('window');
 
@@ -22,26 +24,69 @@ class Profile extends Component {
 
     state = {
         moviesList: [],
-        showModal: false
+        showModal: false,
+        entries: [
+            {s: 'name'},
+            { s: 'name' },
+            { s: 'name' },
+            { s: 'name' },
+            { s: 'name' },
+            { s: 'name' },
+            
+        ]
     }
 
+    _renderItem() {
+        return (
+            <View style={{width: '80%', height: '100%'}}>
+                <View style={styles.modalImageContainer}>
+                    <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} style={styles.modalProfileImageStyle} />
+                </View>
+                <View style={styles.modalImageContainer}>
+                    <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} style={styles.modalProfileImageStyle} />
+                </View>
+                <View style={styles.modalImageContainer}>
+                    <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} style={styles.modalProfileImageStyle} />
+                </View>
+                <View style={styles.modalImageContainer}>
+                    <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} style={styles.modalProfileImageStyle} />
+                </View>
+            </View>
+        );
+    }
 
     modalComponent = () => {
         return (
             <View style={{ width: '100%', flex: 1 }}>
                 <View style={styles.modalTopContainer}>
-                    <Text>Close</Text>
-                    <Text>11/15</Text>
-                    <Text>...</Text>                    
+                    <Text style={styles.modalText}>Close</Text>
+                    <Text style={styles.modalText}>11/15</Text>
+                    <Text style={styles.modalText}>...</Text>                    
                 </View>
-                <View>
-                    <Text>Text</Text>
-
-                </View>
-                <View>
-
-                    <Text>Text</Text>
-                </View>
+                <Carousel
+                    data={this.state.entries}
+                    renderItem={this._renderItem}
+                    sliderWidth={200}
+                    itemWidth={200}
+                />
+                <View style={styles.ActivityContainer}>
+                    <View style={styles.iconContainer}>
+                        <Icon
+                            size={30}
+                            name={'ios-heart-outline'}
+                            style={styles.iconLike}
+                        />
+                        <Text style={styles.likeTextStyle} >18</Text>
+                    </View>
+                    <View style={styles.iconContainer}>
+                        <Icon
+                            size={30}
+                            name={'ios-text-outline'}
+                            style={styles.iconComment}
+                        />
+                        <Text style={styles.commentTextStyle} >26</Text>
+                    </View>
+                </View>  
 
             </View>
         );
@@ -181,7 +226,7 @@ const styles = StyleSheet.create({
     },
     photoContainer : {
         width: '100%',
-        flex: 1
+        flex: 1,
     },
     textStyle: {
         alignSelf: 'center',
@@ -213,6 +258,56 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 5
 
+    },
+    modalText: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#000'
+    },
+    modalImageContainer: {
+        height: '100%',
+        width: '100%',
+    },
+    modalProfileImageStyle : {
+        height: '100%',
+        width: '100%',
+        resizeMode: 'cover',
+    },
+    ActivityContainer: {
+        height: '10%',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingLeft: 70,
+        paddingRight: 70,
+        paddingTop: 10,
+        marginBottom: 12,
+        borderTopColor: '#ddd',
+        borderTopWidth: 1,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 2,
+        elevation: 1
+    },
+    iconContainer: {
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    iconLike: {
+        color: 'red',
+        marginRight: 7
+    },
+    likeTextStyle: {
+        color: 'red',
+        fontSize: 18,
+    },
+    iconComment: {
+        color: '#b5b8bc',
+        marginRight: 7
+    },
+    commentTextStyle: {
+        color: '#b5b8bc',
+        fontSize: 18,
     }
 });
 
