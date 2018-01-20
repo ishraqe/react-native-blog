@@ -10,22 +10,23 @@ class Landing extends Component {
 
     constructor(props) {
         super(props);
-        Animated.timing(
-            this.state.slide, {
-                toValue: { x: 0, y: -100 },
-                duration: 200,
-                delay: 100,
-                easing: Easing.in(Easing.ease)
-            }
-        ).start()
+        
 
         this.state = {
             refreshing: false,
             height: new Animated.Value(0),
-            showNav: false,
+            showNav: new Animated.Value({y:0}),
             triggerVariable: 0,
-            slide:  new Animated.Value({x:0, y:0})
+            slide:  new Animated.ValueXY({x:0, y:0})
         }
+        this.slideIn = Animated.timing(
+            this.state.showNav, {
+                toValue: { y: 1 },
+                duration: 2000,
+                delay: 80,
+                easing: Easing.in(Easing.ease)
+            }
+        )
     }
     
     componentWillMount() {
@@ -37,14 +38,14 @@ class Landing extends Component {
         if (this.state.triggerVariable !== newVal) {
             if(this.state.triggerVariable > newVal ) {
                 this._setAnimation(true);
-                Actions.refresh({ key: 'landing_page', hideNavBar: false });
+                Actions.refresh({ key: 'landing_page', ish: 'man' , hideNavBar: false });
                 
                 this.setState({
                     triggerVariable : newVal
                 });
             }else if (this.state.triggerVariable < newVal) {
                 this._setAnimation(true);
-                Actions.refresh({ key: 'landing_page', hideNavBar: true });                
+                Actions.refresh({ key: 'landing_page', ish: 'man',hideNavBar: true });                
                 
                 this.setState({
                     triggerVariable: newVal
@@ -52,7 +53,7 @@ class Landing extends Component {
 
             }else if (this.triggerVariable == newVal) {
                 this._setAnimation(false);
-                Actions.refresh({ key: 'landing_page', hideNavBar: false });
+                Actions.refresh({ key: 'landing_page', ish: 'man',hideNavBar: false });
 
                 this.setState({
                     triggerVariable: newVal
@@ -68,8 +69,13 @@ class Landing extends Component {
         
     }
     
-    _setAnimation() {
-       
+    _setAnimation(enable) {
+        Animated.timing(this.state.showNav, {
+            toValue: { y: 1 },
+            duration: 2000,
+            delay: 80,
+            easing: Easing.in(Easing.ease)
+        }).start()
     } 
 
     _onRefresh() {
@@ -78,10 +84,8 @@ class Landing extends Component {
     }
     render() {
 
-        const slideStyle= this.state.slide.getTranslateTransform();
         return (
-            <Animated.View 
-                style={slideStyle}>
+            <Animated.View >
                 <FlatList
                     onScroll={this.getScroll}
                     scrollEventThrottle={16}

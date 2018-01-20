@@ -26,13 +26,30 @@ class Profile extends Component {
         moviesList: [],
         showModal: false,
         entries: [
-            {s: 'name'},
-            { s: 'name' },
-            { s: 'name' },
-            { s: 'name' },
-            { s: 'name' },
-            { s: 'name' },
-            
+            {
+                name: 'business 1',
+                details:
+                    'Business 1 details Business 1 details Business 1 details Business 1 details Business 1 details ',
+                address: {
+                    fullAddress: 'some address'
+                }
+            },
+            {
+                name: 'business 2',
+                details:
+                    'Business 1 details Business 1 details Business 1 details Business 1 details Business 1 details ',
+                address: {
+                    fullAddress: 'some address'
+                }
+            },
+            {
+                name: 'business 3',
+                details:
+                    'Business 1 details Business 1 details Business 1 details Business 1 details Business 1 details ',
+                address: {
+                    fullAddress: 'some address'
+                }
+            }
         ]
     }
 
@@ -40,16 +57,7 @@ class Profile extends Component {
         return (
             <View style={{width: '80%', height: '100%'}}>
                 <View style={styles.modalImageContainer}>
-                    <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} style={styles.modalProfileImageStyle} />
-                </View>
-                <View style={styles.modalImageContainer}>
-                    <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} style={styles.modalProfileImageStyle} />
-                </View>
-                <View style={styles.modalImageContainer}>
-                    <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} style={styles.modalProfileImageStyle} />
-                </View>
-                <View style={styles.modalImageContainer}>
-                    <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} style={styles.modalProfileImageStyle} />
+                    <Image source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/blog-react-native.appspot.com/o/uploads%2F2e1345e6-61a1-49ba-1a99-e3cef953c30b?alt=media&token=76053ed7-db18-4b8b-9eb9-78e4ae2f9893' }} style={styles.modalProfileImageStyle} />
                 </View>
             </View>
         );
@@ -68,6 +76,8 @@ class Profile extends Component {
                     renderItem={this._renderItem}
                     sliderWidth={200}
                     itemWidth={200}
+                    containerCustomStyle={{ flex: 1, backgroundColor: 'lightcoral' }}
+                    slideStyle={{ flex: 1, backgroundColor: 'gold' }}
                 />
                 <View style={styles.ActivityContainer}>
                     <View style={styles.iconContainer}>
@@ -117,8 +127,7 @@ class Profile extends Component {
         return fetch('http://droidtute.com/reactexample/sample_api/getMovieList.php')
             .then((response) => response.json())
             .then((responseJson) => {
-                // alert(JSON.stringify(responseJson))
-                this.setState({ moviesList: responseJson.movieList }) // this will update state to re-render ui
+                this.setState({ moviesList: responseJson.movieList });
                 return responseJson.movieList;
             })
             .catch((error) => {
