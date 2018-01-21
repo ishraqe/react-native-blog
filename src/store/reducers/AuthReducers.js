@@ -18,7 +18,6 @@ const INITIAL_STATE = {
 };
 
 export default (state = INITIAL_STATE, actions) => {
-    console.log(actions);
     switch (actions.type) {
         case LOGIN_USER:
             console.log(actions);

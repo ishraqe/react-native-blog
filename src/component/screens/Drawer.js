@@ -62,28 +62,66 @@ class Drawer extends Component  {
                     </View>
                 </LinearGradient>
                <View style= {styles.settingsContainer}>
+                    <TouchableOpacity>
+                        <View style={styles.notificationContainer} >
+                            <Icon
+                                size={25}
+                                name={`ios-home-outline`}
+                                text={`My Account`}
+                            />
+                            <Text style={[{ fontSize: 19 }, styles.marginTOLeft]}>Home</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <View style={styles.notificationContainer} >
+                            <Icon
+                                size={25}
+                                name={`ios-person-outline`}
+                                text={`My Account`}
+                            />
+                            <Text style={[{ fontSize: 19 }, styles.marginTOLeft]}>Profile</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <View style={styles.notificationContainer} >
+                            <Icon
+                                size={25}
+                                name={`ios-settings-outline`}
+                                text={`My Account`}
+                            />
+                            <Text style={[{ fontSize: 19 }, styles.marginTOLeft]}>Settings</Text>
+                        </View>
+                    </TouchableOpacity>
                     <View style={styles.switchContainer}>
-                        <Text style={{fontSize: 19}}>Notifications</Text>
-                        <Switch 
+                        <View style={styles.notificationContainer}>
+                            <Icon
+                                size={25}
+                                name={`ios-notifications-outline`}
+                                text={`My Account`}
+                            />
+                            <Text style={[{ fontSize: 19 }, styles.marginTOLeft]}>Notifications</Text>
+                        </View>
+                        <Switch
                             onTintColor={color.themeColor}
-                            thumbTintColor = {'#fff'}
+                            thumbTintColor={color.themeColor}
                             value={this.state.value}
-                            onValueChange={() => this.setState({ value : !this.state.value })}
+                            style={{ marginLeft: -40 }}
+                            onValueChange={() => this.setState({ value: !this.state.value })}
                         />
                     </View>
-                    <TouchableOpacity>
-                        <Text style={{ fontSize: 19 }}>Home</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <Text style={{ fontSize: 19 }}>Profile</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                      <Text style= {{fontSize: 19}}>Settings</Text>
-                    </TouchableOpacity>
                     <TouchableOpacity style={{
                         position: 'absolute', bottom: 230, paddingLeft: 10
                         }}>
-                        <Text style = {styles.settingsText}>Delete My Account</Text>
+                        <View style={styles.notificationContainer} >
+                            <Icon
+                                size={25}
+                                color='red'
+                                name={`ios-nuclear-outline`}
+                                text={`My Account`}
+                            />
+                            <Text style={[styles.settingsText, styles.marginTOLeft]}>Delete My Account</Text>
+                        </View>
+
                     </TouchableOpacity>
                </View>
             </View>
@@ -152,9 +190,18 @@ const styles = StyleSheet.create({
         color: 'red'
     },
     switchContainer : {
+        width: '100%',
         flexDirection: 'row',
-        justifyContent : 'space-between',
+        justifyContent: 'space-between',
         marginBottom : 10
+    },
+    notificationContainer :{
+        width: '100%',
+        flexDirection: 'row',
+        marginTop: 10
+    },
+    marginTOLeft: {
+        marginLeft: 7
     }
 });
 

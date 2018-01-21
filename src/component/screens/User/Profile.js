@@ -25,40 +25,12 @@ class Profile extends Component {
     state = {
         moviesList: [],
         showModal: false,
-        entries: [
-            {
-                name: 'business 1',
-                details:
-                    'Business 1 details Business 1 details Business 1 details Business 1 details Business 1 details ',
-                address: {
-                    fullAddress: 'some address'
-                }
-            },
-            {
-                name: 'business 2',
-                details:
-                    'Business 1 details Business 1 details Business 1 details Business 1 details Business 1 details ',
-                address: {
-                    fullAddress: 'some address'
-                }
-            },
-            {
-                name: 'business 3',
-                details:
-                    'Business 1 details Business 1 details Business 1 details Business 1 details Business 1 details ',
-                address: {
-                    fullAddress: 'some address'
-                }
-            }
-        ]
     }
 
-    _renderItem() {
+    _renderItem({ item, index }) {
         return (
-            <View style={{width: '80%', height: '100%'}}>
-                <View style={styles.modalImageContainer}>
-                    <Image source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/blog-react-native.appspot.com/o/uploads%2F2e1345e6-61a1-49ba-1a99-e3cef953c30b?alt=media&token=76053ed7-db18-4b8b-9eb9-78e4ae2f9893' }} style={styles.modalProfileImageStyle} />
-                </View>
+            <View style={{ height: '100%', width: '100%' }} >
+                <Image source={{ uri: item.imageUrl }}  style={{height: 400, width: 400}} />
             </View>
         );
     }
@@ -67,17 +39,20 @@ class Profile extends Component {
         return (
             <View style={{ width: '100%', flex: 1 }}>
                 <View style={styles.modalTopContainer}>
-                    <Text style={styles.modalText}>Close</Text>
+                    <TouchableOpacity onPress={this.onDecline}>
+                        <Text style={styles.modalText}>Close</Text>
+                    </TouchableOpacity>
                     <Text style={styles.modalText}>11/15</Text>
-                    <Text style={styles.modalText}>...</Text>                    
+                    <TouchableOpacity>
+                        <Text style={styles.modalText}>...</Text>     
+                    </TouchableOpacity>               
                 </View>
                 <Carousel
-                    data={this.state.entries}
+                    data={this.state.moviesList}
                     renderItem={this._renderItem}
-                    sliderWidth={200}
-                    itemWidth={200}
-                    containerCustomStyle={{ flex: 1, backgroundColor: 'lightcoral' }}
-                    slideStyle={{ flex: 1, backgroundColor: 'gold' }}
+                    sliderWidth={width}
+                    itemWidth={width}
+                   
                 />
                 <View style={styles.ActivityContainer}>
                     <View style={styles.iconContainer}>
@@ -138,7 +113,11 @@ class Profile extends Component {
     componentWillMount() {
         { this.getMoviesFromApiAsync() }
     }
-
+    onDecline = () => {
+        this.setState ({
+            showModal: false
+        });
+    }
 
     render () {
         return (
@@ -181,8 +160,10 @@ class Profile extends Component {
                 </View>
                 <Confirm
                     visible={this.state.showModal}
+                   
+
                 >
-                    {this.modalComponent()}
+                    {this.modalComponent() }
                 </Confirm>
             </ScrollView>
         );

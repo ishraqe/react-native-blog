@@ -39,17 +39,10 @@ import Profile from './component/screens/User/Profile';
 
 class RouterComponent extends Component {
 
-    componentWillMount() {
 
-        console.log(this.props.key);
-    }
-    componentWillReceiveProps() {
-        console.log(this.props.key, 'props');
-        
-    }
-
-
+ 
     render () {
+
         return (
             <Router navigationBarStyle={{ backgroundColor: '#fff' }}
 
@@ -91,6 +84,7 @@ class RouterComponent extends Component {
                                 <Scene
                                     key="landing_page"
                                     component={Landing}
+                                   
                                     onRight={() => Actions.search_tab()}
                                     renderRightButton={() => (
                                         <Icon
@@ -101,7 +95,7 @@ class RouterComponent extends Component {
                                             style={{ color: color.greyColor, marginLeft: 10, marginRight: 10, left: 1, }}
                                         />
                                     )}
-                                    title={this.props.ok}
+                                    title={'Timeline'}
                                     tabBarLabel='All'
                                     tabBarIcon={({ focused }) => (
                                         <View style={{
@@ -153,7 +147,7 @@ class RouterComponent extends Component {
                                 )} key="tab4_1" component={Notifications} title="Notifications" onLeft={() => alert("Left button!")} leftTitle="Left" />
 
                             </Scene>
-                            <Scene key='single_blog' component={SingleBlog} />
+                            <Scene key='single_blog' title='Post' component={SingleBlog} />
                             <Scene d
                                 key='profile_page'
                                 component={Profile}

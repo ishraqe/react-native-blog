@@ -42,7 +42,7 @@ class Landing extends Component {
                         that.setState({
                             triggerVariable: newVal - 0.1
                         });
-                        Actions.refresh({ key: 'landing_page', title: 'Timeline', hideTabBar: false, hideNavBar: false });
+                        Actions.refresh({ key: 'landing_page', header: 'Timeline', hideTabBar: false, hideNavBar: false });
                     }, 0);
 
                 } else if (this.state.triggerVariable < newVal) {
