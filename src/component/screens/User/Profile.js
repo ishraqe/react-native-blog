@@ -25,9 +25,13 @@ class Profile extends Component {
     state = {
         moviesList: [],
         showModal: false,
+        currentImage: null
     }
 
     _renderItem({ item, index }) {
+        // this.setState({
+        //     currentImage: index
+        // });
         return (
             <View style={{ height: '100%', width: '100%' }} >
                 <Image source={{ uri: item.imageUrl }}  style={{height: 400, width: 400}} />
@@ -42,7 +46,7 @@ class Profile extends Component {
                     <TouchableOpacity onPress={this.onDecline}>
                         <Text style={styles.modalText}>Close</Text>
                     </TouchableOpacity>
-                    <Text style={styles.modalText}>11/15</Text>
+                    <Text style={styles.modalText}>1/{this.state.moviesList.length}</Text>
                     <TouchableOpacity>
                         <Text style={styles.modalText}>...</Text>     
                     </TouchableOpacity>               
@@ -52,7 +56,7 @@ class Profile extends Component {
                     renderItem={this._renderItem}
                     sliderWidth={width}
                     itemWidth={width}
-                   
+                    
                 />
                 <View style={styles.ActivityContainer}>
                     <View style={styles.iconContainer}>
