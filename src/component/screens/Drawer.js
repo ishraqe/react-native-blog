@@ -62,7 +62,9 @@ class Drawer extends Component  {
                     </View>
                 </LinearGradient>
                <View style= {styles.settingsContainer}>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+
+                    >
                         <View style={styles.notificationContainer} >
                             <Icon
                                 size={25}
@@ -72,7 +74,9 @@ class Drawer extends Component  {
                             <Text style={[{ fontSize: 19 }, styles.marginTOLeft]}>Home</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={Actions.profile_page}
+                    >
                         <View style={styles.notificationContainer} >
                             <Icon
                                 size={25}
@@ -82,7 +86,9 @@ class Drawer extends Component  {
                             <Text style={[{ fontSize: 19 }, styles.marginTOLeft]}>Profile</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={Actions.settings_page}
+                    >
                         <View style={styles.notificationContainer} >
                             <Icon
                                 size={25}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import { Scene, Router, Stack, Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import color from './assets/color'
@@ -28,7 +28,13 @@ import MyBlog from './component/screens/Blog/MyBlog';
 import Search from './component/screens/Blog/Search';
 import CreateBlog from './component/screens/Blog/CreateBlog';
 import Notifications from './component/screens/Blog/Notifications';
+
+/*==============================================
+             Profile Routes
+=============================================*/
+
 import Profile from './component/screens/User/Profile';
+import Settings from './component/screens/User/Settings';
 
 
 
@@ -84,16 +90,15 @@ class RouterComponent extends Component {
                                 <Scene
                                     key="landing_page"
                                     component={Landing}
-                                   
-                                    onRight={() => Actions.search_tab()}
                                     renderRightButton={() => (
-                                        <Icon
-
-                                            size={30}
-                                            name={`ios-search-outline`}
-                                            text={`My Account`}
-                                            style={{ color: color.greyColor, marginLeft: 10, marginRight: 10, left: 1, }}
-                                        />
+                                        <TouchableOpacity onPress={() => Actions.search_tab()}>
+                                            <Icon
+                                                size={30}
+                                                name={`ios-search-outline`}
+                                                text={`My Account`}
+                                                style={{ color: color.greyColor, marginLeft: 10, marginRight: 10, left: 1, }}
+                                            />
+                                        </TouchableOpacity>
                                     )}
                                     title={'Timeline'}
                                     tabBarLabel='All'
@@ -148,10 +153,15 @@ class RouterComponent extends Component {
 
                             </Scene>
                             <Scene key='single_blog' title='Post' component={SingleBlog} />
-                            <Scene d
+                            <Scene 
                                 key='profile_page'
                                 component={Profile}
                                 title={'Profile'}
+                            />
+                            <Scene
+                                key='settings_page'
+                                component={Settings}
+                                title={'Profile Settings'}
                             />
                         </Scene>
                     </Scene>

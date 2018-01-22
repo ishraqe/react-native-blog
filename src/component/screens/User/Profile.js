@@ -25,18 +25,16 @@ class Profile extends Component {
     state = {
         moviesList: [],
         showModal: false,
-        currentImage: null
+        currentImage: 0
     }
 
-    _renderItem({ item, index }) {
-        // this.setState({
-        //     currentImage: index
-        // });
-        return (
-            <View style={{ height: '100%', width: '100%' }} >
-                <Image source={{ uri: item.imageUrl }}  style={{height: 400, width: 400}} />
-            </View>
-        );
+    _renderItem(itemData) {
+        alert(this.state.currentImage);
+        // return (
+        //     <View style={{ height: '100%', width: '100%' }} >
+        //         <Image source={{ uri: this.moviesList[this.state.currentImage].imageUrl }}  style={{height: 400, width: 400}} />
+        //     </View>
+        // );
     }
 
     modalComponent = () => {
@@ -56,7 +54,6 @@ class Profile extends Component {
                     renderItem={this._renderItem}
                     sliderWidth={width}
                     itemWidth={width}
-                    
                 />
                 <View style={styles.ActivityContainer}>
                     <View style={styles.iconContainer}>
@@ -76,7 +73,6 @@ class Profile extends Component {
                         <Text style={styles.commentTextStyle} >26</Text>
                     </View>
                 </View>  
-
             </View>
         );
        
@@ -84,20 +80,24 @@ class Profile extends Component {
 
     _keyExtractor = (item, index) => item.id;
 
-
-    renderRowItem = (itemData) => {
+    renderRowItem = ({item, index}) => {
+       
         return (
-            <TouchableOpacity onPress={()=> this.setState({
-                showModal : !this.state.showModal
-            })} >
+            <TouchableOpacity 
+            // id={item.id}
+                onPress = { () => this.setState({
+                        showModal : !this.state.showModal,
+                        currentImage: index
+                    })
+                } 
+            >
                 <View style={{padding:2}}>
                     <Image
                         style={{ height: 120, width: equalWidth, }} 
-                        source={{ uri: itemData.item.imageUrl }} 
+                        source={{ uri: item.imageUrl }} 
                         resizeMode='cover' 
                     />
                 </View>
-                
             </TouchableOpacity>
         )
     }
@@ -164,8 +164,6 @@ class Profile extends Component {
                 </View>
                 <Confirm
                     visible={this.state.showModal}
-                   
-
                 >
                     {this.modalComponent() }
                 </Confirm>
