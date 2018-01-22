@@ -63,7 +63,7 @@ class Drawer extends Component  {
                 </LinearGradient>
                <View style= {styles.settingsContainer}>
                     <TouchableOpacity
-
+                        onPress={Actions.landing_page}
                     >
                         <View style={styles.notificationContainer} >
                             <Icon

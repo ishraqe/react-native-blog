@@ -45,7 +45,18 @@ import Settings from './component/screens/User/Settings';
 
 class RouterComponent extends Component {
 
-
+    renderLeftMenuButton = () => {
+        return (
+            <TouchableOpacity onPress={() => Actions.drawerOpen()}>
+                <Icon
+                    size={30}
+                    name={`ios-menu`}
+                    text={`My Account`}
+                    style={{ color: color.greyColor, marginLeft: 10, marginRight: 10, left: 1, }}
+                />
+            </TouchableOpacity>
+        );
+    } 
  
     render () {
 
@@ -90,6 +101,7 @@ class RouterComponent extends Component {
                                 <Scene
                                     key="landing_page"
                                     component={Landing}
+                                    renderLeftButton={()=>this.renderLeftMenuButton()}
                                     renderRightButton={() => (
                                         <TouchableOpacity onPress={() => Actions.search_tab()}>
                                             <Icon
@@ -127,11 +139,14 @@ class RouterComponent extends Component {
                                             size={40}
                                             name={`ios-search-outline`}
                                             text={`My Account`}
-
                                         />
                                     </View>
                                 )}
-                                    key="search_tab" labelStyle={Actions.currentScene ? '#3ac665' : 'red'} component={Search} title="Search" onLeft={() => alert("Left button!")} leftTitle="Left" />
+                                    key="search_tab" 
+                                    labelStyle={Actions.currentScene ? '#3ac665' : 'red'} 
+                                    component={Search} title="Search" 
+                                    renderLeftButton={() => this.renderLeftMenuButton()}
+                                />
                                 <Scene icon={({ focused }) => (
                                     <View>
                                         <Icon
@@ -140,7 +155,12 @@ class RouterComponent extends Component {
                                             text={`My Account`}
                                         />
                                     </View>
-                                )} key="tab3_1" component={CreateBlog} title="Create" onLeft={() => alert("Left button!")} leftTitle="Left" />
+                                )} 
+                                    key="tab3_1" 
+                                    component={CreateBlog} 
+                                    title="Create" 
+                                    renderLeftButton={() => this.renderLeftMenuButton()} 
+                                />
                                 <Scene icon={({ focused }) => (
                                     <View>
                                         <Icon
@@ -149,19 +169,25 @@ class RouterComponent extends Component {
                                             text={`My Account`}
                                         />
                                     </View>
-                                )} key="tab4_1" component={Notifications} title="Notifications" onLeft={() => alert("Left button!")} leftTitle="Left" />
-
+                                )} 
+                                    key="tab4_1" 
+                                    component={Notifications} 
+                                    title="Notifications" 
+                                    renderLeftButton={() => this.renderLeftMenuButton()} 
+                                />
                             </Scene>
                             <Scene key='single_blog' title='Post' component={SingleBlog} />
                             <Scene 
                                 key='profile_page'
                                 component={Profile}
                                 title={'Profile'}
+                                renderLeftButton={() => this.renderLeftMenuButton()}
                             />
                             <Scene
                                 key='settings_page'
                                 component={Settings}
                                 title={'Profile Settings'}
+                                renderLeftButton={() => this.renderLeftMenuButton()}
                             />
                         </Scene>
                     </Scene>

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StyleSheet, TextInput , ScrollView} from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import { Input, CardSection, CustomButton} from '../../common';
 import {connect, Connect} from 'react-redux';
 import {postStory} from '../../../store/actions';
-
+import color from '../../../assets/color';
+import LinearGradient from 'react-native-linear-gradient';
 
 class MultilineTextInput extends Component {
     render() {
@@ -74,7 +75,7 @@ class CreateBlog extends Component {
 
     render() {
         return (
-            <View style={{backgroundColor: '#fff', height: '100%', padding: 10}}>
+            <ScrollView style={{backgroundColor: '#fff', width: '100%', padding: 10}}>
                 <CardSection style={styles.cardStyle}>
                     <MultilineTextInput
                         multiline={true}
@@ -87,14 +88,21 @@ class CreateBlog extends Component {
                     {this.renderImagePreview()}
                 </CardSection>
                 <CardSection style={styles.cardStyle} >
-                    <CustomButton
-                        style={{width: '100%'}}
+                    <TouchableOpacity
                         onPress={this.shareStoryHandler}
-                    >
-                        Share
-                    </CustomButton>
+                        style={styles.gradientWrapper}>
+                        <View style={styles.gradientWrapper} >
+                            <LinearGradient
+                                colors={['#00FFFF', color.themeColor]}
+                                start={{ x: 0.0, y: 1.0 }} end={{ x: 1.0, y: 1.0 }}
+                                style={styles.gradientContainer}
+                            >
+                                <Text style={styles.textStyle}>Share story</Text>
+                            </LinearGradient>
+                        </View>
+                    </TouchableOpacity>
                 </CardSection>
-            </View>
+            </ScrollView>
         );
     }
 }
@@ -123,6 +131,27 @@ const styles=  StyleSheet.create({
     cardStyle:{
        marginTop: 20,
        borderBottomWidth: 0
+    },
+    gradientContainer: {
+        borderWidth: 1,
+        borderColor: 'transparent',
+        width: '50%',
+        borderRadius: 25,
+        marginBottom: 20
+    },
+    gradientWrapper: {
+        flex: 1,
+        width: '100%',
+        alignItems: 'center',
+        marginTop: 15
+    },
+    textStyle: {
+        alignSelf: 'center',
+        color: '#fff',
+        fontSize: 20,
+        fontWeight: '600',
+        paddingTop: 10,
+        paddingBottom: 10
     }
 });
 

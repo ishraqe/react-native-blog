@@ -32,7 +32,7 @@ class App extends Component {
         return (
             <View style={{flex:1}}>
                 <StatusBar
-                    backgroundColor={color.themeColor}
+                    backgroundColor={color.statusBarColor}
                     barStyle='light-content'
                 />
                 <Provider store={store}>

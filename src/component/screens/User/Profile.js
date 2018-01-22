@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'transparent',
         width: '50%',
-        borderRadius: 20,
+        borderRadius: 25,
         marginBottom: 20
     },
     gradientWrapper: {
