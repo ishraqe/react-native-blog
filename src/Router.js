@@ -89,7 +89,7 @@ class RouterComponent extends Component {
                         />
 
                     </Stack>
-                    <Scene key="lightbox" initial lightbox >
+                    <Scene key="lightbox"  lightbox >
                         <Scene key="drawer" drawer contentComponent={Drawer}>
                             <Scene key="tabbar"
                                 tabBarStyle={{ position: 'relative', overflow: 'visible' }}

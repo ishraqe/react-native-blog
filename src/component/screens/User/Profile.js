@@ -138,7 +138,7 @@ class Profile extends Component {
                         <TouchableOpacity style={styles.gradientWrapper}>
                             <View style={styles.gradientWrapper} >
                                 <LinearGradient
-                                    colors={['#00FFFF', color.themeColor]}
+                                    colors={[color.gradientFirstColor, color.gradientSecondColor]}
                                     start={{ x: 0.0, y: 1.0 }} end={{ x: 1.0, y: 1.0 }}
                                     style={styles.gradientContainer}
                                 >

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, Dimensions } from "react-native";
+import { View, Text, StyleSheet, Image, Dimensions, AsyncStorage } from "react-native";
 import { CustomButton } from '../../common/index';
 import {Actions} from 'react-native-router-flux';
 
@@ -24,7 +24,17 @@ class AuthScreen extends Component {
     componentWillUnmount () {
         Dimensions.removeEventListener('change', this.updateMode);
     }
-
+    componentDidMount () {
+        AsyncStorage.getItem('as:auth:user')
+            .then(
+                user => {
+                    if (user) {
+                        Actions.lightbox(); 
+                    }
+                }
+            )
+            .catch(err => Actions.auth())
+    }
     updateMode = (dims) => {
         this.setState({
             viewMode: dims.window.height > 500 ? 'potrait' : 'landscape'

@@ -5,7 +5,8 @@ import {
     SIGNUP_USER,
     SIGNUPUSER_USER_FAIL,
     SIGNUPUSER_USER_SUCCESS,
-    USERINFO_FETCH_SUCCESS
+    USERINFO_FETCH_SUCCESS,
+    USER_LOG_OUT
 } from "../actions/types";
 
 const INITIAL_STATE = {
@@ -20,11 +21,11 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, actions) => {
     switch (actions.type) {
         case LOGIN_USER:
-            console.log(actions);
+            console.log(actions );
             return { ...state, loading: true, error: '' };
         case LOGIN_USER_SUCCESS:
             console.log(actions);
-            return { ...state, user: actions.payload, ...INITIAL_STATE };
+            return { ...state, user: actions.payload};
         case LOGIN_USER_FAIL:
             console.log(actions);
             return {
@@ -33,12 +34,16 @@ export default (state = INITIAL_STATE, actions) => {
                 password: '',
                 loading: false
             };
+        case USER_LOG_OUT: 
+            console.log(actions);
+            return { ...state, ...INITIAL_STATE };
+                
         case SIGNUP_USER:
             console.log(actions);
             return { ...state, loading: true, error: '' };
         case SIGNUPUSER_USER_SUCCESS:
             console.log(actions);
-            return { ...state, user: actions.payload.user, userInfo: actions.payload.userInfo,...INITIAL_STATE };
+            return { ...state, user: actions.payload.user};
         case SIGNUPUSER_USER_FAIL:
             console.log(actions);
             return {
@@ -48,7 +53,8 @@ export default (state = INITIAL_STATE, actions) => {
                 loading: false
             };
         case USERINFO_FETCH_SUCCESS :
-            return { ...state, userInfo: actions.payload, ...INITIAL_STATE };  
+            console.log(actions);
+            return { ...state, userInfo: actions.payload};  
         default:
             return state;
     }

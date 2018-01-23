@@ -17,7 +17,10 @@ const fs = RNFetchBlob.fs;
 window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
 window.Blob = Blob;
 
-export const postStory = (desc, imageData) => {
+export const postStory = (desc, imageData, userInfo) => {
+
+    
+
     const { currentUser } = firebase.auth();
     return (dispatch) => {
         dispatch({type: POST_STORY });
@@ -25,7 +28,8 @@ export const postStory = (desc, imageData) => {
         .then(url =>
             firebase.database().ref('blogs/' + currentUser.uid).push({
                 imageUrl: url,
-                blogDescription: desc 
+                blogDescription: desc, 
+                creatorInfo: userInfo
             }).then( 
                 (blogInfo) => {  
                     firebase.database().ref('blogs/').child(currentUser.uid).child(blogInfo.key)

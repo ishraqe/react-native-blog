@@ -11,7 +11,7 @@ import {
 import validate from '../../../Utility/validation';
 import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
-import {loginUser} from '../../../store/actions'
+import { loginUser, fetchUserInfo} from '../../../store/actions'
 
 class Login extends Component {
 

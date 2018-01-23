@@ -30,7 +30,7 @@ class App extends Component {
         const store = createStore(reducers, {}, applyMiddleware(ReduxThunk))
 
         return (
-            <View style={{flex:1}}>
+            <View style={{ flex: 1, backgroundColor: '#e6ffff'}}>
                 <StatusBar
                     backgroundColor={color.statusBarColor}
                     barStyle='light-content'

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { View, Animated,Text, FlatList, StyleSheet, RefreshControl, ScrollView, Easing } from 'react-native';
 import ListView from '../../common/List';
-import { fetchAllBlog } from "../../../store/actions";
+import { fetchAllBlog, fetchUserInfo } from "../../../store/actions";
 import {connect} from 'react-redux';
 import {Router, Actions } from 'react-native-router-flux';
+import firebase from 'firebase';
 
 class Landing extends Component {
     
@@ -17,6 +18,8 @@ class Landing extends Component {
     }
 
     componentWillMount() {
+        console.log(this.props.user.uid, 'user');
+        this.props.fetach_userInfo(this.props.user.uid);
         this.props.fetch_allBlog();
         // Actions.refresh({
         //     key: 'landing_page',
@@ -132,11 +135,19 @@ const styles = StyleSheet.create({
     }
 });
 
+const mapStateToProps = ({auth}) => {
+    const {user, email} = auth;
+    return {
+        email,
+        user
+    }
+}
 
 const mapDispatchTOProps = dispatch => {
     return {
+        fetach_userInfo: (uid) => dispatch(fetchUserInfo(uid)),
         fetch_allBlog : () => dispatch(fetchAllBlog())
     };
 };
 
-export default connect(null,mapDispatchTOProps)(Landing);
+export default connect(mapStateToProps,mapDispatchTOProps)(Landing);

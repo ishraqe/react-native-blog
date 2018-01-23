@@ -6,7 +6,7 @@ import {connect, Connect} from 'react-redux';
 import {postStory} from '../../../store/actions';
 import color from '../../../assets/color';
 import LinearGradient from 'react-native-linear-gradient';
-
+import Icon from 'react-native-vector-icons/Ionicons';
 class MultilineTextInput extends Component {
     render() {
         return (
@@ -15,7 +15,8 @@ class MultilineTextInput extends Component {
                 editable={true}
                 maxLength={200}
                 placeholder='Share your story!!'
-                style={{borderWidth:1, borderColor: '#eee'}}
+                style={{borderBottomWidth:1, borderBottomColor: color.borderBottomColor, paddingLeft: 10 }}
+                underlineColorAndroid={'transparent'}
             />
         );
     }
@@ -49,8 +50,8 @@ class CreateBlog extends Component {
         const description = this.state.text;
         const imageUri = this.state.pickedImage.uri;
         const imageData = this.state.pickedImage.path;
-        
-        this.props.shareStory(description, imageUri );
+        const userInfo = this.props.userInfo;
+        this.props.shareStory(description, imageUri, userInfo);
     }
 
     renderImagePreview = () => {
@@ -58,16 +59,35 @@ class CreateBlog extends Component {
             return (
                 <View style={styles.uploadImageForm} >
                     <Image source={this.state.pickedImage} style= {styles.imageStyle} />
+                    <TouchableOpacity 
+                        onPress={() => {
+                            this.setState({
+                                pickedImage: null
+                            });
+                        }}
+                        style={{ position: 'absolute', top: 0, right: 1 }}
+                    >
+                        <Icon
+                            size={30}
+                            name={'ios-close-circle-outline'}
+
+                            style={{color: '#fff'}}
+                        />
+                    </TouchableOpacity>
                 </View>
             );
         }
         return (
             <TouchableOpacity
-                style={styles.uploadImageForm}
                 onPress={this.pickImageHandler}
             >
-                <View>
-                    <Text>Click to upload image</Text>
+                <View style={styles.uploadImageForm}>
+                    <Image style={{ height: '100%', width: '100%' }} source={require('../../../assets/image_back.png')} />
+                    <Text
+                        style={{position: 'absolute', top: '40%', fontSize: 18, fontWeight: '600'}}
+                    >
+                        Click to upload image
+                    </Text>
                 </View>
             </TouchableOpacity>
         );
@@ -75,7 +95,7 @@ class CreateBlog extends Component {
 
     render() {
         return (
-            <ScrollView style={{backgroundColor: '#fff', width: '100%', padding: 10}}>
+            <ScrollView style={{  width: '100%', padding: 10}}>
                 <CardSection style={styles.cardStyle}>
                     <MultilineTextInput
                         multiline={true}
@@ -155,10 +175,17 @@ const styles=  StyleSheet.create({
     }
 });
 
+const mapStateToProps = ({auth}) => {
+    const { userInfo, user} = auth;
+    return {
+        user, userInfo
+    }
+}
+
 const mapDispatchTOProps = dispatch => {
     return {
-        shareStory: (description, imageUri) => dispatch(postStory(description, imageUri))
+        shareStory: (description, imageUri, userInfo) => dispatch(postStory(description, imageUri, userInfo))
     };
 };
 
-export default connect(null, mapDispatchTOProps)(CreateBlog);
+export default connect(mapStateToProps, mapDispatchTOProps)(CreateBlog);

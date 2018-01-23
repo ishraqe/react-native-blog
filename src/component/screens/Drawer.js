@@ -11,15 +11,15 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Actions } from 'react-native-router-flux';
 import color from '../../assets/color';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {connect} from 'react-redux';
+import {logOutUser} from '../../store/actions';
 
 
 
 
 class Drawer extends Component  {
     state = {
-      
         value: false
-    
     }
     switchValue = () => {
        this.setState(prevState => {
@@ -30,6 +30,10 @@ class Drawer extends Component  {
            }
        });
     }
+    logOutHandler=() => {
+        this.props.log_user_out();
+    }
+
     render () {
         return (
             <View style={[styles.container]}>
@@ -43,7 +47,9 @@ class Drawer extends Component  {
                             <TouchableOpacity style={styles.editButtonStyle} >
                                 <Text style={styles.editTextStyle}>Edit</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.powerButtonStyle}>
+                            <TouchableOpacity 
+                                onPress= {this.logOutHandler}
+                                style={styles.powerButtonStyle}>
                                 <Icon
                                     size={20}
                                     name={'ios-power-outline'}
@@ -211,5 +217,11 @@ const styles = StyleSheet.create({
     }
 });
 
+const mapDispatchToProps = dispatch =>{
+    return {
+        log_user_out: () => dispatch(logOutUser())
+    }
+}
 
-export default Drawer;
+
+export default connect(null, mapDispatchToProps)(Drawer);

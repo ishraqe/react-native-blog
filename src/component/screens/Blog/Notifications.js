@@ -101,7 +101,9 @@ const styles= StyleSheet.create({
     },
     radius : {
         borderRadius: 5,
-        marginLeft: -5
+        marginLeft: -5,
+        width: 40,
+        height: 40,
     },
     imageContainerWidth: {
         width: '20%'
