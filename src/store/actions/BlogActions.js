@@ -18,9 +18,6 @@ window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
 window.Blob = Blob;
 
 export const postStory = (desc, imageData, userInfo) => {
-
-    
-
     const { currentUser } = firebase.auth();
     return (dispatch) => {
         dispatch({type: POST_STORY });
@@ -103,7 +100,18 @@ export const fetchAllBlog = () => {
     return (dispatch) => {
         firebase.database().ref('blogs/')
             .on('value', snapshot => {
-                dispatch({ type: ALL_BLOG_FETCH_SUCCESS, payload: snapshot.val() });
+                dispatch({ type: ALL_BLOG_FETCH_SUCCESS, payload: iterate(snapshot) });
             });
     };
+}
+
+
+export const iterate = (snapshot) => {
+    let items = [];
+    for (var key in snapshot.val()) {
+        for (var item in snapshot.val()[key]) {
+            items.push(snapshot.val()[key][item]);
+        }
+    }
+    return items;
 }

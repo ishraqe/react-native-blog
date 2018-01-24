@@ -18,10 +18,10 @@ class ListView extends Component {
                     <Card>
                         <CardSection>
                             <View style={styles.coverContainerStyle}>
-                                <Image style={styles.coverImageStyle} source={{ uri: this.props.item.image }} />
+                                <Image style={styles.coverImageStyle} source={{ uri: this.props.item.imageUrl }} />
                             </View>
                             <View style={styles.titleContainerStyle}>
-                                <Text style={styles.titleStyle}>I have got a good cat. Her name is matilda. She is quite young for a cat. She is between 12 years old ...</Text>
+                                <Text style={styles.titleStyle}>{this.props.item.blogDescription}</Text>
                             </View>
                             <View style={styles.infoContainer}>
                                 <View style={styles.profileContainer}>
@@ -29,7 +29,7 @@ class ListView extends Component {
                                         <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} style={styles.profileImageStyle} />
                                     </View>
                                     <View style={styles.nameContainerStyle}>
-                                        <Text style={styles.nameStyle}>Blake Lively</Text>
+                                        <Text style={styles.nameStyle}>{this.props.item.creatorInfo.fullname}</Text>
                                     </View>
                                 </View>
                                 <View style={styles.timeContainer}>

@@ -16,28 +16,18 @@ class Landing extends Component {
             triggerVariable: 0,
         }
     }
+  
 
-    componentWillMount() {
+    async componentDidMount() {
        
         if (this.props.user) {
             this.props.fetach_userInfo(this.props.user.uid);
-            this.props.fetch_allBlog();
+           await this.props.fetch_allBlog();
+            console.log(this.props.allPosts,'ps');
+            
         }
-        // if (this.props.allBlog) {
-        //     console.log('will mount', this.props.allBlog);
-        // }
-        // Actions.refresh({
-        //     key: 'landing_page',
-        //     header: this.renderHeader()
-        // });
     } 
-    // componentWillReceiveProps(nextProps) {
-    //     console.log(this.nextProps.allBlog, 'recer');
-        
-    // } 
-    // componentDidMount() {
-    //     console.log('will mount', this.props.allBlog);
-    // }
+   
     isIncreasingSequence = (newVal) => {
         if (this.state.triggerVariable !== newVal) {
             if(this.state.triggerVariable >= 0 && newVal >0 ){
@@ -97,27 +87,7 @@ class Landing extends Component {
                             onRefresh={this._onRefresh.bind(this)}
                         />
                     }
-                    data={[
-                        {
-                            name: 'hello',
-                            image: 'https://www.themeatman.co.uk/pub/media/catalog/product/cache/image/700x700/e9c3970ab036de70892d86c6d221abfe/t/o/tomahawk.jpg'
-                        },
-                        {
-                            name: 'hello',
-                            image: 'http://cdn.cnn.com/cnnnext/dam/assets/140106125416-01-paleo-diet-0106-horizontal-large-gallery.jpg'
-                        },
-                        {
-                            name: 'hello',
-                            image: 'https://assets.bonappetit.com/photos/5942f532adb3b53bd37a7c60/16:9/w_1200,c_limit/steak-with-tangy-sauce-and-watercress-salad.jpg'
-                        },
-                        {
-                            name: 'hello',
-                            image: 'https://www.bostonsausage.co.uk/wp-content/uploads/2013/11/Rump-Steak-Meal-Deal.jpg'
-                        },
-                        {
-                            name: 'hello',
-                            image: 'https://realfood.tesco.com/media/images/steak-polenta1995-LH-21bde053-a232-4c4d-ac9f-b0fd69aa3232-0-1400x919.jpg'
-                        }]}
+                    data={this.props.allPosts}
                     renderItem={({ item }) => (
                         <ListView
                             item={item}
@@ -140,14 +110,13 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     const {user, email} = state.auth;
-    const allPosts = state.auth.allBlog;
-
-
-
+    const allPosts = state.blog.allBlog;
+    console.log(allPosts, 'state');
+    
     return {
         email,
         user,
-        allBlog
+        allPosts
     }
 }
 

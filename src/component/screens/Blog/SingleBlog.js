@@ -10,20 +10,14 @@ class SingleBlog extends Component {
         return (
             <ScrollView>
                     <View style = {styles.coverContainer}>
-                        <Image source={{ uri: this.props.post.image}} style={styles.coverImageStyle} />
+                        <Image source={{ uri: this.props.post.imageUrl}} style={styles.coverImageStyle} />
                     </View>
                     <View style= {styles.profileContainer}>
                         <Text style={styles.timeStyle} >5 minutes ago </Text>
                     <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} style={styles.profileImageStyle} />
                     </View>
                     <View style={styles.descriptionContainer}>
-                    <Text style={styles.description}>
-                        I have got a good cat. Her name is matilda. She is quite young for a cat. She is between 12 years old ...
-                        I have got a good cat. Her name is matilda. She is quite young for a cat. She is between 12 years old ...
-                        I have got a good cat. Her name is matilda. She is quite young for a cat. She is between 12 years old ...
-                        I have got a good cat. Her name is matilda. She is quite young for a cat. She is between 12 years old ...
-                        I have got a good cat. Her name is matilda. She is quite young for a cat. She is between 12 years old ...
-                    </Text>    
+                    <Text style={styles.description}>{this.props.post.blogDescription}</Text>    
                     </View>
                     <View style={styles.ActivityContainer}>
                         <View style={styles.iconContainer}>
