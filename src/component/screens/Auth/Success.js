@@ -7,9 +7,7 @@ import { Actions } from 'react-native-router-flux';
 
 class SuccessScreen extends Component {
 
-    componentWillMount() {
-        this.props.fetach_userInfo();
-    }
+
 
 
     render () {
@@ -117,4 +115,4 @@ const mapDispatchToProps = dispatch => {
     };
 }
 
-export default connect(null, mapDispatchToProps)(SuccessScreen);
+export default SuccessScreen;

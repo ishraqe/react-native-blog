@@ -18,23 +18,26 @@ class Landing extends Component {
     }
 
     componentWillMount() {
-        console.log(this.props.user.uid, 'user');
-        this.props.fetach_userInfo(this.props.user.uid);
-        this.props.fetch_allBlog();
+       
+        if (this.props.user) {
+            this.props.fetach_userInfo(this.props.user.uid);
+            this.props.fetch_allBlog();
+        }
+        // if (this.props.allBlog) {
+        //     console.log('will mount', this.props.allBlog);
+        // }
         // Actions.refresh({
         //     key: 'landing_page',
         //     header: this.renderHeader()
         // });
-    }  
-
-    renderHeader = () => {
-        return (
-            <View>
-                <Text>Header</Text>
-            </View>
-        );
-    }
-
+    } 
+    // componentWillReceiveProps(nextProps) {
+    //     console.log(this.nextProps.allBlog, 'recer');
+        
+    // } 
+    // componentDidMount() {
+    //     console.log('will mount', this.props.allBlog);
+    // }
     isIncreasingSequence = (newVal) => {
         if (this.state.triggerVariable !== newVal) {
             if(this.state.triggerVariable >= 0 && newVal >0 ){
@@ -135,11 +138,16 @@ const styles = StyleSheet.create({
     }
 });
 
-const mapStateToProps = ({auth}) => {
-    const {user, email} = auth;
+const mapStateToProps = (state) => {
+    const {user, email} = state.auth;
+    const allPosts = state.auth.allBlog;
+
+
+
     return {
         email,
-        user
+        user,
+        allBlog
     }
 }
 

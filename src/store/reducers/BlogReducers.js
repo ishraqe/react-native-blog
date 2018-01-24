@@ -25,7 +25,7 @@ export default (state = INITIAL_STATE, actions) => {
             return state;
         case ALL_BLOG_FETCH_SUCCESS: 
             console.log(actions);
-            return { ...state, allBlog: actions.payload, ...INITIAL_STATE}
+            return { ...state, allBlog: actions.payload}
                 
         default:
             return state;
