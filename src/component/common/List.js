@@ -3,14 +3,28 @@ import { View, Text, StyleSheet, TouchableNativeFeedback, Image } from 'react-na
 import { Card } from './Card';
 import {CardSection} from './CardSection';
 import {Actions} from 'react-native-router-flux';
-
+import Icon from 'react-native-vector-icons/Ionicons';
 
 class ListView extends Component {
 
     onRowPress = () => {
         Actions.single_blog({ post: this.props.item })
     }
-
+    renderProfileImage = () => {
+        if (this.props.item.creatorInfo.profileImage) {
+            return (
+                    <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} style={styles.profileImageStyle} />
+            );
+        }else {
+            return (
+                <Icon
+                    style={styles.profileImageStyle}
+                    name={'ios-contact'}
+                />
+            );
+        }
+       
+    }
     render() {
         return (
             <TouchableNativeFeedback onPress={this.onRowPress} >

@@ -25,15 +25,15 @@ class AuthScreen extends Component {
         Dimensions.removeEventListener('change', this.updateMode);
     }
     componentDidMount () {
-        AsyncStorage.getItem('as:auth:user')
-            .then(
-                user => {
-                    if (user) {
-                        Actions.lightbox(); 
-                    }
-                }
-            )
-            .catch(err => Actions.auth())
+        // AsyncStorage.getItem('as:auth:user')
+        //     .then(
+        //         user => {
+        //             if (user) {
+        //                 Actions.lightbox(); 
+        //             }
+        //         }
+        //     )
+        //     .catch(err => Actions.auth())
     }
     updateMode = (dims) => {
         this.setState({

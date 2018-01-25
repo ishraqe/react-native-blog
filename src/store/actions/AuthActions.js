@@ -19,7 +19,8 @@ export const signUpUser = ({fullname, email, password}) => {
             .then((user) => {
                 const uid = user.uid;
                 firebase.database().ref('userInfo/' + uid).set({
-                       fullname : fullname 
+                       fullname : fullname,
+                       profileImage: 0
                 }).then (
                     (userInfo) => signupUserSuccess(dispatch, userInfo, user, {email, password})
                 )

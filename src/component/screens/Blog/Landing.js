@@ -14,19 +14,31 @@ class Landing extends Component {
         this.state = {
             refreshing: false,
             triggerVariable: 0,
+            info: null
         }
     }
   
+    componentWillMount() {
+        this.props.fetch_allBlog();
+        if (this.props.allPosts) {
+            this.setState({
+                info: this.props.allPosts
+            });
+        }
+        console.log(this.props.allPosts, 'will mount');
+    }
+
+    componentWillReceiveProps(next) {
+        this.setState({
+            info: next.allPosts
+        });
+        console.log(next.allPosts, 'next');
+    }
 
     async componentDidMount() {
-       
-        if (this.props.user) {
-            this.props.fetach_userInfo(this.props.user.uid);
-           await this.props.fetch_allBlog();
-            console.log(this.props.allPosts,'ps');
-            
-        }
-    } 
+        this.props.fetach_userInfo(this.props.user.uid);  
+        this.props.fetch_allBlog(); 
+    }
    
     isIncreasingSequence = (newVal) => {
         if (this.state.triggerVariable !== newVal) {
@@ -38,7 +50,7 @@ class Landing extends Component {
                         that.setState({
                             triggerVariable: newVal - 0.1
                         });
-                        Actions.refresh({ key: 'landing_page', header: 'Timeline', hideTabBar: false, hideNavBar: false });
+                        // Actions.refresh({ key: 'landing_page', header: 'Timeline', hideTabBar: false, hideNavBar: false });
                     }, 0);
 
                 } else if (this.state.triggerVariable < newVal) {
@@ -47,7 +59,7 @@ class Landing extends Component {
                         that.setState({
                             triggerVariable: newVal - 0.1
                         });
-                        Actions.refresh({ key: 'landing_page', title: 'Timeline', hideTabBar: true, hideNavBar: true });
+                        // Actions.refresh({ key: 'landing_page', title: 'Timeline', hideTabBar: true, hideNavBar: true });
                     }, 0);
 
                 } else if (this.triggerVariable == newVal) {
@@ -56,7 +68,7 @@ class Landing extends Component {
                         that.setState({
                             triggerVariable: newVal - 0.1
                         });
-                        Actions.refresh({ key: 'landing_page', title: 'Timeline', hideTabBar: false, hideNavBar: false });
+                        // Actions.refresh({ key: 'landing_page', title: 'Timeline', hideTabBar: false, hideNavBar: false });
                     }, 0);
 
 
@@ -87,7 +99,7 @@ class Landing extends Component {
                             onRefresh={this._onRefresh.bind(this)}
                         />
                     }
-                    data={this.props.allPosts}
+                    data={this.state.info}
                     renderItem={({ item }) => (
                         <ListView
                             item={item}

@@ -8,7 +8,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 class SingleBlog extends Component {
     render() {
         return (
-            <ScrollView>
+            <ScrollView style={{backgroundColor: '#fff'}}>
                     <View style = {styles.coverContainer}>
                         <Image source={{ uri: this.props.post.imageUrl}} style={styles.coverImageStyle} />
                     </View>
