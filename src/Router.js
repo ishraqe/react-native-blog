@@ -6,7 +6,7 @@ import color from './assets/color'
 /*==============================================
              Authentication Routes
 =============================================*/
-
+import Initial from './component/screens/Initial';
 import Auth from './component/screens/Auth/Auth';
 import Login from './component/screens/Auth/Login';
 import SuccessScreen from './component/screens/Auth/Success';
@@ -67,6 +67,12 @@ class RouterComponent extends Component {
             >
                 <Stack key="root" hideNavBar={true}>
                     <Stack key="first" >
+                        <Scene 
+                            key='initial_screen'
+                            hideNavBar={true}
+                            component={Initial}
+                        
+                        />
                         <Scene
                             key='auth'
                             hideNavBar={true}

@@ -37,7 +37,6 @@ class Landing extends Component {
 
     async componentDidMount() {
         this.props.fetach_userInfo(this.props.user.uid);  
-        this.props.fetch_allBlog(); 
     }
    
     isIncreasingSequence = (newVal) => {
@@ -84,8 +83,10 @@ class Landing extends Component {
     
     _onRefresh() {
         this.setState({ refreshing: true });
+ 
         this.setState({ refreshing: false });
     }
+    
     render() {
       
         return (
@@ -97,6 +98,7 @@ class Landing extends Component {
                         <RefreshControl
                             refreshing={this.state.refreshing}
                             onRefresh={this._onRefresh.bind(this)}
+                            title='Pull to refresh'
                         />
                     }
                     data={this.state.info}
