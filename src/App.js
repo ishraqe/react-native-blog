@@ -9,7 +9,7 @@ import firebase from 'firebase';
 import RouterComponent from './Router';
 import reducers from './store/reducers';
 import color from './assets/color';
-
+import SplashScreen from 'react-native-splash-screen';
 class App extends Component {
 
     componentWillMount() {
@@ -24,6 +24,7 @@ class App extends Component {
         if (!firebase.apps.length) {
             firebase.initializeApp(config);
         }
+        SplashScreen.hide();
     }
 
     render() {

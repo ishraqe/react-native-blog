@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
 import { CardSection } from '../../common/index';
 import Icon from 'react-native-vector-icons/Ionicons';
+import moment from 'moment';
 
 
 
@@ -13,7 +14,7 @@ class SingleBlog extends Component {
                         <Image source={{ uri: this.props.post.imageUrl}} style={styles.coverImageStyle} />
                     </View>
                     <View style= {styles.profileContainer}>
-                        <Text style={styles.timeStyle} >5 minutes ago </Text>
+                    <Text style={styles.timeStyle} >{moment(this.props.post.createdAt).fromNow()}</Text>
                     <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} style={styles.profileImageStyle} />
                     </View>
                     <View style={styles.descriptionContainer}>
