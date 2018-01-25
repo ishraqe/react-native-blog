@@ -25,7 +25,7 @@ class Landing extends Component {
                 info: this.props.allPosts
             });
         }
-        console.log(this.props.allPosts, 'will mount');
+        console.log(this.props.allPosts, 'will mount'); 
     }
 
     componentWillReceiveProps(next) {

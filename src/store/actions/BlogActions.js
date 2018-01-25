@@ -21,12 +21,14 @@ export const postStory = (desc, imageData, userInfo) => {
     const { currentUser } = firebase.auth();
     return (dispatch) => {
         dispatch({type: POST_STORY });
+        let timestamp = new Date().getTime();
         this.uploadImage(imageData)
         .then(url =>
             firebase.database().ref('blogs/' + currentUser.uid).push({
                 imageUrl: url,
                 blogDescription: desc, 
-                creatorInfo: userInfo
+                creatorInfo: userInfo,
+                createdAt: timestamp
             }).then( 
                 (blogInfo) => {  
                     firebase.database().ref('blogs/').child(currentUser.uid).child(blogInfo.key)

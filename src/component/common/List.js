@@ -4,7 +4,7 @@ import { Card } from './Card';
 import {CardSection} from './CardSection';
 import {Actions} from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/Ionicons';
-
+import moment from 'moment';
 class ListView extends Component {
 
     onRowPress = () => {
@@ -47,7 +47,7 @@ class ListView extends Component {
                                     </View>
                                 </View>
                                 <View style={styles.timeContainer}>
-                                    <Text style={styles.timeStyle}>5 minutes ago</Text>
+                                    <Text style={styles.timeStyle}>{moment(this.props.item.createdAt).fromNow()} </Text>
                                 </View>
                             </View>
                         </CardSection>
