@@ -7,6 +7,10 @@ import moment from 'moment';
 
 
 class SingleBlog extends Component {
+    componentWillMount() {
+        console.log(this.props.post);
+    }
+    
     render() {
         return (
             <ScrollView style={{backgroundColor: '#fff'}}>

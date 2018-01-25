@@ -119,18 +119,8 @@ class RouterComponent extends Component {
                                         </TouchableOpacity>
                                     )}
                                     title={'Timeline'}
-                                    tabBarLabel='All'
-                                    tabBarIcon={({ focused }) => (
-                                        <View style={{
-                                            height: 80,
-                                            width: 80,
-                                            borderRadius: 100,
-                                            backgroundColor: '#FE6D64',
-                                            paddingTop: 15,
-                                            position: 'absolute',
-                                            overflow: 'visible',
-                                            top: -20
-                                        }}>
+                                    tabBarLabel={({ focused }) => (
+                                        <View>
                                             <Icon
                                                 size={40}
                                                 name={`ios-list-outline`}
@@ -139,24 +129,26 @@ class RouterComponent extends Component {
                                         </View>
                                     )}
                                 />
-                                <Scene icon={({ focused }) => (
-                                    <View>
-                                        <Icon
-                                            size={40}
-                                            name={`ios-search-outline`}
-                                            text={`My Account`}
-                                        />
-                                    </View>
-                                )}
+                                <Scene 
                                     key="search_tab" 
+                                    tabBarLabel={({ focused }) => (
+                                        <View>
+                                            <Icon
+                                                size={40}
+                                                name={`ios-search-outline`}
+                                                text={`My Account`}
+                                            />
+                                        </View>
+                                    )} 
                                     labelStyle={Actions.currentScene ? '#3ac665' : 'red'} 
                                     component={Search} title="Search" 
                                     renderLeftButton={() => this.renderLeftMenuButton()}
                                 />
-                                <Scene icon={({ focused }) => (
+                                <Scene
+                                    tabBarLabel={({ focused }) => (
                                     <View>
                                         <Icon
-                                            size={focused ? 60 : 20}
+                                            size={40}
                                             name={`ios-add-outline`}
                                             text={`My Account`}
                                         />
@@ -167,14 +159,15 @@ class RouterComponent extends Component {
                                     title="Create" 
                                     renderLeftButton={() => this.renderLeftMenuButton()} 
                                 />
-                                <Scene icon={({ focused }) => (
+                                <Scene 
+                                    tabBarLabel = {({ focused }) => (
                                     <View>
-                                        <Icon
-                                            size={focused ? 60 : 20}
-                                            name={`ios-notifications-outline`}
-                                            text={`My Account`}
-                                        />
-                                    </View>
+                                    <Icon
+                                        size={40}
+                                        name={`ios-notifications-outline`}
+                                        text={`My Account`}
+                                    />
+                                </View>
                                 )} 
                                     key="tab4_1" 
                                     component={Notifications} 
