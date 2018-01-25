@@ -67,11 +67,11 @@ class RouterComponent extends Component {
             >
                 <Stack key="root" hideNavBar={true}>
                     <Stack key="first" >
-                        <Scene 
+                        <Scene
                             key='initial_screen'
                             hideNavBar={true}
                             component={Initial}
-                        
+
                         />
                         <Scene
                             key='auth'
