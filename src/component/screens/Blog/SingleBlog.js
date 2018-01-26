@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { CardSection } from '../../common/index';
 import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
+import color from '../../../assets/color';
+import { connect } from 'react-redux';
 
 
 
@@ -10,19 +12,50 @@ class SingleBlog extends Component {
     componentWillMount() {
         console.log(this.props.post);
     }
+
+    openMoreModalHandler = () => {
+        console.log('press');
+    }
+
+    renderMoreButton = () => {
+        if (this.props.user.uid == this.props.post.ownerId) {
+            return (
+                <TouchableOpacity
+                    onPress={this.openMoreModalHandler}
+                    style={{
+                        marginLeft: -40,
+                        marginTop: 10
+                    }}>
+                    <Icon
+                        size={40}
+                        name={'ios-more'}
+                        style={styles.moreIcon}
+                    />
+                </TouchableOpacity>
+            );
+        }
+    }
     
     render() {
+        const { imageUrl, createdAt, blogDescription } = this.props.post.values;
         return (
             <ScrollView style={{backgroundColor: '#fff'}}>
                     <View style = {styles.coverContainer}>
-                        <Image source={{ uri: this.props.post.imageUrl}} style={styles.coverImageStyle} />
+                        <Image source={{ uri: imageUrl}} style={styles.coverImageStyle} />
                     </View>
                     <View style= {styles.profileContainer}>
-                    <Text style={styles.timeStyle} >{moment(this.props.post.createdAt).fromNow()}</Text>
-                    <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} style={styles.profileImageStyle} />
-                    </View>
+                        <View style={styles.profileInfoContainer}>
+                            <View style={styles.profileNameContainer}>
+                                <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} style={styles.profileImageStyle} />  
+                            <Text style={styles.nameStyle}>Name</Text>
+                            </View>
+                            <Text style={styles.timeStyle} >{moment(createdAt).fromNow()}</Text>
+                        </View>
+                   
+                       {this.renderMoreButton()}
+                       </View>
                     <View style={styles.descriptionContainer}>
-                    <Text style={styles.description}>{this.props.post.blogDescription}</Text>    
+                    <Text style={styles.description}>{blogDescription}</Text>    
                     </View>
                     <View style={styles.ActivityContainer}>
                         <View style={styles.iconContainer}>
@@ -63,15 +96,29 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     profileContainer : {
-        flexDirection : 'row',
         height : 60,
         width : '100%',
-        justifyContent : 'space-between',
         paddingLeft: 10,
         paddingRight: 10,
         marginTop: 10,
-        marginBottom : 10,
-        alignItems : 'center'
+        marginBottom : 30,
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    profileInfoContainer : {
+        height: '100%',
+        width: '100%',
+    },
+    profileNameContainer: {
+         width: '100%', 
+         height: '100%', 
+         flexDirection: 'row', 
+         alignItems: 'center' 
+    },
+    nameStyle : {
+        marginLeft: 10,
+        color: '#000',
+        fontSize: 18 
     },
     timeStyle : {
         fontSize: 12,
@@ -80,16 +127,21 @@ const styles = StyleSheet.create({
     profileImageStyle: {
         height: 40,
         width: 40,
-        borderRadius: 50
+        borderRadius: 50,
+        marginBottom: 10
+    },
+    moreIcon :{
+       
     },
     descriptionContainer : {
         paddingLeft: 10,
         paddingRight: 10,
-        width: '100%',
+        width: '100%'
     },
     description : {
         width: '100%',
-        fontSize: 18
+        fontSize: 18,
+        color: '#323648'
     },
     ActivityContainer : {
         height: 50,
@@ -133,4 +185,11 @@ const styles = StyleSheet.create({
 
 });
 
-export default SingleBlog;
+const mapStateToProps = state => {
+    const {user} = state.auth;  
+    return {
+        user
+    };
+}
+
+export default connect(mapStateToProps)(SingleBlog);

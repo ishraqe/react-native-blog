@@ -5,6 +5,7 @@ import { fetchAllBlog, fetchUserInfo } from "../../../store/actions";
 import {connect} from 'react-redux';
 import {Router, Actions } from 'react-native-router-flux';
 import firebase from 'firebase';
+import _ from 'lodash';
 
 class Landing extends Component {
     

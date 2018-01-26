@@ -12,6 +12,7 @@ import RNFetchBlob from 'react-native-fetch-blob';
 
 
 
+
 const Blob = RNFetchBlob.polyfill.Blob;
 const fs = RNFetchBlob.fs;
 window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
@@ -110,10 +111,33 @@ export const fetchAllBlog = () => {
 
 export const iterate = (snapshot) => {
     let items = [];
+    let keys = [];
+    let thirdArray = [];
     for (var key in snapshot.val()) {
         for (var item in snapshot.val()[key]) {
-            items.push(snapshot.val()[key][item]);
+            items.push({
+                ownerId : key,
+                key: item,
+                values: snapshot.val()[key][item]
+            });
         }
-    }
+    } 
+
+    console.log(items, 'items');
+    // thirdArray = mergeArrays(keys, items);
+    // console.log(thirdArray);
     return items;
+}
+
+
+export const  mergeArrays = (arr1, arr2) => {
+    var l = Math.min(arr1.length, arr2.length),
+        ret = [],
+        i;
+
+    for (i = 0; i < l; i++) {
+        ret.push(arr1[i] + ":" + arr2[i]);
+    }
+
+    return ret;
 }
