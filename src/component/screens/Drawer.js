@@ -67,74 +67,80 @@ class Drawer extends Component  {
                         </TouchableWithoutFeedback>
                     </View>
                 </LinearGradient>
-               <View style= {styles.settingsContainer}>
-                    <TouchableOpacity
-                        onPress={Actions.landing_page}
-                    >
-                        <View style={styles.notificationContainer} >
-                            <Icon
-                                size={25}
-                                name={`ios-home-outline`}
-                                text={`My Account`}
-                            />
-                            <Text style={[{ fontSize: 19 }, styles.marginTOLeft]}>Home</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={Actions.profile_page}
-                    >
-                        <View style={styles.notificationContainer} >
-                            <Icon
-                                size={25}
-                                name={`ios-person-outline`}
-                                text={`My Account`}
-                            />
-                            <Text style={[{ fontSize: 19 }, styles.marginTOLeft]}>Profile</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={Actions.settings_page}
-                    >
-                        <View style={styles.notificationContainer} >
-                            <Icon
-                                size={25}
-                                name={`ios-settings-outline`}
-                                text={`My Account`}
-                            />
-                            <Text style={[{ fontSize: 19 }, styles.marginTOLeft]}>Settings</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <View style={styles.switchContainer}>
-                        <View style={styles.notificationContainer}>
-                            <Icon
-                                size={25}
-                                name={`ios-notifications-outline`}
-                                text={`My Account`}
-                            />
-                            <Text style={[{ fontSize: 19 }, styles.marginTOLeft]}>Notifications</Text>
-                        </View>
-                        <Switch
-                            onTintColor={color.themeColor}
-                            thumbTintColor={color.themeColor}
-                            value={this.state.value}
-                            style={{ marginLeft: -40 }}
-                            onValueChange={() => this.setState({ value: !this.state.value })}
-                        />
-                    </View>
-                    <TouchableOpacity style={{
-                        position: 'absolute', bottom: 230, paddingLeft: 10
-                        }}>
-                        <View style={styles.notificationContainer} >
-                            <Icon
-                                size={25}
-                                color='red'
-                                name={`ios-nuclear-outline`}
-                                text={`My Account`}
-                            />
-                            <Text style={[styles.settingsText, styles.marginTOLeft]}>Delete My Account</Text>
-                        </View>
+                <View style={{width: '100%', height: '100%'}}>
+                <Image source={require('../../assets/initial_back.png')}
+                    style={styles.backgroundImageStyle}
 
-                    </TouchableOpacity>
+                />
+                <View style= {styles.settingsContainer}>
+                        <TouchableOpacity
+                            onPress={Actions.landing_page}
+                        >
+                            <View style={styles.notificationContainer} >
+                                <Icon
+                                    size={25}
+                                    name={`ios-home-outline`}
+                                    text={`My Account`}
+                                />
+                                <Text style={[{ fontSize: 19 }, styles.marginTOLeft]}>Home</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={Actions.profile_page}
+                        >
+                            <View style={styles.notificationContainer} >
+                                <Icon
+                                    size={25}
+                                    name={`ios-person-outline`}
+                                    text={`My Account`}
+                                />
+                                <Text style={[{ fontSize: 19 }, styles.marginTOLeft]}>Profile</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={Actions.settings_page}
+                        >
+                            <View style={styles.notificationContainer} >
+                                <Icon
+                                    size={25}
+                                    name={`ios-settings-outline`}
+                                    text={`My Account`}
+                                />
+                                <Text style={[{ fontSize: 19 }, styles.marginTOLeft]}>Settings</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <View style={styles.switchContainer}>
+                            <View style={styles.notificationContainer}>
+                                <Icon
+                                    size={25}
+                                    name={`ios-notifications-outline`}
+                                    text={`My Account`}
+                                />
+                                <Text style={[{ fontSize: 19 }, styles.marginTOLeft]}>Notifications</Text>
+                            </View>
+                            <Switch
+                                onTintColor={color.themeColor}
+                                thumbTintColor={color.themeColor}
+                                value={this.state.value}
+                                style={{ marginLeft: -40 }}
+                                onValueChange={() => this.setState({ value: !this.state.value })}
+                            />
+                        </View>
+                        <TouchableOpacity style={{
+                            position: 'absolute', bottom: 230, paddingLeft: 10
+                            }}>
+                            <View style={styles.notificationContainer} >
+                                <Icon
+                                    size={25}
+                                    color='red'
+                                    name={`ios-nuclear-outline`}
+                                    text={`My Account`}
+                                />
+                                <Text style={[styles.settingsText, styles.marginTOLeft]}>Delete My Account</Text>
+                            </View>
+
+                        </TouchableOpacity>
+                </View>
                </View>
             </View>
         );
@@ -190,7 +196,12 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#fff'
     },
+    backgroundImageStyle: {
+        height: '100%',
+        width: '100%'
+    },
     settingsContainer : {
+        position: 'absolute',
         width : '100%',
         height: '100%',
         paddingLeft: 10,

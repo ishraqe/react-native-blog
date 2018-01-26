@@ -14,28 +14,24 @@ const Confirm = ({children, visible, onAccept, onDecline}) => {
         visible={visible}
        >
           <View style={containerStyle}>
-            <CardSection style={cardSectionStyle}>
                 {children}
-            </CardSection>
           </View> 
        </Modal> 
     );    
 };
 const styles={
     cardSectionStyle: {
-       backgroundColor: '#fff',
-       flex: 1
-    },
-    textStyle:{
-        flex:1,
-        fontSize:18,
-        textAlign:'center',
-        lineHeight:40
+       backgroundColor: 'red',
+       width: '100%',
+       height: '100%'
     },
     containerStyle:{
         backgroundColor:'#fff',
-        flex:1,
+        height: 300,
         width:'100%',
+        position: 'absolute',
+        bottom: 0
+
     }
 }
 

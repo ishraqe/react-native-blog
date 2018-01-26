@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { CardSection } from '../../common/index';
+import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, TouchableWithoutFeedback} from 'react-native';
+import { CardSection, Confirm, CustomButton } from '../../common/index';
 import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 import color from '../../../assets/color';
@@ -9,73 +9,124 @@ import { connect } from 'react-redux';
 
 
 class SingleBlog extends Component {
+    state = {
+        showMoreModal : false
+    }
+
     componentWillMount() {
         console.log(this.props.post);
     }
 
-    openMoreModalHandler = () => {
-        console.log('press');
-    }
-
-    renderMoreButton = () => {
-        if (this.props.user.uid == this.props.post.ownerId) {
-            return (
+    modalComponent = () => {
+        return (  
+           <View style={styles.modalMain}>
                 <TouchableOpacity
-                    onPress={this.openMoreModalHandler}
-                    style={{
-                        marginLeft: -40,
-                        marginTop: 10
-                    }}>
+                    onPress={()=> this.setState({showMoreModal: false})}
+                    style={styles.modalinsideContainer}
+                >
+                    <Icon
+                    size={35}
+                    name={'ios-create-outline'}
+                />
+                <Text style={styles.modalText}>Edit</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.modalinsideContainer}
+                >
+                    <Icon
+                        size= {35}
+                        name={'ios-create-outline'}
+                    />
+                    <Text style={styles.modalText}>Edit</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.modalinsideContainer}
+                >
+                    <Icon 
+                        size={35}
+                        name={'ios-remove-circle-outline'}
+                    />
+                    <Text style={styles.modalText}>Delete</Text>
+                </TouchableOpacity>
+            </View>
+        );
+    }
+    renderMoreButton = () => {
+        if (this.props.user && this.props.user.uid === this.props.post.ownerId) {
+            return (
+
+                <View style={{
+                    marginLeft: -40,
+                    marginTop: 10
+                }}>
+                <TouchableOpacity
+                    onPress={() => {
+                        this.setState({
+                            showMoreModal: true
+                        });
+                    }}
+                >
                     <Icon
                         size={40}
-                        name={'ios-more'}
+                            name={'md-more'}
                         style={styles.moreIcon}
                     />
                 </TouchableOpacity>
+                </View>
             );
         }
     }
+ 
     
     render() {
         const { imageUrl, createdAt, blogDescription } = this.props.post.values;
         return (
-            <ScrollView style={{backgroundColor: '#fff'}}>
-                    <View style = {styles.coverContainer}>
-                        <Image source={{ uri: imageUrl}} style={styles.coverImageStyle} />
-                    </View>
-                    <View style= {styles.profileContainer}>
-                        <View style={styles.profileInfoContainer}>
-                            <View style={styles.profileNameContainer}>
-                                <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} style={styles.profileImageStyle} />  
-                            <Text style={styles.nameStyle}>Name</Text>
+                    <ScrollView style={{backgroundColor: '#fff'}}>
+                
+                            <View style = {styles.coverContainer}>
+                                <Image source={{ uri: imageUrl}} style={styles.coverImageStyle} />
                             </View>
-                            <Text style={styles.timeStyle} >{moment(createdAt).fromNow()}</Text>
-                        </View>
-                   
-                       {this.renderMoreButton()}
-                       </View>
-                    <View style={styles.descriptionContainer}>
-                    <Text style={styles.description}>{blogDescription}</Text>    
-                    </View>
-                    <View style={styles.ActivityContainer}>
-                        <View style={styles.iconContainer}>
-                            <Icon
-                                size={30}
-                                name={'ios-heart-outline'}
-                                style= {styles.iconLike}
-                            />
-                        <Text style={styles.likeTextStyle} >18</Text> 
-                        </View>
-                        <View style={styles.iconContainer}>
-                            <Icon
-                                size={30}
-                                name={'ios-text-outline'}
-                                style={styles.iconComment}
-                            />
-                            <Text style={styles.commentTextStyle} >26</Text>
-                        </View>
-                    </View>    
-            </ScrollView>
+                            <View style= {styles.profileContainer}>
+                                <View style={styles.profileInfoContainer}>
+                                    <View style={styles.profileNameContainer}>
+                                        <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} style={styles.profileImageStyle} />  
+                                    <Text style={styles.nameStyle}>Name</Text>
+                                    </View>
+                                    <Text style={styles.timeStyle} >{moment(createdAt).fromNow()}</Text>
+                                </View>
+                                {this.renderMoreButton()}
+                            </View>
+                            <View style={styles.descriptionContainer}>
+                                <Text style={styles.description}>{blogDescription}</Text>    
+                            </View>
+                            <View style={styles.ActivityContainer}>
+                                <View style={styles.iconContainer}>
+                                    <Icon
+                                        size={30}
+                                        name={'ios-heart-outline'}
+                                        style= {styles.iconLike}
+                                    />
+                                <Text style={styles.likeTextStyle} >18</Text> 
+                                </View>
+                                <View style={styles.iconContainer}>
+                                    <Icon
+                                        size={30}
+                                        name={'ios-text-outline'}
+                                        style={styles.iconComment}
+                                    />
+                                    <Text style={styles.commentTextStyle} >26</Text>
+                                </View>
+                            </View> 
+                        
+                            <Confirm
+                                visible={this.state.showMoreModal}
+                                onDecline = {this.onDecline}
+                            >
+                                {this.modalComponent()}
+                            </Confirm>
+                        
+                    </ScrollView>
+                       
         );
     }
 }
@@ -136,7 +187,8 @@ const styles = StyleSheet.create({
     descriptionContainer : {
         paddingLeft: 10,
         paddingRight: 10,
-        width: '100%'
+        width: '100%',
+        minHeight: 200
     },
     description : {
         width: '100%',
@@ -179,6 +231,30 @@ const styles = StyleSheet.create({
     commentTextStyle : {
         color: '#b5b8bc',
         fontSize: 18,
+    },
+    modalinsideContainer : {
+        flexDirection: 'row',
+        marginTop: 20,
+        marginBottom:  20,
+        alignItems: 'center'
+    },
+    modalText :{
+        fontSize:  20,
+        color: '#000',
+        marginLeft: 10
+    },
+    modalMain: { 
+        width: '100%',
+        padding: 15,
+        height: '100%', 
+        backgroundColor: '#fff' ,
+        borderTopColor: '#ddd',
+        borderTopWidth: 1,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 2,
+        elevation: 1
     }
 
 
@@ -192,4 +268,4 @@ const mapStateToProps = state => {
     };
 }
 
-export default connect(mapStateToProps)(SingleBlog);
+export default connect(mapStateToProps)(SingleBlog);    
