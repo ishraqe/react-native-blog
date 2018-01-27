@@ -5,17 +5,41 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 import color from '../../../assets/color';
 import { connect } from 'react-redux';
-import { deleteBlogPost} from '../../../store/actions';
+import { deleteBlogPost, fetchBlogActivity} from '../../../store/actions';
 
 
 
 class SingleBlog extends Component {
     state = {
-        showMoreModal : false
+        showMoreModal : false,
+        like: 0,
+        comment: null
+
     }
 
     componentWillMount() {
-        console.log(this.props.post);
+        if (this.props.likeActivity) {
+            this.setState({
+                like: this.props.likeActivity.like,
+                comment: this.props.likeActivity.comment
+            });
+        }
+        
+    }
+
+    componentWillReceiveProps(next) {
+        this.setState({
+            like: next.likeActivity.like,
+            comment: next.likeActivity.comment
+        });
+        console.log(next.likeActivity, 'next');
+    }
+
+    componentDidMount() {
+        if (this.props.post.key) {
+            const blogId = this.props.post.key;
+            this.props.fetch_Blog_Activity( blogId );
+        }
     }
     deleteModalHandler = () => {
         const userId = this.props.post.ownerId;
@@ -107,22 +131,30 @@ class SingleBlog extends Component {
                                 <Text style={styles.description}>{blogDescription}</Text>    
                             </View>
                             <View style={styles.ActivityContainer}>
-                                <View style={styles.iconContainer}>
-                                    <Icon
-                                        size={30}
-                                        name={'ios-heart-outline'}
-                                        style= {styles.iconLike}
-                                    />
-                                <Text style={styles.likeTextStyle} >18</Text> 
-                                </View>
-                                <View style={styles.iconContainer}>
-                                    <Icon
-                                        size={30}
-                                        name={'ios-text-outline'}
-                                        style={styles.iconComment}
-                                    />
-                                    <Text style={styles.commentTextStyle} >26</Text>
-                                </View>
+                                <TouchableOpacity
+                                    onPress={() => console.log('like') }
+                                >
+                                    <View style={styles.iconContainer}>
+                                        <Icon
+                                            size={30}
+                                            name={'ios-heart-outline'}
+                                            style= {styles.iconLike}
+                                        />
+                                <Text style={styles.likeTextStyle} >{this.state.like}</Text> 
+                                    </View>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    onPress={()=> console.log('comment')}
+                                >
+                                    <View style={styles.iconContainer}>
+                                        <Icon
+                                            size={30}
+                                            name={'ios-text-outline'}
+                                            style={styles.iconComment}
+                                        />
+                                        <Text style={styles.commentTextStyle} >26</Text>
+                                    </View>
+                                </TouchableOpacity>
                             </View> 
                         
                             <Confirm
@@ -272,15 +304,18 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-    const {user} = state.auth;  
+    const {user} = state.auth; 
+    const { likeActivity}  = state.blog;
     return {
-        user
+        user,
+        likeActivity
     };
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         deleteBlog: ({userId, blogId}) => dispatch(deleteBlogPost({userId, blogId})),
+        fetch_Blog_Activity: ( blogId ) => dispatch(fetchBlogActivity( blogId))
     };
 }
 

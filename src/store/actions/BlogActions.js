@@ -6,7 +6,12 @@ import {
     ALL_BLOG_FETCH_FAIL,
     POST_DELETE,
     POST_DELETE_SUCCESS,
-    POST_DELETE_ERROR
+    POST_DELETE_ERROR,
+    POST_LIKE,
+    POST_LIKE_SUCCESS,
+    POST_LIKE_FAIL,
+    BLOG_ACTIVITY_FETCH,
+    BLOG_ACTIVITY_TABLE_CREATED
 } from "./types";
 
 import firebase from 'firebase';
@@ -35,9 +40,15 @@ export const postStory = (desc, imageData, userInfo) => {
                 createdAt: timestamp
             }).then( 
                 (blogInfo) => {  
-                    firebase.database().ref('blogs/').child(currentUser.uid).child(blogInfo.key)
-                    .on('value', snapshot => postStorySuccess(dispatch,snapshot.val())
-                    )
+                    firebase.database().ref('blogActions/' + blogInfo.key).set({
+                        like: 0,
+                        comment: 0
+                    }).then(() => {
+                        dispatch({type: BLOG_ACTIVITY_TABLE_CREATED });
+
+                        firebase.database().ref('blogs/').child(currentUser.uid).child(blogInfo.key)
+                        .on('value', snapshot => postStorySuccess(dispatch, snapshot.val()));
+                    });
                 }
             )
         )
@@ -54,13 +65,11 @@ export const postStoryFail = (dispatch, error) => {
 
 
 export const postStorySuccess = (dispatch, post) => {
-  
     dispatch({
         type: POST_STORY_SUCCESS,
         payload: post
     });
     Actions.landing_page();
-
 };
 
 
@@ -178,3 +187,38 @@ export const postDeleteFail = (dispatch, error) => {
     });
 };
 
+export const likeAction = ({ blogId, likes}) => {
+    return (dispatch) => {
+        dispatch({type : POST_LIKE});
+        firebase.database().ref('blogActions/').child(blogId).update({
+            likeCounter: likes + 1,
+            comment: 0
+        }).then(like =>  likeSuccess(dispatch, like))
+        .catch(err => likeFail(dispatch, err));
+    }
+};
+
+export const likeSuccess = (dispatch, payload) => {
+    dispatch({
+        type: POST_LIKE_SUCCESS,
+        payload: payload
+    });
+};
+
+export const likeFail = (dispatch, err) => {
+    dispatch({
+        type: POST_LIKE_FAIL,
+        payload: err
+    });
+};
+
+export const fetchBlogActivity = (blogId) => {
+    console.log(blogId,'id');
+    
+    return (dispatch) => {
+        firebase.database().ref('blogActions/' + blogId )
+            .on('value', snapshot => {
+                dispatch({ type: BLOG_ACTIVITY_FETCH, payload: snapshot.val() });
+        });
+    };
+}
