@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image, Dimensions, AsyncStorage } from "react-native";
 import { CustomButton } from '../../common/index';
 import {Actions} from 'react-native-router-flux';
+import color from '../../../assets/color';
 
 
 
@@ -46,10 +47,7 @@ class AuthScreen extends Component {
         return (
             <View style={{ flex: 1, backgroundColor: '#fff' }}>
                 <View style={this.state.viewMode === 'potrait' ? styles.potraitLogoContainer : styles.landscapeLogoContainer}>
-                    <Image
-                        style={this.state.viewMode === 'potrait' ?  styles.potraitLogoStyle : styles.landscapeLogoStyle}
-                        source={require('../../../assets/story.png')}
-                    />
+                    <Text style={styles.titleStyle}><Text style={{color: color.themeColor}}>Artisan's</Text> Story</Text>
                 </View>
                 <View style={this.state.viewMode === 'potrait' ? styles.potraitImageContainer : styles.landscapeImageContainer}>
                     <Image
@@ -69,6 +67,7 @@ class AuthScreen extends Component {
                     <View style={this.state.viewMode === 'potrait' ? styles.potraitButtonWrapper : styles.landscapeButtonWrapper}>
                         <CustomButton
                             onPress={this.loginScreen}
+                            buttonTextStyle={{ fontFamily: 'DancingScript-Bold',}}
                         >
                             Login
                         </CustomButton>
@@ -144,6 +143,13 @@ const styles = StyleSheet.create({
     landscapeLogoStyle: {
         width: '50%',
         height:  '50%'
+    },
+    titleStyle: {
+        fontFamily: 'DancingScript-Bold',
+        fontSize: 50,
+        marginTop: 10,
+        marginBottom: 10,
+        color: color.fontColor
     }
 });
 

@@ -3,7 +3,10 @@ import {
     POST_STORY_FAIL,
     POST_STORY_SUCCESS,
     ALL_BLOG_FETCH_SUCCESS,
-    ALL_BLOG_FETCH_FAIL
+    ALL_BLOG_FETCH_FAIL,
+    POST_DELETE,
+    POST_DELETE_SUCCESS,
+    POST_DELETE_ERROR
 } from "./types";
 
 import firebase from 'firebase';
@@ -141,3 +144,35 @@ export const  mergeArrays = (arr1, arr2) => {
 
     return ret;
 }
+
+
+export const deleteBlogPost = ({userId,blogId}) => {
+    console.log(userId, blogId );
+    
+    return (dispatch) => {
+        dispatch({ type: POST_DELETE });
+        firebase.database().ref('blogs/').child(userId).child(blogId).update({
+            imageUrl: null,
+            blogDescription: null,
+            creatorInfo: null,
+            createdAt: null
+        })
+            .then(() => postDeleteSuccess(dispatch))
+            .catch(err => postDeleteFail(dispatch, err));
+    }
+};
+
+export const postDeleteSuccess = (dispatch) => {
+    dispatch({
+        type: POST_DELETE_SUCCESS
+    });
+    Actions.landing_page();
+};
+
+export const postDeleteFail = (dispatch, error) => {
+    dispatch({
+        type: POST_DELETE_ERROR,
+        payload: error
+    });
+};
+

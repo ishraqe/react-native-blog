@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     },
     nameStyle : {
         fontWeight : 'bold',
-        fontSize : 20
+        fontSize : 20,
     },
     timeContainer : {
         width: '30%',

@@ -46,7 +46,9 @@ class Initial extends Component {
                             style={styles.progress}
                             progress={this.state.progress}
                             color={color.themeColor}
-                            unfilledColor={color.greyColor} indeterminate={this.state.indeterminate}
+                            unfilledColor={color.greyColor} 
+                            borderWidth={0}
+                            indeterminate={this.state.indeterminate}
                         />
                     </View>
                 </View>

@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 import color from '../../../assets/color';
 import { connect } from 'react-redux';
+import { deleteBlogPost} from '../../../store/actions';
 
 
 
@@ -16,19 +17,23 @@ class SingleBlog extends Component {
     componentWillMount() {
         console.log(this.props.post);
     }
-
+    deleteModalHandler = () => {
+        const userId = this.props.post.ownerId;
+        const blogId = this.props.post.key;
+        this.props.deleteBlog({userId, blogId});
+    }
     modalComponent = () => {
         return (  
            <View style={styles.modalMain}>
                 <TouchableOpacity
                     onPress={()=> this.setState({showMoreModal: false})}
-                    style={styles.modalinsideContainer}
+                    style={[styles.modalinsideContainer,{ width: '100%', borderBottomColor: '#000', borderBottomWidth:1}]}
                 >
                     <Icon
                     size={35}
                     name={'ios-create-outline'}
                 />
-                <Text style={styles.modalText}>Edit</Text>
+                <Text style={styles.modalText}>Close</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.modalinsideContainer}
@@ -41,6 +46,7 @@ class SingleBlog extends Component {
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.modalinsideContainer}
+                    onPress={this.deleteModalHandler}
                 >
                     <Icon 
                         size={35}
@@ -81,8 +87,9 @@ class SingleBlog extends Component {
     render() {
         const { imageUrl, createdAt, blogDescription } = this.props.post.values;
         return (
-                    <ScrollView style={{backgroundColor: '#fff'}}>
-                
+                    <ScrollView style={{backgroundColor: '#fff'}} 
+                    >
+                        <View style={{flex:1}}>
                             <View style = {styles.coverContainer}>
                                 <Image source={{ uri: imageUrl}} style={styles.coverImageStyle} />
                             </View>
@@ -124,7 +131,7 @@ class SingleBlog extends Component {
                             >
                                 {this.modalComponent()}
                             </Confirm>
-                        
+                        </View>
                     </ScrollView>
                        
         );
@@ -188,7 +195,7 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         paddingRight: 10,
         width: '100%',
-        minHeight: 200
+        minHeight: 270
     },
     description : {
         width: '100%',
@@ -196,21 +203,24 @@ const styles = StyleSheet.create({
         color: '#323648'
     },
     ActivityContainer : {
+        width: '100%',
         height: 50,
         flexDirection : 'row',
         justifyContent : 'space-between',
+        position: 'absolute',
+        bottom: 0,
         paddingLeft: 70,
         paddingRight: 70,
         paddingTop: 10,
         marginTop: 10,
-        marginBottom : 10,
         borderTopColor:'#ddd',
         borderTopWidth :1,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
         shadowRadius: 2,
-        elevation: 1
+        elevation: 1,
+        backgroundColor: '#fff'
     },
     iconContainer : {
         flexDirection : 'row',
@@ -268,4 +278,10 @@ const mapStateToProps = state => {
     };
 }
 
-export default connect(mapStateToProps)(SingleBlog);    
+const mapDispatchToProps = dispatch => {
+    return {
+        deleteBlog: ({userId, blogId}) => dispatch(deleteBlogPost({userId, blogId})),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SingleBlog);    

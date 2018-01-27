@@ -4,7 +4,8 @@ const color = {
     borderBottomColor: '#eae6e6',
     statusBarColor: '#388E3C',
     gradientFirstColor: '#38ef7d',
-    gradientSecondColor: '#11998e'
+    gradientSecondColor: '#11998e',
+    fontColor: '#323648'
 }
 
 
