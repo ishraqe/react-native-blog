@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet, TextInput , ScrollView} from 'react-native';
 import ImagePicker from 'react-native-image-picker';
-import { Input, CardSection, CustomButton} from '../../common';
+import { Input, CardSection, CustomButton, Spinner} from '../../common';
 import {connect, Connect} from 'react-redux';
 import {postStory} from '../../../store/actions';
 import color from '../../../assets/color';
@@ -46,12 +46,38 @@ class CreateBlog extends Component {
         });
     }
 
+    renderShareButton = () => {
+            if (this.props.loading) {
+                return <Spinner size='large' />;
+            }
+            return (
+                <TouchableOpacity
+                    onPress={this.shareStoryHandler}
+                    style={styles.gradientWrapper}>
+                    <View style={styles.gradientWrapper} >
+                        <LinearGradient
+                            colors={['#00FFFF', color.themeColor]}
+                            start={{ x: 0.0, y: 1.0 }} end={{ x: 1.0, y: 1.0 }}
+                            style={styles.gradientContainer}
+                        >
+                            <Text style={styles.textStyle}>Share story</Text>
+                        </LinearGradient>
+                    </View>
+                </TouchableOpacity>
+            );
+    }
+
     shareStoryHandler = () => {
-        const description = this.state.text;
-        const imageUri = this.state.pickedImage.uri;
-        const imageData = this.state.pickedImage.path;
-        const userInfo = this.props.userInfo;
-        this.props.shareStory(description, imageUri, userInfo);
+      
+        if (!this.state.text.length && !this.state.pickedImage) {
+            console.log('disable');
+
+        } else {
+            const description = this.state.text;
+            const imageUri = this.state.pickedImage.uri;
+            const userInfo = this.props.userInfo;
+            this.props.shareStory(description, imageUri, userInfo);
+        }
     }
 
     renderImagePreview = () => {
@@ -108,19 +134,7 @@ class CreateBlog extends Component {
                     {this.renderImagePreview()}
                 </CardSection>
                 <CardSection style={styles.cardStyle} >
-                    <TouchableOpacity
-                        onPress={this.shareStoryHandler}
-                        style={styles.gradientWrapper}>
-                        <View style={styles.gradientWrapper} >
-                            <LinearGradient
-                                colors={['#00FFFF', color.themeColor]}
-                                start={{ x: 0.0, y: 1.0 }} end={{ x: 1.0, y: 1.0 }}
-                                style={styles.gradientContainer}
-                            >
-                                <Text style={styles.textStyle}>Share story</Text>
-                            </LinearGradient>
-                        </View>
-                    </TouchableOpacity>
+                    {this.renderShareButton()}
                 </CardSection>
             </ScrollView>
         );
@@ -175,10 +189,13 @@ const styles=  StyleSheet.create({
     }
 });
 
-const mapStateToProps = ({auth}) => {
+const mapStateToProps = ({auth, blog}) => {
     const { userInfo, user} = auth;
+    const {loading} = blog;
     return {
-        user, userInfo
+        user, 
+        userInfo,
+        loading
     }
 }
 

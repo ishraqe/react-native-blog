@@ -59,6 +59,8 @@ export const postStorySuccess = (dispatch, post) => {
         type: POST_STORY_SUCCESS,
         payload: post
     });
+    Actions.landing_page();
+
 };
 
 

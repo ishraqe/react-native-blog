@@ -57,6 +57,19 @@ class RouterComponent extends Component {
             </TouchableOpacity>
         );
     } 
+
+    renderLeftBackButton = () => {
+        return (
+            <TouchableOpacity onPress={() => Actions.pop()}>
+                <Icon
+                    size={30}
+                    name={`ios-arrow-round-back-outline`}
+                    text={`My Account`}
+                    style={{ color: color.greyColor, marginLeft: 10, marginRight: 10, left: 1, }}
+                />
+            </TouchableOpacity>
+        );
+    }
  
     render () {
 
@@ -175,7 +188,12 @@ class RouterComponent extends Component {
                                     renderLeftButton={() => this.renderLeftMenuButton()} 
                                 />
                             </Scene>
-                            <Scene key='single_blog' title='Post' component={SingleBlog} />
+                            <Scene 
+                                key='single_blog'
+                                title='Post'
+                                component={SingleBlog} 
+                                renderLeftButton={() => this.renderLeftBackButton()}
+                            />
                             <Scene 
                                 key='profile_page'
                                 component={Profile}
