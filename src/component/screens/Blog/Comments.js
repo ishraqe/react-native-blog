@@ -1,14 +1,38 @@
 import React, {Component} from 'react';
-import { View, Text, Image, StyleSheet, ScrollView, TextInput, TouchableOpacity} from 'react-native';
+import { View, Text, Image, StyleSheet, FlatList, TextInput, TouchableOpacity} from 'react-native';
 import color from '../../../assets/color';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
-import { postComment} from '../../../store/actions';
+import moment from 'moment';
+import { postComment, fetchBlogActivity} from '../../../store/actions';
 
 class Comment extends Component {
     state = {
-        comment : ''
+        comment : '',
+        comments: 0
     }
+
+    componentWillMount() {
+        if (this.props.likeActivity) {
+            this.setState({
+                comments: this.props.comments
+            });
+        }
+    }
+
+    componentWillReceiveProps(next) {
+        this.setState({
+            comments: next.comments
+        });
+    }
+
+    componentDidMount() {
+        if (this.props.blogId) {
+            const blogId = this.props.blogId;
+            this.props.fetch_Blog_Activity(blogId);
+        }
+    }
+
     postCommenthandler = () => {
         if (!this.state.comment.length) { 
             console.log('disabled');
@@ -18,91 +42,43 @@ class Comment extends Component {
             const userId = this.props.user.uid;
             const userInfo = this.props.userInfo.fullname;
             const user = {
-                userId, userInfo
+                userId, 
+                userInfo
             }
             const blogId = this.props.blogId;
-            console.log(comment, user, blogId, 'ish');
-            
             this.props.post_comment({ comment, user, blogId});
         }
     }
+    _keyExtractor = (item, index) => item.id;
+
+    renderItems = ({item}) => {
+        console.log(item, 'flat');
+        const { commentByInfo, createdAt, text } = item.values;
+        return (
+            <View style={styles.container}>
+                <View style={styles.imageContainer}>
+                    <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} style={styles.profileImageStyle} />
+                </View>
+                <View style={styles.commentContainer}>
+                    <View style={styles.nameContainer}>
+                        <Text style={styles.nameStyle}>{commentByInfo.name}</Text>
+                        <Text style={styles.timeStyle}>{moment(createdAt).fromNow()}</Text>
+                    </View>
+                    <Text style={styles.comments}>{text}</Text>
+                </View>
+            </View>
+        );
+    }
+
     render () {
         return (
             <View style={{flex:1}}>
-                <ScrollView style={{ flex: 1, backgroundColor: '#fff', marginBottom: 55}}>
-                    <View style={styles.container}>
-                        <View style={styles.imageContainer}>
-                            <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} style={styles.profileImageStyle} />
-                        </View>
-                        <View style={styles.commentContainer}>
-                            <View style={styles.nameContainer}>
-                                <Text style={styles.nameStyle}>Blake Lively</Text>
-                                <Text style={styles.timeStyle}>4:29 PM</Text>
-                            </View>
-                            <Text style={styles.comments}>Comments .........................Comments .........................Comments .........................Comments .........................Comments .........................Comments .........................Comments ......................... fsfsfsjfjf jsfgsjfbsjfbs sjfsjfsbjfbsfjs fjsfgsfbsfjsbfs fjsgfsjfgsgfgsufs fjsgfsjfgjsfsf sjfgsjfgsjfsf sjfjsfjsgjfs jdgadaudaudadaudagduagduagdaudgaudgad ahdahdgada adahdahdahda adadadgadahd ahfdafdahdfahda ahdfahdfahdfad hadfahdfhadfahd hadfahdvhdavad</Text>
-                        </View>
-                    </View>
-                    <View style={styles.container}>
-                        <View style={styles.imageContainer}>
-                            <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} style={styles.profileImageStyle} />
-                        </View>
-                        <View style={styles.commentContainer}>
-                            <View style={styles.nameContainer}>
-                                <Text style={styles.nameStyle}>Blake Lively</Text>
-                                <Text style={styles.timeStyle}>4:29 PM</Text>
-                            </View>
-                            <Text style={styles.comments}>Comments .........................Comments .........................Comments .........................Comments .........................Comments .........................Comments .........................Comments ......................... fsfsfsjfjf jsfgsjfbsjfbs sjfsjfsbjfbsfjs fjsfgsfbsfjsbfs fjsgfsjfgsgfgsufs fjsgfsjfgjsfsf sjfgsjfgsjfsf sjfjsfjsgjfs jdgadaudaudadaudagduagduagdaudgaudgad ahdahdgada adahdahdahda adadadgadahd ahfdafdahdfahda ahdfahdfahdfad hadfahdfhadfahd hadfahdvhdavad</Text>
-                        </View>
-                    </View>
-                    <View style={styles.container}>
-                        <View style={styles.imageContainer}>
-                            <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} style={styles.profileImageStyle} />
-                        </View>
-                        <View style={styles.commentContainer}>
-                            <View style={styles.nameContainer}>
-                                <Text style={styles.nameStyle}>Blake Lively</Text>
-                                <Text style={styles.timeStyle}>4:29 PM</Text>
-                            </View>
-                            <Text style={styles.comments}>Comments .........................Comments .........................Comments .........................Comments .........................Comments .........................Comments .........................Comments ......................... fsfsfsjfjf jsfgsjfbsjfbs sjfsjfsbjfbsfjs fjsfgsfbsfjsbfs fjsgfsjfgsgfgsufs fjsgfsjfgjsfsf sjfgsjfgsjfsf sjfjsfjsgjfs jdgadaudaudadaudagduagduagdaudgaudgad ahdahdgada adahdahdahda adadadgadahd ahfdafdahdfahda ahdfahdfahdfad hadfahdfhadfahd hadfahdvhdavad</Text>
-                        </View>
-                    </View>
-                    <View style={styles.container}>
-                        <View style={styles.imageContainer}>
-                            <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} style={styles.profileImageStyle} />
-                        </View>
-                        <View style={styles.commentContainer}>
-                            <View style={styles.nameContainer}>
-                                <Text style={styles.nameStyle}>Blake Lively</Text>
-                                <Text style={styles.timeStyle}>4:29 PM</Text>
-                            </View>
-                            <Text style={styles.comments}>Comments .........................Comments .........................Comments .........................Comments .........................Comments .........................Comments .........................Comments ......................... fsfsfsjfjf jsfgsjfbsjfbs sjfsjfsbjfbsfjs fjsfgsfbsfjsbfs fjsgfsjfgsgfgsufs fjsgfsjfgjsfsf sjfgsjfgsjfsf sjfjsfjsgjfs jdgadaudaudadaudagduagduagdaudgaudgad ahdahdgada adahdahdahda adadadgadahd ahfdafdahdfahda ahdfahdfahdfad hadfahdfhadfahd hadfahdvhdavad</Text>
-                        </View>
-                    </View>
-                    <View style={styles.container}>
-                        <View style={styles.imageContainer}>
-                            <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} style={styles.profileImageStyle} />
-                        </View>
-                        <View style={styles.commentContainer}>
-                            <View style={styles.nameContainer}>
-                                <Text style={styles.nameStyle}>Blake Lively</Text>
-                                <Text style={styles.timeStyle}>4:29 PM</Text>
-                            </View>
-                            <Text style={styles.comments}>Comments .........................Comments .........................Comments .........................Comments .........................Comments .........................Comments .........................Comments ......................... fsfsfsjfjf jsfgsjfbsjfbs sjfsjfsbjfbsfjs fjsfgsfbsfjsbfs fjsgfsjfgsgfgsufs fjsgfsjfgjsfsf sjfgsjfgsjfsf sjfjsfjsgjfs jdgadaudaudadaudagduagduagdaudgaudgad ahdahdgada adahdahdahda adadadgadahd ahfdafdahdfahda ahdfahdfahdfad hadfahdfhadfahd hadfahdvhdavad</Text>
-                        </View>
-                    </View>
-                    <View style={styles.container}>
-                        <View style={styles.imageContainer}>
-                            <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} style={styles.profileImageStyle} />
-                        </View>
-                        <View style={styles.commentContainer}>
-                            <View style={styles.nameContainer}>
-                                <Text style={styles.nameStyle}>Blake Lively</Text>
-                                <Text style={styles.timeStyle}>4:29 PM</Text>
-                            </View>
-                            <Text style={styles.comments}>Comments </Text>
-                        </View>
-                    </View>
-                </ScrollView>
+                    <FlatList
+                        style={{ flex: 1, backgroundColor: '#fff', marginBottom: 55 }}
+                        data={this.state.comments}
+                        keyExtractor={this._keyExtractor}
+                        renderItem={({ item }) => this.renderItems({item})}
+                    />
                 <View style={styles.createComment}>
                     <TextInput
                         placeholder = {'Write a comment'}
@@ -182,15 +158,29 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = ({auth, blog}) => {
     const {user, userInfo} = auth;
+    const { likeActivity } = blog;
+    console.log(likeActivity, 'comm');
+    
+    let keys = [];
+    let comments = [];
+    for (var key in likeActivity.comments) {
+            comments.push({
+                ownerId: key,
+                values: likeActivity.comments[key]
+            });
+    } 
+    console.log(comments, 'ish fucking man');
+    
 
     return {
-        user, userInfo
+        user, userInfo, comments
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        post_comment: ({ comment, user }) =>  dispatch(postComment({ comment, user }))
+        post_comment: ({ comment, user, blogId }) => dispatch(postComment({ comment, user, blogId })),
+        fetch_Blog_Activity: (blogId) => dispatch(fetchBlogActivity(blogId)),
     }
 };
 

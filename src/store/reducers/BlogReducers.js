@@ -21,7 +21,8 @@ const INITIAL_STATE = {
     post: null,
     allBlog: null,
     loading: false,
-    likeActivity: null
+    likeActivity: null,
+    comments: null
 };
 
 
@@ -71,7 +72,7 @@ export default (state = INITIAL_STATE, actions) => {
             return { ...state }
         case POST_COMMENT_SUCCESS: 
             console.log(actions);
-            return { ...state }    
+            return { ...state, comments: actions.payload }    
         default:
             return state;
     }

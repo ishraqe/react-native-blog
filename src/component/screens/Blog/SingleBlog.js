@@ -13,7 +13,7 @@ class SingleBlog extends Component {
     state = {
         showMoreModal : false,
         like: 0,
-        comment: null
+        comment: 0
 
     }
 
@@ -21,7 +21,7 @@ class SingleBlog extends Component {
         if (this.props.likeActivity) {
             this.setState({
                 like: this.props.likeActivity.likes,
-                comment: this.props.likeActivity.comment
+                comment: this.props.likeActivity.comments
             });
         }
         
@@ -30,7 +30,7 @@ class SingleBlog extends Component {
     componentWillReceiveProps(next) {
         this.setState({
             like: next.likeActivity.likes,
-            comment: next.likeActivity.comment
+            comment: next.likeActivity.comments
         });
     }
 
@@ -53,6 +53,8 @@ class SingleBlog extends Component {
         this.props.give_like({ blogId, userId});
     }
     modalComponent = () => {
+        
+        
         return (  
            <View style={styles.modalMain}>
                 <TouchableOpacity
@@ -167,7 +169,7 @@ class SingleBlog extends Component {
                                             name={'ios-text-outline'}
                                             style={styles.iconComment}
                                         />
-                                        <Text style={styles.commentTextStyle} >26</Text>
+                                <Text style={styles.commentTextStyle} >{Object.keys(this.state.comment).length}</Text>
                                     </View>
                                 </TouchableOpacity>
                             </View> 

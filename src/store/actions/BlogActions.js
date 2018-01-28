@@ -129,7 +129,6 @@ export const fetchAllBlog = () => {
 export const iterate = (snapshot) => {
     let items = [];
     let keys = [];
-    let thirdArray = [];
     for (var key in snapshot.val()) {
         for (var item in snapshot.val()[key]) {
             items.push({
@@ -141,8 +140,6 @@ export const iterate = (snapshot) => {
     } 
 
     console.log(items, 'items');
-    // thirdArray = mergeArrays(keys, items);
-    // console.log(thirdArray);
     return items;
 }
 
@@ -250,14 +247,14 @@ export const fetchBlogActivity = (blogId) => {
 
 export const postComment = ({comment, user, blogId}) => {
     let timestamp = new Date().getTime();
-    console.log(comment, user, 'comment');
     const userId = user.userId;
     return (dispatch) => {
         dispatch({type: POST_COMMENT});
         firebase.database().ref('blogActions/').child(blogId).child('comments').child(userId).set({ 
                text: comment,
                commentByInfo: {
-                   user
+                   id : user.userId,
+                   name : user.userInfo
                },
                createdAt: timestamp
         })
@@ -279,3 +276,4 @@ export const postCommentFail = (dispatch, err) => {
         payload: err
     });
 };
+
