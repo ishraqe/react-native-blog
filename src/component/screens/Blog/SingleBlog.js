@@ -6,7 +6,7 @@ import moment from 'moment';
 import color from '../../../assets/color';
 import { connect } from 'react-redux';
 import { deleteBlogPost, fetchBlogActivity, likeAction} from '../../../store/actions';
-
+import {Actions} from 'react-native-router-flux';
 
 
 class SingleBlog extends Component {
@@ -20,7 +20,7 @@ class SingleBlog extends Component {
     componentWillMount() {
         if (this.props.likeActivity) {
             this.setState({
-                like: this.props.likeActivity.like,
+                like: this.props.likeActivity.likes,
                 comment: this.props.likeActivity.comment
             });
         }
@@ -29,10 +29,9 @@ class SingleBlog extends Component {
 
     componentWillReceiveProps(next) {
         this.setState({
-            like: next.likeActivity.like,
+            like: next.likeActivity.likes,
             comment: next.likeActivity.comment
         });
-        console.log(next.likeActivity, 'next');
     }
 
     componentDidMount() {
@@ -113,10 +112,18 @@ class SingleBlog extends Component {
             );
         }
     }
+    alreadyLiked = () => {
+        const userId = this.props.user.uid;
+        if (this.state.like.hasOwnProperty (userId)) {
+           return  true;
+        }else{
+            return  false; 
+        }
+    }
  
     
     render() {
-        const { imageUrl, createdAt, blogDescription } = this.props.post.values;
+        const { imageUrl, createdAt, blogDescription, creatorInfo } = this.props.post.values;
         return (
                     <ScrollView style={{backgroundColor: '#fff'}} 
                     >
@@ -128,7 +135,7 @@ class SingleBlog extends Component {
                                 <View style={styles.profileInfoContainer}>
                                     <View style={styles.profileNameContainer}>
                                         <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} style={styles.profileImageStyle} />  
-                                    <Text style={styles.nameStyle}>Name</Text>
+                                        <Text style={styles.nameStyle}>{creatorInfo.fullname}</Text>
                                     </View>
                                     <Text style={styles.timeStyle} >{moment(createdAt).fromNow()}</Text>
                                 </View>
@@ -143,15 +150,16 @@ class SingleBlog extends Component {
                                 >
                                     <View style={styles.iconContainer}>
                                         <Icon
+                                            color = {this.alreadyLiked() ? 'red': null}
                                             size={30}
                                             name={'ios-heart-outline'}
                                             style= {styles.iconLike}
                                         />
-                                <Text style={styles.likeTextStyle} ></Text> 
+                                <Text style={styles.likeTextStyle} >{Object.keys(this.state.like).length}</Text> 
                                     </View>
                                 </TouchableOpacity>
                                 <TouchableOpacity
-                                    onPress={()=> console.log('comment')}
+                            onPress={() => Actions.single_blog_comment()}
                                 >
                                     <View style={styles.iconContainer}>
                                         <Icon
@@ -193,18 +201,21 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     profileContainer : {
-        height : 60,
+        height : 70,
         width : '100%',
         paddingLeft: 10,
         paddingRight: 10,
         marginTop: 10,
         marginBottom : 30,
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        borderBottomWidth: 1,
+        borderBottomColor: color.borderBottomColor
     },
     profileInfoContainer : {
         height: '100%',
         width: '100%',
+        marginBottom: 10
     },
     profileNameContainer: {
          width: '100%', 
@@ -214,12 +225,16 @@ const styles = StyleSheet.create({
     },
     nameStyle : {
         marginLeft: 10,
-        color: '#000',
-        fontSize: 18 
+        fontWeight: 'bold',
+        color: color.fontColor,
+        fontSize: 20,
     },
     timeStyle : {
         fontSize: 12,
-        fontWeight: '100'
+        fontWeight: '100',
+        marginLeft: 50,
+        marginTop: -15,
+      
     },
     profileImageStyle: {
         height: 40,
@@ -266,7 +281,6 @@ const styles = StyleSheet.create({
         alignItems : 'center'
     },
     iconLike : {
-        color : 'red',
         marginRight :7
     },
     likeTextStyle : {
@@ -313,6 +327,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
     const {user} = state.auth; 
     const { likeActivity}  = state.blog;
+    console.log(likeActivity);
     return {
         user,
         likeActivity

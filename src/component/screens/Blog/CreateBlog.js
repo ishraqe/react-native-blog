@@ -11,7 +11,7 @@ class MultilineTextInput extends Component {
     render() {
         return (
             <TextInput
-                {...this.props} // Inherit any props passed to it; e.g., multiline, numberOfLines below
+                {...this.props} 
                 editable={true}
                 maxLength={200}
                 placeholder='Share your story!!'

@@ -82,7 +82,7 @@ class Settings extends Component {
                     style={{
                         position: 'absolute', borderTopWidth: 1,
                         borderTopColor: color.borderBottomColor, 
-                        bottom: 10, width: '100%',
+                        bottom: 0, width: '100%',
                         backgroundColor: '#fff',
                         height: 100
                     }}
@@ -176,7 +176,7 @@ const styles= StyleSheet.create({
     },
     input: {
         fontSize: 19,
-        color: '#000',
+        color: color.fontColor,
         fontWeight: '500',
     },
     passwordContainer : {

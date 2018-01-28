@@ -190,10 +190,8 @@ export const postDeleteFail = (dispatch, error) => {
 export const likeAction = ({ blogId, userId }) => {
     return (dispatch) => {
         dispatch({type : POST_LIKE});
-        console.log(hasChild({blogId, userId}) === true ,'log');
         hasChild({blogId, userId})
         .then(activity => {
-            console.log(activity, 'ac');
             if (activity) {
                 likeDslikeQuery(null, blogId, userId, dispatch);
             } else {
@@ -214,8 +212,6 @@ export const hasChild= ({blogId, userId}) => {
     return new Promise((resolve, reject) => {
         firebase.database().ref('blogActions/').child(blogId).child('likes').once('value')
         .then(snapshot => {
-                console.log('snap', snapshot.val());
-                console.log('has child', snapshot.hasChild(userId));
                 if (snapshot.hasChild(userId)) {
                     return true;
                 }
@@ -241,8 +237,6 @@ export const likeFail = (dispatch, err) => {
 };
 
 export const fetchBlogActivity = (blogId) => {
-    console.log(blogId,'id');
-    
     return (dispatch) => {
         firebase.database().ref('blogActions/' + blogId )
             .on('value', snapshot => {

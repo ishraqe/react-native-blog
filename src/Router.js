@@ -28,7 +28,8 @@ import MyBlog from './component/screens/Blog/MyBlog';
 import Search from './component/screens/Blog/Search';
 import CreateBlog from './component/screens/Blog/CreateBlog';
 import Notifications from './component/screens/Blog/Notifications';
-
+import Comment from './component/screens/Blog/Comments';
+ 
 /*==============================================
              Profile Routes
 =============================================*/
@@ -65,7 +66,7 @@ class RouterComponent extends Component {
                     size={30}
                     name={`ios-arrow-round-back-outline`}
                     text={`My Account`}
-                    style={{ color: color.greyColor, marginLeft: 10, marginRight: 10, left: 1, }}
+                    style={{ color: '#000', marginLeft: 10, marginRight: 10, left: 1, }}
                 />
             </TouchableOpacity>
         );
@@ -192,6 +193,12 @@ class RouterComponent extends Component {
                                 key='single_blog'
                                 title='Post'
                                 component={SingleBlog} 
+                                renderLeftButton={() => this.renderLeftBackButton()}
+                            />
+                            <Scene
+                                key='single_blog_comment'
+                                title='Post'
+                                component={Comment}
                                 renderLeftButton={() => this.renderLeftBackButton()}
                             />
                             <Scene 

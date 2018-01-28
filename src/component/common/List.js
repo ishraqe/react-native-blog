@@ -5,6 +5,7 @@ import {CardSection} from './CardSection';
 import {Actions} from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
+import color from '../../assets/color';
 class ListView extends Component {
 
     onRowPress = () => {
@@ -113,6 +114,7 @@ const styles = StyleSheet.create({
     },
     nameStyle : {
         fontWeight : 'bold',
+        color: color.fontColor,
         fontSize : 20,
     },
     timeContainer : {
