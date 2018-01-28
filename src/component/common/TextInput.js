@@ -31,7 +31,7 @@ const Input = (props)=>{
                 returnKeyType={returnKeyType}
                 keyboardType={keyboardType}
                 autoCorrect={autoCorrect}
-                underlineColorAndroid={ !valid && touched ? 'red' : null  }
+                underlineColorAndroid={ !valid && touched ? 'red' : color.themeColor }
             />
         </View>
     );

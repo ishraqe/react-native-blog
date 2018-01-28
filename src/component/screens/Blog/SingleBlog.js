@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 import color from '../../../assets/color';
 import { connect } from 'react-redux';
-import { deleteBlogPost, fetchBlogActivity} from '../../../store/actions';
+import { deleteBlogPost, fetchBlogActivity, likeAction} from '../../../store/actions';
 
 
 
@@ -45,6 +45,13 @@ class SingleBlog extends Component {
         const userId = this.props.post.ownerId;
         const blogId = this.props.post.key;
         this.props.deleteBlog({userId, blogId});
+    }
+    likeHandler = () => {
+        const userId = this.props.user.uid;
+        const blogId = this.props.post.key;
+        console.log(userId, blogId);
+        
+        this.props.give_like({ blogId, userId});
     }
     modalComponent = () => {
         return (  
@@ -132,7 +139,7 @@ class SingleBlog extends Component {
                             </View>
                             <View style={styles.ActivityContainer}>
                                 <TouchableOpacity
-                                    onPress={() => console.log('like') }
+                                    onPress={this.likeHandler}
                                 >
                                     <View style={styles.iconContainer}>
                                         <Icon
@@ -140,7 +147,7 @@ class SingleBlog extends Component {
                                             name={'ios-heart-outline'}
                                             style= {styles.iconLike}
                                         />
-                                <Text style={styles.likeTextStyle} >{this.state.like}</Text> 
+                                <Text style={styles.likeTextStyle} ></Text> 
                                     </View>
                                 </TouchableOpacity>
                                 <TouchableOpacity
@@ -315,7 +322,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         deleteBlog: ({userId, blogId}) => dispatch(deleteBlogPost({userId, blogId})),
-        fetch_Blog_Activity: ( blogId ) => dispatch(fetchBlogActivity( blogId))
+        fetch_Blog_Activity: ( blogId ) => dispatch(fetchBlogActivity( blogId)),
+        give_like: ({ blogId, userId }) => dispatch(likeAction({ blogId, userId }))
     };
 }
 

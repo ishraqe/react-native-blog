@@ -187,16 +187,44 @@ export const postDeleteFail = (dispatch, error) => {
     });
 };
 
-export const likeAction = ({ blogId, likes}) => {
+export const likeAction = ({ blogId, userId }) => {
     return (dispatch) => {
         dispatch({type : POST_LIKE});
-        firebase.database().ref('blogActions/').child(blogId).update({
-            likeCounter: likes + 1,
-            comment: 0
-        }).then(like =>  likeSuccess(dispatch, like))
-        .catch(err => likeFail(dispatch, err));
+        console.log(hasChild({blogId, userId}) === true ,'log');
+        hasChild({blogId, userId})
+        .then(activity => {
+            console.log(activity, 'ac');
+            if (activity) {
+                likeDslikeQuery(null, blogId, userId, dispatch);
+            } else {
+                likeDslikeQuery(true, blogId, userId, dispatch);
+            }
+        });      
     }
 };
+
+export const likeDslikeQuery = (activity, blogId, userId, dispatch) => {
+    firebase.database().ref('blogActions/').child(blogId).child('likes').child(userId).set({
+        like: activity
+    }).then(like => likeSuccess(dispatch, like))
+        .catch(err => likeFail(dispatch, err));
+}
+
+export const hasChild= ({blogId, userId}) => {
+    return new Promise((resolve, reject) => {
+        firebase.database().ref('blogActions/').child(blogId).child('likes').once('value')
+        .then(snapshot => {
+                console.log('snap', snapshot.val());
+                console.log('has child', snapshot.hasChild(userId));
+                if (snapshot.hasChild(userId)) {
+                    return true;
+                }
+                return false;
+        }).then((activity) => {
+            resolve(activity);
+        });
+    });
+}
 
 export const likeSuccess = (dispatch, payload) => {
     dispatch({
