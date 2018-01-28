@@ -2,9 +2,30 @@ import React, {Component} from 'react';
 import { View, Text, Image, StyleSheet, ScrollView, TextInput, TouchableOpacity} from 'react-native';
 import color from '../../../assets/color';
 import Icon from 'react-native-vector-icons/Ionicons';
-
+import {connect} from 'react-redux';
+import { postComment} from '../../../store/actions';
 
 class Comment extends Component {
+    state = {
+        comment : ''
+    }
+    postCommenthandler = () => {
+        if (!this.state.comment.length) { 
+            console.log('disabled');
+        }else {
+            console.log(this.state.comment);
+            const comment = this.state.comment;
+            const userId = this.props.user.uid;
+            const userInfo = this.props.userInfo.fullname;
+            const user = {
+                userId, userInfo
+            }
+            const blogId = this.props.blogId;
+            console.log(comment, user, blogId, 'ish');
+            
+            this.props.post_comment({ comment, user, blogId});
+        }
+    }
     render () {
         return (
             <View style={{flex:1}}>
@@ -88,8 +109,14 @@ class Comment extends Component {
                         maxLength={200}
                         style={{ height: 40, backgroundColor: color.borderBottomColor, borderRadius: 20 }}
                         underlineColorAndroid  = 'transparent'
+                        editable={true}
+                        onChangeText={(comment) => this.setState({ comment })}
+                        value={this.state.comment}
                     />
-                    <TouchableOpacity style={{ position: 'absolute', bottom: 12, right: 15}}>
+                    <TouchableOpacity 
+                        style={{ position: 'absolute', bottom: 12, right: 15}}
+                        onPress= {this.postCommenthandler}
+                    >
                         <Icon 
                             name={'md-send'}
                             size={30}
@@ -153,4 +180,18 @@ const styles = StyleSheet.create({
 
 });
 
-export default Comment;
+const mapStateToProps = ({auth, blog}) => {
+    const {user, userInfo} = auth;
+
+    return {
+        user, userInfo
+    }
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        post_comment: ({ comment, user }) =>  dispatch(postComment({ comment, user }))
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Comment);

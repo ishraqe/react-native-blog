@@ -25,3 +25,8 @@ export const  POST_LIKE_SUCCESS='post_like_success';
 export const  POST_LIKE_FAIL = 'post_like_fail';
 
 export const BLOG_ACTIVITY_FETCH = 'blog_activity_fetch';
+
+
+export const POST_COMMENT = 'post_comment';
+export const POST_COMMENT_FAIL= 'post_comment_fail';
+export const POST_COMMENT_SUCCESS = 'post_comment_success';

@@ -11,7 +11,10 @@ import {
     POST_LIKE_SUCCESS,
     POST_LIKE_FAIL,
     BLOG_ACTIVITY_FETCH,
-    BLOG_ACTIVITY_TABLE_CREATED
+    BLOG_ACTIVITY_TABLE_CREATED,
+    POST_COMMENT,
+    POST_COMMENT_FAIL,
+    POST_COMMENT_SUCCESS
 } from "../actions/types";
 
 const INITIAL_STATE = {
@@ -60,6 +63,15 @@ export default (state = INITIAL_STATE, actions) => {
         case BLOG_ACTIVITY_FETCH : 
             console.log(actions);
             return { ...state, likeActivity: actions.payload}
+        case POST_COMMENT: 
+            console.log(actions);
+            return { ...state }
+        case POST_COMMENT_FAIL:
+            console.log(actions);
+            return { ...state }
+        case POST_COMMENT_SUCCESS: 
+            console.log(actions);
+            return { ...state }    
         default:
             return state;
     }

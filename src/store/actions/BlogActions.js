@@ -11,7 +11,10 @@ import {
     POST_LIKE_SUCCESS,
     POST_LIKE_FAIL,
     BLOG_ACTIVITY_FETCH,
-    BLOG_ACTIVITY_TABLE_CREATED
+    BLOG_ACTIVITY_TABLE_CREATED,
+    POST_COMMENT,
+    POST_COMMENT_FAIL,
+    POST_COMMENT_SUCCESS
 } from "./types";
 
 import firebase from 'firebase';
@@ -244,3 +247,35 @@ export const fetchBlogActivity = (blogId) => {
         });
     };
 }
+
+export const postComment = ({comment, user, blogId}) => {
+    let timestamp = new Date().getTime();
+    console.log(comment, user, 'comment');
+    const userId = user.userId;
+    return (dispatch) => {
+        dispatch({type: POST_COMMENT});
+        firebase.database().ref('blogActions/').child(blogId).child('comments').child(userId).set({ 
+               text: comment,
+               commentByInfo: {
+                   user
+               },
+               createdAt: timestamp
+        })
+        .then((comment) => postCommentSuccess(dispatch, comment))
+        .catch((err) => postCommentFail(dispatch, err));
+    }
+};
+
+export const  postCommentSuccess = (dispatch, comment) => {
+    dispatch({
+        type: POST_COMMENT_SUCCESS,
+        payload: comment
+    });
+};
+
+export const postCommentFail = (dispatch, err) => {
+    dispatch({
+        type: POST_COMMENT_FAIL,
+        payload: err
+    });
+};
