@@ -44,8 +44,8 @@ export const postStory = (desc, imageData, userInfo) => {
             }).then( 
                 (blogInfo) => {  
                     firebase.database().ref('blogActions/' + blogInfo.key).set({
-                        like: 0,
-                        comment: 0
+                        likes: 0,
+                        comments: 0
                     }).then(() => {
                         dispatch({type: BLOG_ACTIVITY_TABLE_CREATED });
 

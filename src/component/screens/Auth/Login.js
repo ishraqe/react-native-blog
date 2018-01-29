@@ -163,7 +163,7 @@ class Login extends Component {
 const styles = StyleSheet.create({
     imageContainer: {
         width: '100%',
-        height : '50%',
+        height : '45%',
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
         marginBottom : 30
     },
     iconStyle: {
-        width: '70%',
+        width: '75%',
         height: '100%'
     },
     inputContainer: {

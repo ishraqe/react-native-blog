@@ -12,15 +12,23 @@ import {Actions} from 'react-native-router-flux';
 class SingleBlog extends Component {
     state = {
         showMoreModal : false,
-        like: 0,
-        comment: 0
-
+        like: '',
+        comment: ''
     }
 
     componentWillMount() {
-        if (this.props.likeActivity) {
+        if (this.props.likeActivity && this.props.likeActivity.likes != 0) {
             this.setState({
                 like: this.props.likeActivity.likes,
+            });
+        } else {
+            this.setState({
+                like: '',
+            });
+        }
+
+        if (this.props.likeActivity && this.props.likeActivity.comments != 0) {
+            this.setState({
                 comment: this.props.likeActivity.comments
             });
         }
@@ -28,10 +36,21 @@ class SingleBlog extends Component {
     }
 
     componentWillReceiveProps(next) {
-        this.setState({
-            like: next.likeActivity.likes,
-            comment: next.likeActivity.comments
-        });
+        if (next.likeActivity && next.likeActivity.likes != 0) {
+            this.setState({
+                like: next.likeActivity.likes,
+            });
+        } else {
+            this.setState({
+                like: '',
+            }); 
+        }
+
+        if (next.likeActivity && next.likeActivity.comments != 0) {
+            this.setState({
+                comment: next.likeActivity.comments
+            }); 
+        }
     }
 
     componentDidMount() {
@@ -116,14 +135,17 @@ class SingleBlog extends Component {
     }
     alreadyLiked = () => {
         const userId = this.props.user.uid;
-        if (this.state.like.hasOwnProperty (userId)) {
-           return  true;
-        }else{
-            return  false; 
+        console.log(userId, 'uid');
+        
+        if (this.state.like ) {
+            if (this.state.like.hasOwnProperty(userId)) {
+                return true;                
+            }
+        }else {
+            return false;
         }
     }
  
-    
     render() {
         const { imageUrl, createdAt, blogDescription, creatorInfo } = this.props.post.values;
         return (

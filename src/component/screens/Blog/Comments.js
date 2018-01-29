@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { View, Text, Image, StyleSheet, FlatList, Button, TextInput, TouchableOpacity, TouchableHighlight, Modal} from 'react-native';
+import { View, Text, Image, StyleSheet, FlatList, Button, TextInput, TouchableOpacity, Keyboard, TouchableHighlight, Modal} from 'react-native';
 import color from '../../../assets/color';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
@@ -13,8 +13,6 @@ class Comment extends Component {
     state = {
         comment : '',
         comments: 0,
-        openModal: false,
-        selectedComment: ''
     }
 
     componentWillMount() {
@@ -43,6 +41,7 @@ class Comment extends Component {
             console.log('disabled');
         }else {
             console.log(this.state.comment);
+            Keyboard.dismiss();
             const comment = this.state.comment;
             const userId = this.props.user.uid;
             const userInfo = this.props.userInfo.fullname;
@@ -58,70 +57,10 @@ class Comment extends Component {
         }
     }
   
-    closeModal() {
-        this.setState({ openModal: false });
-    }
-    modalComponent = () => {
-        return (
-            <View style={styles.modalMain}>
-                <TouchableOpacity
-                    onPress={() => this.setState({ openModal: false })}
-                    style={[styles.modalinsideContainer, { width: '100%', borderBottomColor: '#000', borderBottomWidth: 1 }]}
-                >
-                    <Icon
-                        size={35}
-                        name={'ios-create-outline'}
-                    />
-                    <Text style={styles.modalText}>Close</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.modalinsideContainer}
-                >
-                    <Icon
-                        size={35}
-                        name={'ios-create-outline'}
-                    />
-                    <Text style={styles.modalText}>Edit</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.modalinsideContainer}
-                >
-                    <Icon
-                        size={35}
-                        name={'ios-remove-circle-outline'}
-                    />
-                    <Text style={styles.modalText}>Delete</Text>
-                </TouchableOpacity>
-            </View>
-        );
-    }
-
-    openModal = () => {
-        console.log(this.props.item, 'item ket');
-        this.setState({ openModal: true });
-    }
+    
     renderItems = ({item}) => {
         console.log(item, 'lololol');
         
-        const { commentByInfo, createdAt, text } = item.values;
-        return (
-            <TouchableHighlight
-                onLongPress={this.openModal}
-            >
-                <View style={styles.container}>
-                    <View style={styles.imageContainer}>
-                        <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} style={styles.profileImageStyle} />
-                    </View>
-                    <View style={styles.commentContainer}>
-                        <View style={styles.nameContainer}>
-                            <Text style={styles.nameStyle}>{commentByInfo.name}</Text>
-                            <Text style={styles.timeStyle}>{moment(createdAt).fromNow()}</Text>
-                        </View>
-                        <Text style={styles.comments}>{text}</Text>
-                    </View>
-                </View>
-            </TouchableHighlight>
-        );
     }
 
     render () {
@@ -158,12 +97,6 @@ class Comment extends Component {
                         />
                     </TouchableOpacity>
                 </View>
-                <Confirm
-                    visible={this.state.openModal}
-                    onDecline={this.closeModal}
-                >
-                    {this.modalComponent()}
-                </Confirm>
             </View>
         );
     }
