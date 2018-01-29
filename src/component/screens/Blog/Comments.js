@@ -47,9 +47,12 @@ class Comment extends Component {
             }
             const blogId = this.props.blogId;
             this.props.post_comment({ comment, user, blogId});
+            this.setState({
+                comment: ''
+            })
         }
     }
-    _keyExtractor = (item, index) => item.id;
+  
 
     renderItems = ({item}) => {
         console.log(item, 'flat');
@@ -76,7 +79,6 @@ class Comment extends Component {
                     <FlatList
                         style={{ flex: 1, backgroundColor: '#fff', marginBottom: 55 }}
                         data={this.state.comments}
-                        keyExtractor={this._keyExtractor}
                         renderItem={({ item }) => this.renderItems({item})}
                     />
                 <View style={styles.createComment}>
@@ -161,13 +163,15 @@ const mapStateToProps = ({auth, blog}) => {
     const { likeActivity } = blog;
     console.log(likeActivity, 'comm');
     
-    let keys = [];
     let comments = [];
     for (var key in likeActivity.comments) {
+        for (var key2 in likeActivity.comments[key]) {
             comments.push({
+                key: key2,
                 ownerId: key,
-                values: likeActivity.comments[key]
-            });
+                values: likeActivity.comments[key][key2].comment
+            }); 
+        }
     } 
     console.log(comments, 'ish fucking man');
     

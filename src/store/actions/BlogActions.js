@@ -250,13 +250,15 @@ export const postComment = ({comment, user, blogId}) => {
     const userId = user.userId;
     return (dispatch) => {
         dispatch({type: POST_COMMENT});
-        firebase.database().ref('blogActions/').child(blogId).child('comments').child(userId).set({ 
-               text: comment,
-               commentByInfo: {
-                   id : user.userId,
-                   name : user.userInfo
-               },
-               createdAt: timestamp
+        firebase.database().ref('blogActions/').child(blogId).child('comments').child(userId).push({ 
+              comment : {
+                  text: comment,
+                  commentByInfo: {
+                      id: user.userId,
+                      name: user.userInfo
+                  },
+                  createdAt: timestamp
+              }
         })
         .then((comment) => postCommentSuccess(dispatch, comment))
         .catch((err) => postCommentFail(dispatch, err));
