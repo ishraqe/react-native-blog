@@ -57,11 +57,6 @@ class Comment extends Component {
         }
     }
   
-    
-    renderItems = ({item}) => {
-        console.log(item, 'lololol');
-        
-    }
 
     render () {
         return (

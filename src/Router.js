@@ -197,7 +197,7 @@ class RouterComponent extends Component {
                             />
                             <Scene
                                 key='single_blog_comment'
-                                title='Post'
+                                title='Comment'
                                 component={Comment}
                                 renderLeftButton={() => this.renderLeftBackButton()}
                             />

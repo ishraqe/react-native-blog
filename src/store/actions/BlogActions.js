@@ -14,7 +14,10 @@ import {
     BLOG_ACTIVITY_TABLE_CREATED,
     POST_COMMENT,
     POST_COMMENT_FAIL,
-    POST_COMMENT_SUCCESS
+    POST_COMMENT_SUCCESS,
+    POST_COMMENT_DELETE,
+    POST_COMMENT_DELETE_SUCCESS,
+    POST_COMMENT_DELETE_FAIL
 } from "./types";
 
 import firebase from 'firebase';
@@ -281,5 +284,22 @@ export const postCommentFail = (dispatch, err) => {
 };
 
 export const deletePostComment = ({userId, commentId, blogId}) => {
-
+    console.log(userId, commentId, blogId, 'logs');
+    
+    return (dispatch) => {
+        dispatch({type: POST_COMMENT_DELETE})
+        firebase.database().ref('blogActions/').child(blogId).child('comments').child(userId).child(commentId).child('comment').update({
+            blogId: null,
+            text: null,
+            commentByInfo: {
+                id: null,
+                name: null
+            },
+            createdAt: null
+        })
+        .then(dispatch({ type: POST_COMMENT_DELETE_SUCCESS }))
+        .catch(dispatch({ type: POST_COMMENT_DELETE_FAIL }));
+    }
 };
+
+

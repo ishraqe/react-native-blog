@@ -30,3 +30,7 @@ export const BLOG_ACTIVITY_FETCH = 'blog_activity_fetch';
 export const POST_COMMENT = 'post_comment';
 export const POST_COMMENT_FAIL= 'post_comment_fail';
 export const POST_COMMENT_SUCCESS = 'post_comment_success';
+
+export const POST_COMMENT_DELETE ='post_comment_delete';
+export const POST_COMMENT_DELETE_SUCCESS ='post_comment_delete_success';
+export const POST_COMMENT_DELETE_FAIL = 'post_comment_delete_fail';

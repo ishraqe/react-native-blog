@@ -14,7 +14,10 @@ import {
     BLOG_ACTIVITY_TABLE_CREATED,
     POST_COMMENT,
     POST_COMMENT_FAIL,
-    POST_COMMENT_SUCCESS
+    POST_COMMENT_SUCCESS,
+    POST_COMMENT_DELETE,
+    POST_COMMENT_DELETE_SUCCESS,
+    POST_COMMENT_DELETE_FAIL
 } from "../actions/types";
 
 const INITIAL_STATE = {
@@ -73,6 +76,15 @@ export default (state = INITIAL_STATE, actions) => {
         case POST_COMMENT_SUCCESS: 
             console.log(actions);
             return { ...state, comments: actions.payload }    
+        case POST_COMMENT_DELETE:
+            console.log(actions);
+            return { ...state }
+        case POST_COMMENT_DELETE_SUCCESS:
+            console.log(actions);
+            return { ...state }
+        case POST_COMMENT_DELETE_FAIL:
+            console.log(actions);
+            return { ...state }
         default:
             return state;
     }

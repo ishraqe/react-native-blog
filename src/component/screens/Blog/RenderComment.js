@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import color from '../../../assets/color';
 import { Confirm } from '../../common/index';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { deletePostComment} from '../../../store/actions';
 
 class RenderComment extends Component {
     state = {
@@ -12,6 +13,13 @@ class RenderComment extends Component {
     }
 
     closeModal() {
+        this.setState({ openModal: false });
+    }
+    delete_comments = () => {
+        const blogId = this.props.item.values.blogId;
+        const userId = this.props.item.values.commentByInfo.id;
+        const commentId = this.props.item.key;
+        this.props.delete_comments({ userId, commentId, blogId});
         this.setState({ openModal: false });
     }
     modalComponent = () => {
@@ -38,6 +46,7 @@ class RenderComment extends Component {
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.modalinsideContainer}
+                    onPress={this.delete_comments}
                 >
                     <Icon
                         size={35}
@@ -166,4 +175,11 @@ const mapStateToProps = ({ auth}) => {
     }
 };
 
-export default connect(mapStateToProps)(RenderComment);
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        delete_comments: ({ userId, commentId, blogId }) => dispatch(deletePostComment({ userId, commentId, blogId })),
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RenderComment);
