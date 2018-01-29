@@ -1,15 +1,20 @@
 import React, {Component} from 'react';
-import { View, Text, Image, StyleSheet, FlatList, TextInput, TouchableOpacity} from 'react-native';
+import { View, Text, Image, StyleSheet, FlatList, Button, TextInput, TouchableOpacity, TouchableHighlight, Modal} from 'react-native';
 import color from '../../../assets/color';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
 import moment from 'moment';
 import { postComment, fetchBlogActivity} from '../../../store/actions';
+import {  Confirm } from '../../common/index';
+import RenderComment from './RenderComment';
+
 
 class Comment extends Component {
     state = {
         comment : '',
-        comments: 0
+        comments: 0,
+        openModal: false,
+        selectedComment: ''
     }
 
     componentWillMount() {
@@ -53,34 +58,85 @@ class Comment extends Component {
         }
     }
   
+    closeModal() {
+        this.setState({ openModal: false });
+    }
+    modalComponent = () => {
+        return (
+            <View style={styles.modalMain}>
+                <TouchableOpacity
+                    onPress={() => this.setState({ openModal: false })}
+                    style={[styles.modalinsideContainer, { width: '100%', borderBottomColor: '#000', borderBottomWidth: 1 }]}
+                >
+                    <Icon
+                        size={35}
+                        name={'ios-create-outline'}
+                    />
+                    <Text style={styles.modalText}>Close</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.modalinsideContainer}
+                >
+                    <Icon
+                        size={35}
+                        name={'ios-create-outline'}
+                    />
+                    <Text style={styles.modalText}>Edit</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.modalinsideContainer}
+                >
+                    <Icon
+                        size={35}
+                        name={'ios-remove-circle-outline'}
+                    />
+                    <Text style={styles.modalText}>Delete</Text>
+                </TouchableOpacity>
+            </View>
+        );
+    }
 
+    openModal = () => {
+        console.log(this.props.item, 'item ket');
+        this.setState({ openModal: true });
+    }
     renderItems = ({item}) => {
-        console.log(item, 'flat');
+        console.log(item, 'lololol');
+        
         const { commentByInfo, createdAt, text } = item.values;
         return (
-            <View style={styles.container}>
-                <View style={styles.imageContainer}>
-                    <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} style={styles.profileImageStyle} />
-                </View>
-                <View style={styles.commentContainer}>
-                    <View style={styles.nameContainer}>
-                        <Text style={styles.nameStyle}>{commentByInfo.name}</Text>
-                        <Text style={styles.timeStyle}>{moment(createdAt).fromNow()}</Text>
+            <TouchableHighlight
+                onLongPress={this.openModal}
+            >
+                <View style={styles.container}>
+                    <View style={styles.imageContainer}>
+                        <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} style={styles.profileImageStyle} />
                     </View>
-                    <Text style={styles.comments}>{text}</Text>
+                    <View style={styles.commentContainer}>
+                        <View style={styles.nameContainer}>
+                            <Text style={styles.nameStyle}>{commentByInfo.name}</Text>
+                            <Text style={styles.timeStyle}>{moment(createdAt).fromNow()}</Text>
+                        </View>
+                        <Text style={styles.comments}>{text}</Text>
+                    </View>
                 </View>
-            </View>
+            </TouchableHighlight>
         );
     }
 
     render () {
         return (
             <View style={{flex:1}}>
-                    <FlatList
-                        style={{ flex: 1, backgroundColor: '#fff', marginBottom: 55 }}
-                        data={this.state.comments}
-                        renderItem={({ item }) => this.renderItems({item})}
-                    />
+                <FlatList
+                    style={{ flex: 1, backgroundColor: '#fff', marginBottom: 55 }}
+                    data={this.state.comments}
+                    // renderItem={({ item }) => this.renderItems({item})}
+                    renderItem={({ item }) => (
+                        <RenderComment
+                            item={item}
+                        />
+                    )}
+                />
                 <View style={styles.createComment}>
                     <TextInput
                         placeholder = {'Write a comment'}
@@ -102,6 +158,12 @@ class Comment extends Component {
                         />
                     </TouchableOpacity>
                 </View>
+                <Confirm
+                    visible={this.state.openModal}
+                    onDecline={this.closeModal}
+                >
+                    {this.modalComponent()}
+                </Confirm>
             </View>
         );
     }
@@ -154,6 +216,30 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         paddingLeft: 10,
         paddingRight: 10
+    },
+    modalinsideContainer : {
+        flexDirection: 'row',
+        marginTop: 20,
+        marginBottom: 20,
+        alignItems: 'center'
+    },
+    modalText : {
+        fontSize: 20,
+        color: '#000',
+        marginLeft: 10
+    },
+    modalMain: {
+        width: '100%',
+        padding: 15,
+        height: '100%',
+        backgroundColor: '#fff',
+        borderTopColor: '#ddd',
+        borderTopWidth: 1,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 2,
+        elevation: 1
     }
 
 });
@@ -161,8 +247,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = ({auth, blog}) => {
     const {user, userInfo} = auth;
     const { likeActivity } = blog;
-    console.log(likeActivity, 'comm');
-    
+
     let comments = [];
     for (var key in likeActivity.comments) {
         for (var key2 in likeActivity.comments[key]) {
@@ -173,9 +258,6 @@ const mapStateToProps = ({auth, blog}) => {
             }); 
         }
     } 
-    console.log(comments, 'ish fucking man');
-    
-
     return {
         user, userInfo, comments
     }

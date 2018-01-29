@@ -252,6 +252,7 @@ export const postComment = ({comment, user, blogId}) => {
         dispatch({type: POST_COMMENT});
         firebase.database().ref('blogActions/').child(blogId).child('comments').child(userId).push({ 
               comment : {
+                  blogId: blogId,
                   text: comment,
                   commentByInfo: {
                       id: user.userId,
@@ -279,3 +280,6 @@ export const postCommentFail = (dispatch, err) => {
     });
 };
 
+export const deletePostComment = ({userId, commentId, blogId}) => {
+
+};
