@@ -17,7 +17,9 @@ import {
     POST_COMMENT_SUCCESS,
     POST_COMMENT_DELETE,
     POST_COMMENT_DELETE_SUCCESS,
-    POST_COMMENT_DELETE_FAIL
+    POST_COMMENT_DELETE_FAIL,
+    SINGLE_BLOG_FETCH,
+
 } from "./types";
 
 import firebase from 'firebase';
@@ -128,6 +130,14 @@ export const fetchAllBlog = () => {
     };
 }
 
+export const fetchSinleBlog = ({userId, blogId}) => {
+    return (dispatch) => {
+        firebase.database().ref('blogs/').child(userId).child(blogId)
+        .on('value', snapshot => {
+            dispatch({ type: SINGLE_BLOG_FETCH_SUCCESS, payload: snapshot.val() });
+        });
+    };
+}
 
 export const iterate = (snapshot) => {
     let items = [];

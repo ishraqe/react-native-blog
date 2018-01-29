@@ -17,7 +17,8 @@ import {
     POST_COMMENT_SUCCESS,
     POST_COMMENT_DELETE,
     POST_COMMENT_DELETE_SUCCESS,
-    POST_COMMENT_DELETE_FAIL
+    POST_COMMENT_DELETE_FAIL,
+    SINGLE_BLOG_FETCH_SUCCESS
 } from "../actions/types";
 
 const INITIAL_STATE = {
@@ -25,7 +26,8 @@ const INITIAL_STATE = {
     allBlog: null,
     loading: false,
     likeActivity: null,
-    comments: null
+    comments: null,
+    single_blog: null
 };
 
 
@@ -46,6 +48,9 @@ export default (state = INITIAL_STATE, actions) => {
         case ALL_BLOG_FETCH_SUCCESS: 
             console.log(actions);
             return { ...state, allBlog: actions.payload}
+        case SINGLE_BLOG_FETCH_SUCCESS: 
+            console.log(actions);
+            return { ...state, single_blog: actions.payload }
         case POST_DELETE :    
             console.log(actions);
             return { ...state }

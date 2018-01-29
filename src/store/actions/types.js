@@ -16,6 +16,9 @@ export const POST_STORY_FAIL ='post_story_fail';
 export const ALL_BLOG_FETCH_SUCCESS ='all_blog_fetch_success';
 export const ALL_BLOG_FETCH_FAIL = 'all_blog_fetch_fail';
 
+export const SINGLE_BLOG_FETCH_SUCCESS = 'single_blog_fetch_success';
+
+
 export const POST_DELETE='post_delete';
 export const POST_DELETE_SUCCESS ='post_delete_success';
 export const POST_DELETE_ERROR = 'post_delete_fail';
