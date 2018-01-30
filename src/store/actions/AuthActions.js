@@ -74,8 +74,6 @@ export const loginUserFail = (dispatch) => {
 
 
 export const loginUserSuccess = (dispatch, user, status) => {   
-    console.log(user.uid, 'from sction');
-    
     dispatch({
         type: LOGIN_USER_SUCCESS,
         payload: user
@@ -87,10 +85,10 @@ export const loginUserSuccess = (dispatch, user, status) => {
         .then(data => {
                 AsyncStorage.setItem('as:auth:user', data);
                 if (status === 'login') {
-                    console.log(status);
+                  
                     Actions.lightbox();
                 } else if (status === 'signUp') {
-                    console.log(status);
+                  
                     Actions.successScreen();
                 }
             }

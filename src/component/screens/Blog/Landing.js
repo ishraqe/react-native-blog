@@ -27,24 +27,22 @@ class Landing extends Component {
                 info: this.props.allPosts
             });
         }
-        console.log(this.props.allPosts, 'will mount'); 
-        const uid = this.props.user.uid;
-        console.log(uid, 'ownerid');
-        if (uid) {
-            this.props.fetch_notification(uid);
-        }
     }
 
     componentWillReceiveProps(next) {
+        console.log(next.notifications, 'rece');
+        Actions.refresh({counter: 1});
         this.setState({
             info: next.allPosts
         });
-        console.log(next.allPosts, 'next');
     }
 
     async componentDidMount() {
         const uid = this.props.user.uid;
-        this.props.fetach_userInfo(uid);  
+        this.props.fetach_userInfo(uid); 
+        if (uid) {
+            this.props.fetch_notification(uid);
+        } 
     }
    
     isIncreasingSequence = (newVal) => {
@@ -134,14 +132,12 @@ const mapStateToProps = (state) => {
     const {user, email} = state.auth;
     const allPosts = state.blog.allBlog;
     const notifications = state.blog.notifications;
-    console.log(notifications , 'from state');
-    
-    console.log(allPosts, 'state');
-    
+    console.log(notifications , 'from state noti');
     return {
         email,
         user,
-        allPosts
+        allPosts,
+        notifications
     }
 }
 

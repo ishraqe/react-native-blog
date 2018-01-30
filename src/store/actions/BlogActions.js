@@ -90,7 +90,6 @@ export const postStorySuccess = (dispatch, post) => {
 
 
 uploadImage =(uri) => {
-    console.log(uiqueID());
     return new Promise((resolve, reject) => {
         const uploadUri = uri;
         let uploadBlob = null;
@@ -158,8 +157,6 @@ export const iterate = (snapshot) => {
             });
         }
     } 
-
-    console.log(items, 'items');
     return items;
 }
 
@@ -178,8 +175,6 @@ export const  mergeArrays = (arr1, arr2) => {
 
 
 export const deleteBlogPost = ({userId,blogId}) => {
-    console.log(userId, blogId );
-    
     return (dispatch) => {
         dispatch({ type: POST_DELETE });
         firebase.database().ref('blogs/').child(userId).child(blogId).update({
@@ -319,8 +314,6 @@ export const postCommentFail = (dispatch, err) => {
 };
 
 export const deletePostComment = ({userId, commentId, blogId}) => {
-    console.log(userId, commentId, blogId, 'logs');
-    
     return (dispatch) => {
         dispatch({type: POST_COMMENT_DELETE})
         firebase.database().ref('blogActions/').child(blogId).child('comments').child(userId).child(commentId).child('comment').update({
@@ -339,36 +332,42 @@ export const deletePostComment = ({userId, commentId, blogId}) => {
 
 
 export const fetchAllUserNotification = ({ownerId}) => {
-    console.log(ownerId);
     return (dispatch) => {
         firebase.database().ref('notifications/').child(ownerId)
         .on('value', snapshot => {
-            // dispatch({ type: FETCH_USER_NOTIFICATIONS, payload: snapshot.val() });
-            console.log(snapshot.val());
             let mainInfo = [];
             let info = [];
-            let senederInfo = [];
+
             for (var key in snapshot.val()) {
                 info.push(snapshot.val()[key])
             }
-
             for (var forEachNoti in info) {
+               const a = [];
                 var senederId = info[forEachNoti].senederId;
-                var blogInfo = info[forEachNoti].blogId;
+                var blogId = info[forEachNoti].blogId;
 
-                firebase.database().ref('userInfo/' + senederId)
-                    .on('value', snapshot => {
-                        console.log(snapshot.val());
-                        
-                    });
+                firebase.database().ref('userInfo/' + senederId).on('value', snapshot => {
+                    a.push({
+                        usersInfo : snapshot.val()
+                    })
+                });
+                const b = []
+                firebase.database().ref('blogs/').child(ownerId).child(blogId).on('value', snapshot => {
+                    b.push({
+                        item: {
+                            key: blogId,
+                            ownerId: ownerId,
+                            values : snapshot.val()
+                        } 
+                    })
+                });
+                mainInfo.push({
+                    sender : a,
+                    blog: b
+                })
             }
-            console.log(senederInfo, 'senederInfo'); 
+            dispatch({ type: FETCH_USER_NOTIFICATIONS, payload: mainInfo });
         });
+       
     }
 };
-
-fetchUserrInfo = (uid) => {
-    let data = null;
-   
-    return data;
-}

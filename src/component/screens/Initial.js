@@ -21,7 +21,7 @@ class Initial extends Component {
     }
     animate() {
         setTimeout((function () {
-            this.setState({ progress: this.state.progress + (0.2 * Math.random()) });
+            this.setState({ progress: this.state.progress + (0.02 * Math.random()) });
             Actions.auth()
         }).bind(this), 3000);
     }

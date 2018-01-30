@@ -40,7 +40,7 @@ import Settings from './component/screens/User/Settings';
 
 
 class RouterComponent extends Component {
-
+    
     renderLeftMenuButton = () => {
         return (
             <TouchableOpacity onPress={() => Actions.drawerOpen()}>

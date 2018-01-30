@@ -28,6 +28,7 @@ class ListView extends Component {
     }
     render() {
         const { imageUrl, blogDescription, creatorInfo, createdAt } = this.props.item.values;
+      
         return (
             <TouchableNativeFeedback onPress={this.onRowPress} >
                 <View pointerEvent="box-only" >
@@ -45,7 +46,7 @@ class ListView extends Component {
                                         <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} style={styles.profileImageStyle} />
                                     </View>
                                     <View style={styles.nameContainerStyle}>
-                                        <Text style={styles.nameStyle}>{creatorInfo.fullname}</Text>
+                                        <Text style={styles.nameStyle}>{creatorInfo.userInfo.fullname}</Text>
                                     </View>
                                 </View>
                                 <View style={styles.timeContainer}>
