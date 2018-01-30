@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import { Scene, Router, Stack, Actions } from 'react-native-router-flux';
+import {connect} from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import color from './assets/color'
 /*==============================================
@@ -38,12 +39,6 @@ import Profile from './component/screens/User/Profile';
 import Settings from './component/screens/User/Settings';
 
 
-
-
-
-
-
-
 class RouterComponent extends Component {
 
     renderLeftMenuButton = () => {
@@ -72,8 +67,7 @@ class RouterComponent extends Component {
         );
     }
  
-    render () {
-
+    render () { 
         return (
             <Router navigationBarStyle={{ backgroundColor: '#fff' }}
 
@@ -183,7 +177,7 @@ class RouterComponent extends Component {
                                     />
                                 </View>
                                 )} 
-                                    key="tab4_1" 
+                                    key="notification_page" 
                                     component={Notifications} 
                                     title="Notifications" 
                                     renderLeftButton={() => this.renderLeftMenuButton()} 
@@ -232,5 +226,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff'
     }
 });
+
+
 
 export default RouterComponent;

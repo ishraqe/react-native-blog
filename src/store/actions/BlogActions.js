@@ -21,7 +21,8 @@ import {
     SINGLE_BLOG_FETCH,
     NOTIFICATION_ADD,
     NOTIFICATION_ADD_SUCCESS,
-    NOTIFICATION_ADD_FAIL
+    NOTIFICATION_ADD_FAIL,
+    FETCH_USER_NOTIFICATIONS
 
 } from "./types";
 
@@ -297,7 +298,8 @@ export const postComment = ({ comment, user, blogId, ownerId}) => {
                         read: 0
                     }
                 })
-                .then( postCommentSuccess(dispatch, comment, notificationInfo)); 
+                .then( postCommentSuccess(dispatch, comment, notificationInfo))
+                .catch(dispatch({ type: NOTIFICATION_ADD_FAIL })); 
             }
         })
         .catch((err) => postCommentFail(dispatch, err));
@@ -336,3 +338,37 @@ export const deletePostComment = ({userId, commentId, blogId}) => {
 };
 
 
+export const fetchAllUserNotification = ({ownerId}) => {
+    console.log(ownerId);
+    return (dispatch) => {
+        firebase.database().ref('notifications/').child(ownerId)
+        .on('value', snapshot => {
+            // dispatch({ type: FETCH_USER_NOTIFICATIONS, payload: snapshot.val() });
+            console.log(snapshot.val());
+            let mainInfo = [];
+            let info = [];
+            let senederInfo = [];
+            for (var key in snapshot.val()) {
+                info.push(snapshot.val()[key])
+            }
+
+            for (var forEachNoti in info) {
+                var senederId = info[forEachNoti].senederId;
+                var blogInfo = info[forEachNoti].blogId;
+
+                firebase.database().ref('userInfo/' + senederId)
+                    .on('value', snapshot => {
+                        console.log(snapshot.val());
+                        
+                    });
+            }
+            console.log(senederInfo, 'senederInfo'); 
+        });
+    }
+};
+
+fetchUserrInfo = (uid) => {
+    let data = null;
+   
+    return data;
+}

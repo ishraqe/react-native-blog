@@ -21,7 +21,8 @@ import {
     SINGLE_BLOG_FETCH_SUCCESS,
     NOTIFICATION_ADD,
     NOTIFICATION_ADD_SUCCESS,
-    NOTIFICATION_ADD_FAIL
+    NOTIFICATION_ADD_FAIL,
+    FETCH_USER_NOTIFICATIONS
 } from "../actions/types";
 
 const INITIAL_STATE = {
@@ -30,7 +31,8 @@ const INITIAL_STATE = {
     loading: false,
     likeActivity: null,
     comments: null,
-    single_blog: null
+    single_blog: null,
+    notifications: null
 };
 
 
@@ -102,6 +104,9 @@ export default (state = INITIAL_STATE, actions) => {
         case NOTIFICATION_ADD_FAIL:
             console.log(actions);
             return { ...state }
+        case FETCH_USER_NOTIFICATIONS: 
+            console.log(actions);
+            return { ...state, notifications: actions.payload }
         default:
             return state;
     }

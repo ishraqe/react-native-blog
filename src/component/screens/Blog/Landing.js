@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Animated,Text, FlatList, StyleSheet, RefreshControl, ScrollView, Easing } from 'react-native';
 import ListView from '../../common/List';
-import { fetchAllBlog, fetchUserInfo } from "../../../store/actions";
+import { fetchAllBlog, fetchUserInfo, fetchAllUserNotification } from "../../../store/actions";
 import {connect} from 'react-redux';
 import {Router, Actions } from 'react-native-router-flux';
 import firebase from 'firebase';
@@ -28,6 +28,11 @@ class Landing extends Component {
             });
         }
         console.log(this.props.allPosts, 'will mount'); 
+        const uid = this.props.user.uid;
+        console.log(uid, 'ownerid');
+        if (uid) {
+            this.props.fetch_notification(uid);
+        }
     }
 
     componentWillReceiveProps(next) {
@@ -38,7 +43,8 @@ class Landing extends Component {
     }
 
     async componentDidMount() {
-        this.props.fetach_userInfo(this.props.user.uid);  
+        const uid = this.props.user.uid;
+        this.props.fetach_userInfo(uid);  
     }
    
     isIncreasingSequence = (newVal) => {
@@ -127,6 +133,9 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
     const {user, email} = state.auth;
     const allPosts = state.blog.allBlog;
+    const notifications = state.blog.notifications;
+    console.log(notifications , 'from state');
+    
     console.log(allPosts, 'state');
     
     return {
@@ -139,7 +148,8 @@ const mapStateToProps = (state) => {
 const mapDispatchTOProps = dispatch => {
     return {
         fetach_userInfo: (uid) => dispatch(fetchUserInfo(uid)),
-        fetch_allBlog : () => dispatch(fetchAllBlog())
+        fetch_allBlog : () => dispatch(fetchAllBlog()),
+        fetch_notification: (ownerId) => dispatch(fetchAllUserNotification({ownerId}))
     };
 };
 
