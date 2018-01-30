@@ -37,3 +37,8 @@ export const POST_COMMENT_SUCCESS = 'post_comment_success';
 export const POST_COMMENT_DELETE ='post_comment_delete';
 export const POST_COMMENT_DELETE_SUCCESS ='post_comment_delete_success';
 export const POST_COMMENT_DELETE_FAIL = 'post_comment_delete_fail';
+
+
+export const NOTIFICATION_ADD = 'notification_add';
+export const NOTIFICATION_ADD_SUCCESS = 'notification_add_success';
+export const NOTIFICATION_ADD_FAIL = 'notification_add_fail';

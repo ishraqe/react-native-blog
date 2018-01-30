@@ -183,7 +183,7 @@ class SingleBlog extends Component {
                                     </View>
                                 </TouchableOpacity>
                                 <TouchableOpacity
-                            onPress={() => Actions.single_blog_comment({ blogId: this.props.post.key})}
+                            onPress={() => Actions.single_blog_comment({ blogId: this.props.post.key, ownerid: this.props.post.values.creatorInfo.ownerId})}
                                 >
                                     <View style={styles.iconContainer}>
                                         <Icon

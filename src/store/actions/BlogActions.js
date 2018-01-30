@@ -19,6 +19,9 @@ import {
     POST_COMMENT_DELETE_SUCCESS,
     POST_COMMENT_DELETE_FAIL,
     SINGLE_BLOG_FETCH,
+    NOTIFICATION_ADD,
+    NOTIFICATION_ADD_SUCCESS,
+    NOTIFICATION_ADD_FAIL
 
 } from "./types";
 
@@ -44,7 +47,10 @@ export const postStory = (desc, imageData, userInfo) => {
             firebase.database().ref('blogs/' + currentUser.uid).push({
                 imageUrl: url,
                 blogDescription: desc, 
-                creatorInfo: userInfo,
+                creatorInfo: {
+                    ownerId: currentUser.uid,
+                    userInfo 
+                },
                 createdAt: timestamp
             }).then( 
                 (blogInfo) => {  
@@ -258,7 +264,7 @@ export const fetchBlogActivity = (blogId) => {
     };
 }
 
-export const postComment = ({comment, user, blogId}) => {
+export const postComment = ({ comment, user, blogId, ownerId}) => {
     let timestamp = new Date().getTime();
     const userId = user.userId;
     return (dispatch) => {
@@ -268,22 +274,39 @@ export const postComment = ({comment, user, blogId}) => {
                   blogId: blogId,
                   text: comment,
                   commentByInfo: {
-                      id: user.userId,
+                      id: userId,
                       name: user.userInfo
                   },
                   createdAt: timestamp
               }
         })
-        .then((comment) => postCommentSuccess(dispatch, comment))
+        .then((comment) => {
+            const notificationInfo ={ 
+                senederId: userId,
+                receiverid: ownerId,
+                blogId: blogId
+            };
+            if (notificationInfo.senederId === notificationInfo.receiverid) {
+                postCommentSuccess(dispatch, comment, notificationInfo);
+            }else {
+                firebase.database().ref('notifications/').child(notificationInfo.receiverid).push({
+                    senederId: notificationInfo.senederId,
+                    blogId: notificationInfo.blogId,
+                    status: {
+                        view: 0,
+                        read: 0
+                    }
+                })
+                .then( postCommentSuccess(dispatch, comment, notificationInfo)); 
+            }
+        })
         .catch((err) => postCommentFail(dispatch, err));
     }
 };
 
-export const  postCommentSuccess = (dispatch, comment) => {
-    dispatch({
-        type: POST_COMMENT_SUCCESS,
-        payload: comment
-    });
+export const postCommentSuccess = (dispatch,comment, notificationInfo) => {
+    dispatch({ type: POST_COMMENT_SUCCESS, payload: comment });
+    dispatch({ type: NOTIFICATION_ADD_SUCCESS })
 };
 
 export const postCommentFail = (dispatch, err) => {

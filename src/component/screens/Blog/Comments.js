@@ -45,12 +45,14 @@ class Comment extends Component {
             const comment = this.state.comment;
             const userId = this.props.user.uid;
             const userInfo = this.props.userInfo.fullname;
+         
             const user = {
                 userId, 
                 userInfo
             }
             const blogId = this.props.blogId;
-            this.props.post_comment({ comment, user, blogId});
+            const ownerId = this.props.ownerid;
+            this.props.post_comment({ comment, user, blogId, ownerId});
             this.setState({
                 comment: ''
             })
@@ -193,7 +195,7 @@ const mapStateToProps = ({auth, blog}) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        post_comment: ({ comment, user, blogId }) => dispatch(postComment({ comment, user, blogId })),
+        post_comment: ({ comment, user, blogId, ownerId }) => dispatch(postComment({ comment, user, blogId, ownerId })),
         fetch_Blog_Activity: (blogId) => dispatch(fetchBlogActivity(blogId)),
     }
 };

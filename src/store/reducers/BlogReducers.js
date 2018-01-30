@@ -18,7 +18,10 @@ import {
     POST_COMMENT_DELETE,
     POST_COMMENT_DELETE_SUCCESS,
     POST_COMMENT_DELETE_FAIL,
-    SINGLE_BLOG_FETCH_SUCCESS
+    SINGLE_BLOG_FETCH_SUCCESS,
+    NOTIFICATION_ADD,
+    NOTIFICATION_ADD_SUCCESS,
+    NOTIFICATION_ADD_FAIL
 } from "../actions/types";
 
 const INITIAL_STATE = {
@@ -88,6 +91,15 @@ export default (state = INITIAL_STATE, actions) => {
             console.log(actions);
             return { ...state }
         case POST_COMMENT_DELETE_FAIL:
+            console.log(actions);
+            return { ...state }
+        case NOTIFICATION_ADD:
+            console.log(actions);
+            return { ...state }
+        case NOTIFICATION_ADD_SUCCESS:
+            console.log(actions);
+            return { ...state }
+        case NOTIFICATION_ADD_FAIL:
             console.log(actions);
             return { ...state }
         default:

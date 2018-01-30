@@ -51,7 +51,6 @@ export const signupUserSuccess = (dispatch, userInfo,user, {email, password}) =>
         (user) => loginUserSuccess(dispatch, user, status)
         )
         .catch(() => loginUserFail(dispatch));
-   
 }
 
 
