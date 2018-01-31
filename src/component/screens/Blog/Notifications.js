@@ -15,8 +15,9 @@ class Notifications extends Component {
             notifications : next.notifications
         });
     }
-    renderNotificationComponent = ({item}) => {
-        console.log(item, 'noti com');
+    renderNotificationComponent = ({item, index}) => {
+
+        console.log(item, 'noti com', index);
             
         return (
             <TouchableOpacity>
@@ -28,10 +29,10 @@ class Notifications extends Component {
                                 style={styles.profileImageStyle}
                             />
                         </View>
-                        <Text style={styles.textContainer}>Blake Lively like your post</Text>
+                        <Text style={styles.textContainer}>{item.sender.index.usersInfo.fullname}liked your post</Text>
                         <View style={styles.imageContainerWidth}>
                             <Image
-                                source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }}
+                                source={{ uri: item.blog.item.values.imageUrl }}
 
                                 style={[styles.profileImageStyle, styles.radius]}
                             />
@@ -58,7 +59,7 @@ class Notifications extends Component {
                     />
                 }
                 data={this.state.notifications}
-                renderItem={({item}) =>this.renderNotificationComponent}
+                renderItem={this.renderNotificationComponent}
             >
             </FlatList>
         );

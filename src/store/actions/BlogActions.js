@@ -342,25 +342,30 @@ export const fetchAllUserNotification = ({ownerId}) => {
                 info.push(snapshot.val()[key])
             }
             for (var forEachNoti in info) {
-               const a = [];
                 var senederId = info[forEachNoti].senederId;
                 var blogId = info[forEachNoti].blogId;
 
+
+                var a = [];
+                var b = null;
                 firebase.database().ref('userInfo/' + senederId).on('value', snapshot => {
+                    console.log(snapshot.val()); // returning data
                     a.push({
-                        usersInfo : snapshot.val()
-                    })
+                        usersInfo:  snapshot.val()
+                    })  
                 });
-                const b = []
+                console.log(a); // its null in here 
+                
                 firebase.database().ref('blogs/').child(ownerId).child(blogId).on('value', snapshot => {
-                    b.push({
+                    b = {
                         item: {
                             key: blogId,
                             ownerId: ownerId,
                             values : snapshot.val()
                         } 
-                    })
+                    }
                 });
+
                 mainInfo.push({
                     sender : a,
                     blog: b
