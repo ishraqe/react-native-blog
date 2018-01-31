@@ -9,7 +9,7 @@ import color from '../../assets/color';
 class ListView extends Component {
 
     onRowPress = () => {
-        Actions.single_blog({ post: this.props.item })
+        Actions.single_blog({ post: this.props.item });
     }
     renderProfileImage = () => {
         if (this.props.item.values.creatorInfo.profileImage) {
@@ -28,7 +28,7 @@ class ListView extends Component {
     }
     render() {
         const { imageUrl, blogDescription, creatorInfo, createdAt } = this.props.item.values;
-      
+        console.log(this.props.item, 'data should be sent');
         return (
             <TouchableNativeFeedback onPress={this.onRowPress} >
                 <View pointerEvent="box-only" >

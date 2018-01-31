@@ -2,52 +2,72 @@ import React, { Component } from 'react';
 import { View, Text, FLatList, FlatList, RefreshControl, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import color from '../../../assets/color';
 import {connect} from 'react-redux';
+import {  fetchUserInfo, fetchAllUserNotification } from "../../../store/actions";
+import {Actions} from 'react-native-router-flux';
+
 
 class Notifications extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            refreshing: false,
+            notifications: null
+        }
+        this.forceUpdateHandler = this.forceUpdateHandler.bind(this);
+    };
 
-    state = {
-        refreshing :  false,
-        notifications :null
-    }
+    forceUpdateHandler() {
+        this.forceUpdate();
+    };
+
     componentWillReceiveProps(next) {
-        console.log(next.notifications, 'from notification page');
-        this.setState({
-            notifications : next.notifications
-        });
+        setTimeout(() => {
+            this.setState({
+                notifications : next.notifications
+            });
+        }, 500); 
     }
+   async componentDidMount () {
+        const uid = this.props.user.uid;
+        if (uid) {
+            await  this.props.fetch_notification(uid);
+        } 
+    }
+
     renderNotificationComponent = ({item, index}) => {
+            return (
+                <TouchableOpacity
+                    onPress={() => Actions.single_blog({ post: item.blog.item })}
+                >
+                    <View style={styles.container}>
+                        <View style={styles.infoContainer}>
+                            <View style={styles.imageContainerWidth}>
+                                <Image
+                                    source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }}
+                                    style={styles.profileImageStyle}
+                                />
+                            </View>
+                            <Text style={styles.textContainer}>
+                                {item.a[index].usersInfo.fullname} liked your post</Text>
+                            <View style={styles.imageContainerWidth}>
+                                <Image
+                                    source={{ uri: item.blog.item.values.imageUrl }}
 
-        console.log(item, 'noti com', index);
-            
-        return (
-            <TouchableOpacity>
-                <View style={styles.container}>
-                    <View style={styles.infoContainer}>
-                        <View style={styles.imageContainerWidth}>
-                            <Image
-                                source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }}
-                                style={styles.profileImageStyle}
-                            />
+                                    style={[styles.profileImageStyle, styles.radius]}
+                                />
+                            </View>
                         </View>
-                        <Text style={styles.textContainer}>{item.sender.index.usersInfo.fullname}liked your post</Text>
-                        <View style={styles.imageContainerWidth}>
-                            <Image
-                                source={{ uri: item.blog.item.values.imageUrl }}
-
-                                style={[styles.profileImageStyle, styles.radius]}
-                            />
-                        </View>
+                        <Text style={styles.timeStampStyle}>5 minutes ago</Text>
                     </View>
-                    <Text style={styles.timeStampStyle}>5 minutes ago</Text>
-                </View>
-            </TouchableOpacity>
-        );
+                </TouchableOpacity>
+            );
     }
     _onRefresh() {
         this.setState({ refreshing: true });
         this.setState({ refreshing: false });
     }
     render() {
+      
         return (
          
             <FlatList
@@ -60,6 +80,7 @@ class Notifications extends Component {
                 }
                 data={this.state.notifications}
                 renderItem={this.renderNotificationComponent}
+                keyExtractor={(item, index) => index}
             >
             </FlatList>
         );
@@ -110,11 +131,22 @@ const styles= StyleSheet.create({
     }
 });
 
+
 const mapStateToProps = (state) => {
+    const { user, email } = state.auth;
     const notifications = state.blog.notifications;
     return {
+        email,
+        user, 
         notifications
     }
 }
 
-export default connect(mapStateToProps)(Notifications);
+const mapDispatchTOProps = dispatch => {
+    return {
+        fetach_userInfo: (uid) => dispatch(fetchUserInfo(uid)),
+        fetch_notification: (ownerId) => dispatch(fetchAllUserNotification({ ownerId }))
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchTOProps)(Notifications);

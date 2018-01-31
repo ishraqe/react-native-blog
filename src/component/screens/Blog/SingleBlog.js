@@ -273,7 +273,7 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         paddingRight: 10,
         width: '100%',
-        minHeight: 188
+        minHeight: 250
     },
     description : {
         width: '100%',

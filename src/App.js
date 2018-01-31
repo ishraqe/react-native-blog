@@ -11,7 +11,10 @@ import reducers from './store/reducers';
 import color from './assets/color';
 import SplashScreen from 'react-native-splash-screen';
 class App extends Component {
-
+    constructor(props) {
+        super(props);
+        console.ignoredYellowBox = ['Setting a timer'];
+    }
     componentWillMount() {
         const config = {
             apiKey: "AIzaSyArewexTwIOYZBXnLwt-YAUbiaztDrRyaA",
@@ -35,6 +38,7 @@ class App extends Component {
                 <StatusBar
                     backgroundColor={'#000'}
                     barStyle='light-content'
+                    hidden={false}
                 />
                 <Provider store={store}>
                     <View style={{flex:1}}>

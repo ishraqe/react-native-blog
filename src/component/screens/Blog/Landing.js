@@ -40,9 +40,7 @@ class Landing extends Component {
     async componentDidMount() {
         const uid = this.props.user.uid;
         this.props.fetach_userInfo(uid); 
-        if (uid) {
-            this.props.fetch_notification(uid);
-        } 
+        
     }
    
     isIncreasingSequence = (newVal) => {

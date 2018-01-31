@@ -106,7 +106,11 @@ class RouterComponent extends Component {
                     <Scene key="lightbox"  lightbox >
                         <Scene key="drawer" drawer contentComponent={Drawer}>
                             <Scene key="tabbar"
-                                tabBarStyle={{ position: 'relative', overflow: 'visible' }}
+                                tabBarStyle={{ position: 'relative',
+                                 overflow: 'visible',
+                                 paddingLeft: 30 ,
+                                 backgroundColor: '#fff'
+                                }}
                                 showLabel={true} activeBackgroundColor='#fff'
                                 activeTintColor={color.themeColor} tabs={true}
                                 tabBarPosition={'bottom'}
