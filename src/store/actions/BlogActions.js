@@ -132,7 +132,7 @@ export const fetchAllBlog = () => {
     return (dispatch) => {
         firebase.database().ref('blogs/')
             .on('value', snapshot => {
-                dispatch({ type: ALL_BLOG_FETCH_SUCCESS, payload: iterate(snapshot) });
+                dispatch({ type: ALL_BLOG_FETCH_SUCCESS, payload: iterate(snapshot, 'all', null) });
             });
     };
 }
@@ -142,7 +142,7 @@ export const fetchBlogByUserId = ({ userId }) => {
     return (dispatch) => {
         firebase.database().ref('blogs/').child(userId)
             .on('value', snapshot => {
-                dispatch({ type: BLOG_BY_USER_ID_FETCH_SUCCESS, payload: snapshot.val() });
+                dispatch({ type: BLOG_BY_USER_ID_FETCH_SUCCESS, payload: iterate(snapshot, 'profile', userId)});
             });
     };
 };
@@ -156,19 +156,32 @@ export const fetchSinleBlog = ({userId, blogId}) => {
     };
 }
 
-export const iterate = (snapshot) => {
+export const iterate = (snapshot, type, ownerId) => {
     let items = [];
-    let keys = [];
-    for (var key in snapshot.val()) {
-        for (var item in snapshot.val()[key]) {
+
+    if (type === 'all') {
+        for (var key in snapshot.val()) {
+            for (var item in snapshot.val()[key]) {
+                items.push({
+                    ownerId: key,
+                    key: item,
+                    values: snapshot.val()[key][item]
+                });
+            }
+        } 
+        return items;
+    } else if (type === 'profile') {
+        for (var item in snapshot.val()) {
             items.push({
-                ownerId : key,
+                ownerId: ownerId,
                 key: item,
-                values: snapshot.val()[key][item]
+                values: snapshot.val()[item]
             });
         }
-    } 
-    return items;
+        return items;
+    }
+    
+   
 }
 
 

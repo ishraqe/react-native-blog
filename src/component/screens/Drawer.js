@@ -19,8 +19,31 @@ import {logOutUser} from '../../store/actions';
 
 class Drawer extends Component  {
     state = {
-        value: false
+        value: false,
+        userinfo: null
     }
+
+    componentWillMount() {
+        setTimeout(() => {
+            if (this.props.userInfo) {
+                this.setState({
+                    userinfo: this.props.userInfo
+                });
+            }    
+        }, 500);
+        
+    }
+
+    componentWillReceiveProps(next) {
+        setTimeout(() => {
+            this.setState({
+                userinfo: next.userInfo
+            });    
+        }, 500);
+        console.log(this.state.userinfo);
+        
+    }
+
     switchValue = () => {
        this.setState(prevState => {
            return {
@@ -44,15 +67,12 @@ class Drawer extends Component  {
                 >  
                     <View>
                         <View style={styles.editController}>
-                            <TouchableOpacity style={styles.editButtonStyle} >
-                                <Text style={styles.editTextStyle}>Edit</Text>
-                            </TouchableOpacity>
                             <TouchableOpacity 
                                 onPress= {this.logOutHandler}
                                 style={styles.powerButtonStyle}>
                                 <Icon
                                     size={20}
-                                    name={'ios-power-outline'}
+                                    name={'ios-power'}
                                     style = {styles.powerIconStyle}
                                 />
                             </TouchableOpacity>
@@ -62,7 +82,7 @@ class Drawer extends Component  {
                         >
                             <View style={styles.profileContainer}>
                                 <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} style={styles.profileImageStyle} />
-                                <Text style={styles.nameStyle} >Blake Lively</Text>
+                                <Text style={styles.nameStyle} >{this.state.userinfo.fullname}</Text>
                             </View>
                         </TouchableWithoutFeedback>
                     </View>
@@ -190,11 +210,11 @@ const styles = StyleSheet.create({
     },
     powerButtonStyle: {
         marginTop: -50,
-        right: -128
+        right: -160
     },
     powerIconStyle :{
         fontWeight: 'bold',
-        color: '#fff'
+        color: 'red'
     },
     backgroundImageStyle: {
         height: '100%',
@@ -228,6 +248,14 @@ const styles = StyleSheet.create({
     }
 });
 
+const mapStateToProps = ({ auth, blog }) => {
+    const { user, userInfo } = auth;
+    return {
+        user, userInfo
+    }
+}
+
+
 const mapDispatchToProps = dispatch =>{
     return {
         log_user_out: () => dispatch(logOutUser())
@@ -235,4 +263,4 @@ const mapDispatchToProps = dispatch =>{
 }
 
 
-export default connect(null, mapDispatchToProps)(Drawer);
+export default connect(mapStateToProps, mapDispatchToProps)(Drawer);

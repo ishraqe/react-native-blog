@@ -15,15 +15,26 @@ import color from '../../../assets/color';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
 import { fetchBlogByUserId} from '../../../store/actions';
-
+import ListView from '../../common/List';
 
 
 class Profile extends Component {
 
     state = {
-        moviesList: [],
-        showModal: false,
-        currentImage: 0
+        info: null
+    }
+    componentWillMount() {
+        if (this.props.usersPost) {
+            this.setState({
+                info: this.props.usersPost
+            });
+        }
+    }
+
+    componentWillReceiveProps(next) {
+        this.setState({
+            info: next.usersPost
+        });
     }
 
     componentDidMount () {
@@ -63,7 +74,16 @@ class Profile extends Component {
                             <Text>Posts</Text>
                         </View>
                         <View style={styles.photosWrapper}>
-                           
+                            <FlatList
+                                data={this.state.info}
+                                renderItem={({ item }) => (
+                                    <ListView
+                                        item={item}
+                                    />
+                                )}
+                                keyExtractor={(item, index) => index}
+                            >
+                            </FlatList>
                         </View>
                     </View>
                 </View>
