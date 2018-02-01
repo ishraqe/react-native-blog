@@ -13,11 +13,9 @@ import { CustomButton, Confirm } from '../../../component/common/index';
 import LinearGradient from 'react-native-linear-gradient';
 import color from '../../../assets/color';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Carousel from 'react-native-snap-carousel';
+import {connect} from 'react-redux';
+import { fetchBlogByUserId} from '../../../store/actions';
 
-const { width, height } = Dimensions.get('window');
-
-const equalWidth = (width / 3) ;
 
 
 class Profile extends Component {
@@ -28,99 +26,11 @@ class Profile extends Component {
         currentImage: 0
     }
 
-    _renderItem(itemData) {
-        alert(this.state.currentImage);
-        // return (
-        //     <View style={{ height: '100%', width: '100%' }} >
-        //         <Image source={{ uri: this.moviesList[this.state.currentImage].imageUrl }}  style={{height: 400, width: 400}} />
-        //     </View>
-        // );
-    }
-
-    modalComponent = () => {
-        return (
-            <View style={{ width: '100%', flex: 1 }}>
-                <View style={styles.modalTopContainer}>
-                    <TouchableOpacity onPress={this.onDecline}>
-                        <Text style={styles.modalText}>Close</Text>
-                    </TouchableOpacity>
-                    <Text style={styles.modalText}>1/{this.state.moviesList.length}</Text>
-                    <TouchableOpacity>
-                        <Text style={styles.modalText}>...</Text>     
-                    </TouchableOpacity>               
-                </View>
-                <Carousel
-                    data={this.state.moviesList}
-                    renderItem={this._renderItem}
-                    sliderWidth={width}
-                    itemWidth={width}
-                />
-                <View style={styles.ActivityContainer}>
-                    <View style={styles.iconContainer}>
-                        <Icon
-                            size={30}
-                            name={'ios-heart-outline'}
-                            style={styles.iconLike}
-                        />
-                        <Text style={styles.likeTextStyle} >18</Text>
-                    </View>
-                    <View style={styles.iconContainer}>
-                        <Icon
-                            size={30}
-                            name={'ios-text-outline'}
-                            style={styles.iconComment}
-                        />
-                        <Text style={styles.commentTextStyle} >26</Text>
-                    </View>
-                </View>  
-            </View>
-        );
-       
-    }
-
-    _keyExtractor = (item, index) => item.id;
-
-    renderRowItem = ({item, index}) => {
-       
-        return (
-            <TouchableOpacity 
-            // id={item.id}
-                onPress = { () => this.setState({
-                        showModal : !this.state.showModal,
-                        currentImage: index
-                    })
-                } 
-            >
-                <View style={{padding:2}}>
-                    <Image
-                        style={{ height: 120, width: equalWidth, }} 
-                        source={{ uri: item.imageUrl }} 
-                        resizeMode='cover' 
-                    />
-                </View>
-            </TouchableOpacity>
-        )
-    }
-
-    getMoviesFromApiAsync = () => {
-        return fetch('http://droidtute.com/reactexample/sample_api/getMovieList.php')
-            .then((response) => response.json())
-            .then((responseJson) => {
-                this.setState({ moviesList: responseJson.movieList });
-                return responseJson.movieList;
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }
-
-    componentWillMount() {
-        { this.getMoviesFromApiAsync() }
-    }
-    onDecline = () => {
-        this.setState ({
-            showModal: false
-        });
+    componentDidMount () {
+        if (this.props.user) {
+            const userId = this.props.user.uid;
+            this.props.fetch_blogby_user({ userId });
+        }
     }
 
     render () {
@@ -153,20 +63,10 @@ class Profile extends Component {
                             <Text>Posts</Text>
                         </View>
                         <View style={styles.photosWrapper}>
-                            <FlatList
-                                data={this.state.moviesList}
-                                numColumns={3}
-                                keyExtractor={this._keyExtractor}
-                                renderItem={this.renderRowItem}
-                            />
+                           
                         </View>
                     </View>
                 </View>
-                <Confirm
-                    visible={this.state.showModal}
-                >
-                    {this.modalComponent() }
-                </Confirm>
             </ScrollView>
         );
        
@@ -303,4 +203,22 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Profile;
+const mapStateToProps = ({auth, blog}) => {
+
+    const { user } = auth;
+    const usersPost = blog.usersBlog;
+    console.log(usersPost, 'users post');
+    
+    return {
+        user,
+        usersPost
+    }
+}
+
+const mapDispatchToProps= dispatch => {
+    return {
+        fetch_blogby_user: ({ userId }) => dispatch(fetchBlogByUserId({userId}))
+    }
+} 
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

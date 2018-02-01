@@ -22,7 +22,8 @@ import {
     NOTIFICATION_ADD,
     NOTIFICATION_ADD_SUCCESS,
     NOTIFICATION_ADD_FAIL,
-    FETCH_USER_NOTIFICATIONS
+    FETCH_USER_NOTIFICATIONS,
+    BLOG_BY_USER_ID_FETCH_SUCCESS
 
 } from "./types";
 
@@ -135,6 +136,16 @@ export const fetchAllBlog = () => {
             });
     };
 }
+
+
+export const fetchBlogByUserId = ({ userId }) => {
+    return (dispatch) => {
+        firebase.database().ref('blogs/').child(userId)
+            .on('value', snapshot => {
+                dispatch({ type: BLOG_BY_USER_ID_FETCH_SUCCESS, payload: snapshot.val() });
+            });
+    };
+};
 
 export const fetchSinleBlog = ({userId, blogId}) => {
     return (dispatch) => {
@@ -341,11 +352,11 @@ export const fetchAllUserNotification = ({ownerId}) => {
             for (var key in snapshot.val()) {
                 info.push(snapshot.val()[key])
             }
-            console.log(info, 'info');
-        
             for (var forEachNoti in info) {
                 var senederId = info[forEachNoti].senederId;
                 var blogId = info[forEachNoti].blogId;
+
+
                 var a = [];
                 var b = null;
                 firebase.database().ref('userInfo/' + senederId).on('value', snapshot => {
@@ -354,6 +365,7 @@ export const fetchAllUserNotification = ({ownerId}) => {
                         usersInfo:  snapshot.val()
                     })  
                 });
+                
                 firebase.database().ref('blogs/').child(ownerId).child(blogId).on('value', snapshot => {
                     b = {
                         item: {

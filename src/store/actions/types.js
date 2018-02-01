@@ -44,3 +44,4 @@ export const NOTIFICATION_ADD_SUCCESS = 'notification_add_success';
 export const NOTIFICATION_ADD_FAIL = 'notification_add_fail';
 
 export const FETCH_USER_NOTIFICATIONS = 'fetch_user_notifications';
+export const BLOG_BY_USER_ID_FETCH_SUCCESS = 'blog_by_user_id_fetch';
