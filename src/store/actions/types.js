@@ -48,3 +48,7 @@ export const BLOG_BY_USER_ID_FETCH_SUCCESS = 'blog_by_user_id_fetch';
 
 export const UPDATE_USER_NAME ='update_user_info';
 export const UPDATE_USER_NAME_SUCCESS = 'update_user_info_success';
+
+export const UPDATE_USER_EMAIL = 'update_user_email';
+export const UPDATE_USER_EMAIL_SUCCESS = 'update_user_email_success';
+export const UPDATE_USER_EMAIL_FAIL = 'update_user_email_fail';

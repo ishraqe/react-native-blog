@@ -8,7 +8,10 @@ import {
     USERINFO_FETCH_SUCCESS,
     USER_LOG_OUT,
     UPDATE_USER_NAME,
-    UPDATE_USER_NAME_SUCCESS
+    UPDATE_USER_NAME_SUCCESS,
+    UPDATE_USER_EMAIL,
+    UPDATE_USER_EMAIL_SUCCESS,
+    UPDATE_USER_EMAIL_FAIL
 } from "./types";
 import firebase from 'firebase';
 import { Actions } from 'react-native-router-flux';
@@ -133,8 +136,32 @@ export const updateUserName = ({ name, userId}) => {
 };
 
 export const updateUserNameSuccess = (dispatch, userInfo) => {
+    dispatch({ type: UPDATE_USER_NAME_SUCCESS, payload: userInfo });
+};
+
+
+export const updateUserEmail = ({email}) => {
+    return (dispatch) => {
+        dispatch({type: UPDATE_USER_EMAIL})
+        var user = firebase.auth().currentUser;
+        console.log(user, email, 'em'); 
+        user.updateEmail(email)
+        .then(() => {
+            firebase.auth().signOut()
+                .then(() => {
+                    dispatch({ type: USER_LOG_OUT });
+                    AsyncStorage.removeItem('as:auth:user');
+                    Actions.auth();
+                }).catch(() => {
+                    console.log('error');
+                });
+        })
+        .catch(() => updateUserEmailFail(dispatch));
+    }
+};
+
+export const updateUserEmailFail = (dispatch) => {
     dispatch({
-        type: UPDATE_USER_NAME_SUCCESS,
-        payload: userInfo
+        type: UPDATE_USER_EMAIL_FAIL
     });
-}
+};

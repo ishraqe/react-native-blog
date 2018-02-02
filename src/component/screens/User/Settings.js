@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity, Dimensions, TextInput } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity, Dimensions, TextInput, Keyboard } from 'react-native';
 import color from '../../../assets/color';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { CustomButton, Input } from '../../common';
 import {connect} from 'react-redux';
 import validate from '../../../Utility/validation';
-import { updateUserName} from '../../../store/actions';
+import { updateUserName, updateUserEmail} from '../../../store/actions';
 class Settings extends Component {
   
     constructor(props) {
@@ -56,15 +56,9 @@ class Settings extends Component {
                             lastName: true
                         },
                         touched: false
-                    }
-                }
-            })
-        }
-        if (this.props.user) {
-            this.setState({
-                controls: {
+                    },
                     email: {
-                        value: '',
+                        value: this.props.user.email,
                         valid: true,
                         validationRules: {
                             isEmail: true
@@ -153,7 +147,7 @@ class Settings extends Component {
                 >
                     <View style={[styles.profileInfoWrapper, { borderBottomColor: '#fff' }]}>
                         <Text style={styles.label}>Email</Text>
-                        <Text style={styles.input}>sbstsr</Text>
+                        <Text style={styles.input}>{this.state.controls.email.value}</Text>
                     </View>
                 </TouchableOpacity>
             );
@@ -184,8 +178,19 @@ class Settings extends Component {
             this.setState({
                 fullnameBoxTouched : false
             });
+            Keyboard.dismiss();
         }
-        if (!this.state.controls.fullname.touched) {
+        if (this.state.controls.email.touched && this.state.controls.email.valid) {
+            const email = this.state.controls.email.value;
+            this.props.updateEmail({email});
+            this.setState({
+                emailBoxTouched: false
+            });
+            Keyboard.dismiss();
+        }
+
+
+        if (!this.state.controls.fullname.touched && !this.state.controls.email.touched) {
             console.log('not touched');
         }
         
@@ -377,7 +382,8 @@ const mapStateToProps = ({ auth, blog }) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        updateName: ({ name, userId }) => dispatch(updateUserName({ name, userId })) 
+        updateName: ({ name, userId }) => dispatch(updateUserName({ name, userId })),
+        updateEmail: ({email}) => dispatch(updateUserEmail({email}))
     }
 }
 

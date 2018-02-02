@@ -8,7 +8,10 @@ import {
     USERINFO_FETCH_SUCCESS,
     USER_LOG_OUT,
     UPDATE_USER_NAME,
-    UPDATE_USER_NAME_SUCCESS
+    UPDATE_USER_NAME_SUCCESS,
+    UPDATE_USER_EMAIL,
+    UPDATE_USER_EMAIL_SUCCESS,
+    UPDATE_USER_EMAIL_FAIL
 } from "../actions/types";
 
 const INITIAL_STATE = {
@@ -63,6 +66,15 @@ export default (state = INITIAL_STATE, actions) => {
         case UPDATE_USER_NAME_SUCCESS: 
         console.log(actions);
             return {...state}
+        case UPDATE_USER_EMAIL:
+            console.log(actions);
+            return {...state}
+        case    UPDATE_USER_EMAIL_SUCCESS:
+            console.log(actions);
+            return { ...state }            
+        case  UPDATE_USER_EMAIL_FAIL:
+            console.log(actions);
+            return { ...state }            
         default:
             return state;
     }
