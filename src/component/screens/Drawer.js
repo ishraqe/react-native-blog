@@ -27,11 +27,11 @@ class Drawer extends Component  {
     };
 
     componentWillReceiveProps(next) {
-        console.log(next);
+     
             this.setState({
                 userinfo: next.userInfo
             });
-        console.log(this.state.userinfo, 'component');
+       
     }
     componentDidMount() {
         const uid = this.props.user.uid;
@@ -252,7 +252,6 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = ({ auth, blog }) => {
     const { user, userInfo } = auth;
-    console.log(user, userInfo);
     
     return {
         user, userInfo

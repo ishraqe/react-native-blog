@@ -1,23 +1,79 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity, Dimensions, TextInput } from 'react-native';
 import color from '../../../assets/color';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { CustomButton, Input } from '../../common';
-
+import {connect} from 'react-redux';
+import validate from '../../../Utility/validation';
+import { updateUserName} from '../../../store/actions';
 class Settings extends Component {
-    state = {
-        viewMode: Dimensions.get('window').height > 500 ? 'potrait' : 'landscape',
-        fullnameBoxTouched: false
-    }
+  
     constructor(props) {
         super(props);
-
+        this.state = {
+            viewMode: Dimensions.get('window').height > 500 ? 'potrait' : 'landscape',
+            fullnameBoxTouched: false,
+            emailBoxTouched: false,            
+            controls: {
+                email: {
+                    value: '',
+                    valid: true,
+                    validationRules: {
+                        isEmail: true
+                    },
+                    touched: false
+                },
+                password: {
+                    value: '',
+                    valid: false,
+                    validationRules: {
+                        minLength: 6
+                    },
+                    touched: false
+                },
+                fullname: {
+                    value: '',
+                    valid: true,
+                    validationRules: {
+                        lastName: true
+                    },
+                    touched: false
+                }
+            }
+        },
         Dimensions.addEventListener('change', this.updateMode);
     }
-
-    componentWillUnmount() {
+    componentWillMount() {
         Dimensions.removeEventListener('change', this.updateMode);
+        if (this.props.userInfo) {
+            this.setState({
+                controls: {
+                    fullname: {
+                        value: this.props.userInfo.fullname,
+                        valid: true,
+                        validationRules: {
+                            lastName: true
+                        },
+                        touched: false
+                    }
+                }
+            })
+        }
+        if (this.props.user) {
+            this.setState({
+                controls: {
+                    email: {
+                        value: '',
+                        valid: true,
+                        validationRules: {
+                            isEmail: true
+                        },
+                        touched: false
+                    },
+                }
+            })
+        }
     }
 
     updateMode = (dims) => {
@@ -32,8 +88,11 @@ class Settings extends Component {
                 this.setState({
                     fullnameBoxTouched: true
                 })
-                break;
-        
+            break;
+            case 'email': 
+                this.setState({
+                    emailBoxTouched: true
+                })
             default:
                 break;
         }
@@ -44,25 +103,98 @@ class Settings extends Component {
             return (
                 <View style={styles.profileInfoWrapper}>
                     <Text style={styles.label}>Fullname</Text>
-                    <Input 
-                        palceholder = 'Fullanme'
+                    <Input
+                        style={styles.input}
+                        secureTextEntry={false}
+                        autoCorrect={false}
+                        value={this.state.controls.fullname.value}
+                        onChangeText={(val) => this.updateInputState('fullname', val)}
+                        valid={this.state.controls.fullname.valid}
+                        touched={this.state.controls.fullname.touched}
                     />
                 </View>
             );
         } else {
-            <TouchableOpacity
-                onPress={() => this.changeIntoInput('fullname')}
-            >
-                <View style={styles.profileInfoWrapper}>
-                    <Text style={styles.label}>Fullname</Text>
-                    <Text style={styles.input}>Blake Lively</Text>
-                </View>
-            </TouchableOpacity>
+            return (
+                <TouchableOpacity
+                    onPress={() => this.changeIntoInput('fullname')}
+                >
+                    <View style={styles.profileInfoWrapper}>
+                        <Text style={styles.label}>Fullname</Text>
+                        <Text style={styles.input}>{this.state.controls.fullname.value}</Text>
+                    </View>
+                </TouchableOpacity>
+            ); 
         }
     }
+    renderEmailInput = () => {
 
+        if (this.state.emailBoxTouched) {
+            return (
+                <View style={styles.profileInfoWrapper}>
+                    <Text style={styles.label}>Email</Text>
+                    <Input
+                        style={styles.input}
+                        secureTextEntry={false}
+                        placeholder={'E-mail'}
+                        keyboardType='email-address'
+                        autoCorrect={false}
+                        value={this.state.controls.email.value}
+                        onChangeText={val => this.updateInputState('email', val)}
+                        valid={this.state.controls.email.valid}
+                        touched={this.state.controls.email.touched}  
+                    />
+                </View>
+            );
+        } else {
+            return (
+                <TouchableOpacity
+                    onPress={() => this.changeIntoInput('email')}
+                >
+                    <View style={[styles.profileInfoWrapper, { borderBottomColor: '#fff' }]}>
+                        <Text style={styles.label}>Email</Text>
+                        <Text style={styles.input}>sbstsr</Text>
+                    </View>
+                </TouchableOpacity>
+            );
+        } 
+    }
+    updateInputState = (key, val) => {
+        this.setState(prevState => {
+            return {
+                controls: {
+                    ...prevState.controls,
+                    [key]: {
+                        ...prevState.controls[key],
+                        value: val,
+                        valid: validate(val, prevState.controls[key].validationRules),
+                        touched: true
+                    }
+                }
+            }
+        });
+        console.log(this.state.controls);
+    }
+
+    updateInfo = () => {
+        if (this.state.controls.fullname.touched && this.state.controls.fullname.valid) {
+            const userId = this.props.user.uid;
+            const name = this.state.controls.fullname.value;
+            this.props.updateName({ name, userId});
+            this.setState({
+                fullnameBoxTouched : false
+            });
+        }
+        if (!this.state.controls.fullname.touched) {
+            console.log('not touched');
+        }
+        
+    }
 
     render() {
+        
+        console.log(this.state.controls);
+        
         return (
             <View style={{flex:1}}>
                 <ScrollView style={{ backgroundColor: '#fff', marginBottom: 100}}>
@@ -82,12 +214,7 @@ class Settings extends Component {
                 </View>
                 <View style={styles.profileInfoContainer}>
                         {this.renderNameInput()}
-                        <TouchableOpacity>
-                            <View style={[styles.profileInfoWrapper, { borderBottomColor: '#fff'}]}>
-                                <Text style={styles.label}>Email</Text>
-                                <Text style={styles.input}>sbstarboy007@gmail.com</Text>
-                            </View>
-                        </TouchableOpacity>
+                        {this.renderEmailInput()}
                 </View>
                     <View style={{
                         height: 50, width: '100%',   borderBottomWidth: 1,
@@ -116,7 +243,10 @@ class Settings extends Component {
                         height: 100
                     }}
                 >
-                    <TouchableOpacity style={styles.gradientWrapper}>
+                    <TouchableOpacity 
+                        style={styles.gradientWrapper}
+                        onPress={this.updateInfo}
+                    >
                         <View style={styles.gradientWrapper} >
                             <LinearGradient
                                 colors={[color.gradientFirstColor, color.gradientSecondColor]}
@@ -128,7 +258,6 @@ class Settings extends Component {
                         </View>
                     </TouchableOpacity>
                 </View>
-                
             </View>
         );
     }
@@ -237,4 +366,20 @@ const styles= StyleSheet.create({
     },
 }); 
 
-export default Settings;
+const mapStateToProps = ({ auth, blog }) => {
+    const { user, userInfo } = auth;
+    console.log(user, userInfo);
+
+    return {
+        user, userInfo
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        updateName: ({ name, userId }) => dispatch(updateUserName({ name, userId })) 
+    }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Settings);

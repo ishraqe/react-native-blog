@@ -6,7 +6,9 @@ import {
     SIGNUPUSER_USER_FAIL,
     SIGNUPUSER_USER_SUCCESS,
     USERINFO_FETCH_SUCCESS,
-    USER_LOG_OUT
+    USER_LOG_OUT,
+    UPDATE_USER_NAME,
+    UPDATE_USER_NAME_SUCCESS
 } from "./types";
 import firebase from 'firebase';
 import { Actions } from 'react-native-router-flux';
@@ -16,16 +18,16 @@ import {AsyncStorage} from 'react-native';
 export const signUpUser = ({fullname, email, password}) => {
     return (dispatch) => {
         firebase.auth().createUserWithEmailAndPassword(email, password)
-            .then((user) => {
-                const uid = user.uid;
-                firebase.database().ref('userInfo/' + uid).set({
-                       fullname : fullname,
-                       profileImage: 0
-                }).then (
-                    (userInfo) => signupUserSuccess(dispatch, userInfo, user, {email, password})
-                )
-            })
-            .catch(() => signupUserfail(dispatch));
+        .then((user) => {
+            const uid = user.uid;
+            firebase.database().ref('userInfo/' + uid).set({
+                    fullname : fullname,
+                    profileImage: 0
+            }).then (
+                (userInfo) => signupUserSuccess(dispatch, userInfo, user, {email, password})
+            )
+        })
+        .catch(() => signupUserfail(dispatch));
     }
 }
 
@@ -118,3 +120,21 @@ export const logOutUser = () => {
             });
     }
 };
+
+
+export const updateUserName = ({ name, userId}) => {
+    console.log(name, 'name');
+    
+    return (dispatch) => {
+        dispatch({ type: UPDATE_USER_NAME });
+        firebase.database().ref('userInfo/' + userId).set({fullname: name})
+        .then((userInfo) => updateUserNameSuccess(dispatch, userInfo));
+    }
+};
+
+export const updateUserNameSuccess = (dispatch, userInfo) => {
+    dispatch({
+        type: UPDATE_USER_NAME_SUCCESS,
+        payload: userInfo
+    });
+}

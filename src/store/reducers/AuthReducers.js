@@ -6,7 +6,9 @@ import {
     SIGNUPUSER_USER_FAIL,
     SIGNUPUSER_USER_SUCCESS,
     USERINFO_FETCH_SUCCESS,
-    USER_LOG_OUT
+    USER_LOG_OUT,
+    UPDATE_USER_NAME,
+    UPDATE_USER_NAME_SUCCESS
 } from "../actions/types";
 
 const INITIAL_STATE = {
@@ -54,7 +56,13 @@ export default (state = INITIAL_STATE, actions) => {
             };
         case USERINFO_FETCH_SUCCESS :
             console.log(actions);
-            return { ...state, userInfo: actions.payload};  
+            return { ...state, userInfo: actions.payload}; 
+        case UPDATE_USER_NAME: 
+            console.log(actions);
+            return {...state}
+        case UPDATE_USER_NAME_SUCCESS: 
+        console.log(actions);
+            return {...state}
         default:
             return state;
     }

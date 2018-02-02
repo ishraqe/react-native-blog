@@ -28,7 +28,6 @@ class ListView extends Component {
     }
     render() {
         const { imageUrl, blogDescription, creatorInfo, createdAt } = this.props.item.values;
-        console.log(this.props.item, 'data should be sent');
         return (
             <TouchableNativeFeedback onPress={this.onRowPress} >
                 <View pointerEvent="box-only" >

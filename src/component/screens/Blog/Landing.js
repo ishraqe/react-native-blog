@@ -30,7 +30,7 @@ class Landing extends Component {
     }
 
     componentWillReceiveProps(next) {
-        console.log(next.notifications, 'rece');
+     
         Actions.refresh({counter: 1});
         this.setState({
             info: next.allPosts
@@ -130,7 +130,7 @@ const mapStateToProps = (state) => {
     const { user, userInfo, email} = state.auth;
     const allPosts = state.blog.allBlog;
     const notifications = state.blog.notifications;
-    console.log(user , userInfo ,'from state noti');
+   
     return {
         email,
         user,
