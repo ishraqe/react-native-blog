@@ -96,7 +96,7 @@ export const loginUserSuccess = (dispatch, user, status) => {
    
 };
 
-export const fetchUserInfo = (uid) => {
+ export const fetchUserInfo = (uid) => {
    
     return (dispatch) => {
         firebase.database().ref('userInfo/' + uid)

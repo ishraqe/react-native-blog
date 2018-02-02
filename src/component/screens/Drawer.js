@@ -12,38 +12,38 @@ import { Actions } from 'react-native-router-flux';
 import color from '../../assets/color';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
-import {logOutUser} from '../../store/actions';
+import { logOutUser, fetchUserInfo} from '../../store/actions';
 
 
 
 
 class Drawer extends Component  {
-    state = {
-        value: false,
-        userinfo: null
-    }
-
-    componentWillMount() {
-        setTimeout(() => {
-            if (this.props.userInfo) {
-                this.setState({
-                    userinfo: this.props.userInfo
-                });
-            }    
-        }, 500);
-        
-    }
+    constructor(props) {
+        super(props);
+        this.state = {
+            value: false,
+            userinfo: null
+        }
+    };
 
     componentWillReceiveProps(next) {
-        setTimeout(() => {
+        console.log(next);
             this.setState({
                 userinfo: next.userInfo
-            });    
-        }, 500);
-        console.log(this.state.userinfo);
-        
+            });
+        console.log(this.state.userinfo, 'component');
     }
-
+    componentDidMount() {
+        const uid = this.props.user.uid;
+        if (uid) {
+            this.props.fetach_userInfo(uid);
+        }
+    }
+    renderName =() => {
+        if (this.state.userinfo) {
+            return this.state.userinfo.fullname;
+        }
+    }
     switchValue = () => {
        this.setState(prevState => {
            return {
@@ -58,6 +58,8 @@ class Drawer extends Component  {
     }
 
     render () {
+      
+        
         return (
             <View style={[styles.container]}>
                 <LinearGradient
@@ -82,7 +84,7 @@ class Drawer extends Component  {
                         >
                             <View style={styles.profileContainer}>
                                 <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} style={styles.profileImageStyle} />
-                                <Text style={styles.nameStyle} >{this.state.userinfo.fullname}</Text>
+                                <Text style={styles.nameStyle} >{this.renderName()}</Text>
                             </View>
                         </TouchableWithoutFeedback>
                     </View>
@@ -250,6 +252,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = ({ auth, blog }) => {
     const { user, userInfo } = auth;
+    console.log(user, userInfo);
+    
     return {
         user, userInfo
     }
@@ -258,7 +262,8 @@ const mapStateToProps = ({ auth, blog }) => {
 
 const mapDispatchToProps = dispatch =>{
     return {
-        log_user_out: () => dispatch(logOutUser())
+        log_user_out: () => dispatch(logOutUser()),
+        fetach_userInfo: (uid) => dispatch(fetchUserInfo(uid)),
     }
 }
 

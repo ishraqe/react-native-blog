@@ -127,13 +127,14 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-    const {user, email} = state.auth;
+    const { user, userInfo, email} = state.auth;
     const allPosts = state.blog.allBlog;
     const notifications = state.blog.notifications;
-    console.log(notifications , 'from state noti');
+    console.log(user , userInfo ,'from state noti');
     return {
         email,
         user,
+        userInfo,
         allPosts,
         notifications
     }

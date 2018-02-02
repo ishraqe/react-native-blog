@@ -3,11 +3,12 @@ import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity, Dimensions
 import color from '../../../assets/color';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { CustomButton } from '../../common';
+import { CustomButton, Input } from '../../common';
 
 class Settings extends Component {
     state = {
-        viewMode: Dimensions.get('window').height > 500 ? 'potrait' : 'landscape'
+        viewMode: Dimensions.get('window').height > 500 ? 'potrait' : 'landscape',
+        fullnameBoxTouched: false
     }
     constructor(props) {
         super(props);
@@ -24,6 +25,43 @@ class Settings extends Component {
             viewMode: dims.window.height > 500 ? 'potrait' : 'landscape'
         })
     }
+
+    changeIntoInput = (type) => {
+        switch (type) {
+            case 'fullname':
+                this.setState({
+                    fullnameBoxTouched: true
+                })
+                break;
+        
+            default:
+                break;
+        }
+    }
+
+    renderNameInput = () => {
+        if (this.state.fullnameBoxTouched) {
+            return (
+                <View style={styles.profileInfoWrapper}>
+                    <Text style={styles.label}>Fullname</Text>
+                    <Input 
+                        palceholder = 'Fullanme'
+                    />
+                </View>
+            );
+        } else {
+            <TouchableOpacity
+                onPress={() => this.changeIntoInput('fullname')}
+            >
+                <View style={styles.profileInfoWrapper}>
+                    <Text style={styles.label}>Fullname</Text>
+                    <Text style={styles.input}>Blake Lively</Text>
+                </View>
+            </TouchableOpacity>
+        }
+    }
+
+
     render() {
         return (
             <View style={{flex:1}}>
@@ -43,12 +81,7 @@ class Settings extends Component {
                         </View>
                 </View>
                 <View style={styles.profileInfoContainer}>
-                        <TouchableOpacity>
-                            <View style={styles.profileInfoWrapper}>
-                                <Text style={styles.label}>Fullname</Text>
-                                <Text style={styles.input}>Blake Lively</Text>
-                            </View>
-                        </TouchableOpacity>
+                        {this.renderNameInput()}
                         <TouchableOpacity>
                             <View style={[styles.profileInfoWrapper, { borderBottomColor: '#fff'}]}>
                                 <Text style={styles.label}>Email</Text>
@@ -63,10 +96,6 @@ class Settings extends Component {
                     </View>
                     <View style={styles.passwordContainer}>
                         <TouchableOpacity>
-                            <View style={styles.profileInfoWrapper}>
-                                <Text style={styles.label}>Old Password</Text>
-                                <Text style={styles.input}>........</Text>
-                            </View>
                             <View style={styles.profileInfoWrapper}>
                                 <Text style={styles.label}>New Password</Text>
                                 <Text style={styles.input}>........</Text>
