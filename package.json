@@ -18,6 +18,7 @@
     "react-native-linear-gradient": "^2.4.0",
     "react-native-progress": "^3.4.0",
     "react-native-router-flux": "^4.0.0-beta.27",
+    "react-native-shimmer": "^0.3.2",
     "react-native-snap-carousel": "^3.5.0",
     "react-native-splash-screen": "^3.0.6",
     "react-native-swiper": "^1.5.13",

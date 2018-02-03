@@ -12,6 +12,7 @@ import com.BV.LinearGradient.LinearGradientPackage;
 import com.imagepicker.ImagePickerPackage; // <-- add this import
 import com.RNFetchBlob.RNFetchBlobPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
+import com.oblador.shimmer.RNShimmerPackage;
 import java.util.Arrays;
 import java.util.List;
 
@@ -32,7 +33,8 @@ public class MainApplication extends Application implements ReactApplication {
           new LinearGradientPackage(),
           new ImagePickerPackage(),
           new RNFetchBlobPackage(),
-          new SplashScreenReactPackage()
+          new SplashScreenReactPackage(),
+          new RNShimmerPackage()
       );
     }
 

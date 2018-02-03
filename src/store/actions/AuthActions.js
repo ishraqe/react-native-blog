@@ -30,7 +30,7 @@ export const signUpUser = ({fullname, email, password}) => {
             const uid = user.uid;
             firebase.database().ref('userInfo/' + uid).set({
                     fullname : fullname,
-                    profileImage: 0
+                    profileImage: 'http://servotech.in/wp-content/uploads/2016/10/user-icon-placeholder.png'
             }).then (
                 (userInfo) => signupUserSuccess(dispatch, userInfo, user, {email, password})
             )
@@ -205,7 +205,10 @@ export const uploadUserPhoto = ({ imageUri}) => {
         dispatch({ type: UPLOAD_PROFILE_IMAGE });
         this.uploadImage(imageUri)
             .then(url =>
-                firebase.database().ref('userInfo/' + currentUser.uid).set({ profileImage: url })
+                firebase.database().ref('userInfo/' + currentUser.uid).set({
+                     
+                    profileImage: url 
+                })
                     .then((userInfo) => updateProfileImageSuccess(dispatch, userInfo))
             )
             .catch(error => uploadProfileImageFail(dispatch, error));
