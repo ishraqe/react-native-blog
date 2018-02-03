@@ -34,9 +34,11 @@ class Drawer extends Component  {
        
     }
     componentDidMount() {
-        const uid = this.props.user.uid;
-        if (uid) {
-            this.props.fetach_userInfo(uid);
+        if (this.props.user) {
+            const uid = this.props.user.uid;
+            if (uid) {
+                this.props.fetach_userInfo(uid);
+            }  
         }
     }
     renderName =() => {

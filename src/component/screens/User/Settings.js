@@ -224,7 +224,7 @@ class Settings extends Component {
         }
         return (
             <View style={styles.profileImageContainer}>
-                <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} style={styles.profileImageStyle} />
+                <Image source={{ uri: this.props.userInfo.profileImage }} style={styles.profileImageStyle} />
                 <Text style={styles.headerText}>INFO</Text>
                 <View style={this.state.viewMode === 'potrait' ? styles.potraitIconContainer : styles.landscapeIcontainer}>
                     <TouchableOpacity
