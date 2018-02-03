@@ -76,10 +76,6 @@ class Profile extends Component {
                         </TouchableOpacity> */}
                     </View>
                     <View style={styles.photoContainer}>
-                        <View style={styles.info}>
-                            <Text style={{fontWeight: 'bold', fontSize: 25, color: '#000'}}>86</Text>
-                            <Text>Posts</Text>
-                        </View>
                         <View style={styles.photosWrapper}>
                             <FlatList
                                 data={this.state.info}
