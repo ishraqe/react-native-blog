@@ -52,3 +52,11 @@ export const UPDATE_USER_NAME_SUCCESS = 'update_user_info_success';
 export const UPDATE_USER_EMAIL = 'update_user_email';
 export const UPDATE_USER_EMAIL_SUCCESS = 'update_user_email_success';
 export const UPDATE_USER_EMAIL_FAIL = 'update_user_email_fail';
+
+
+export const UPDATE_USER_PASSWORD = 'update_user_password';
+export const UPDATE_USER_PASSWORD_FAIL = 'update_user_password_fail';
+
+export const UPLOAD_PROFILE_IMAGE = 'upload_profile_image';
+export const UPLOAD_PROFILE_IMAGE_FAIL = 'upload_profile_image_fail';
+export const UPLOAD_PROFILE_IMAGE_SUCCESS = 'upload_profile_image_success';

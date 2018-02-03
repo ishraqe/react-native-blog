@@ -11,7 +11,12 @@ import {
     UPDATE_USER_NAME_SUCCESS,
     UPDATE_USER_EMAIL,
     UPDATE_USER_EMAIL_SUCCESS,
-    UPDATE_USER_EMAIL_FAIL
+    UPDATE_USER_EMAIL_FAIL,
+    UPDATE_USER_PASSWORD,
+    UPDATE_USER_PASSWORD_FAIL,
+    UPLOAD_PROFILE_IMAGE,
+    UPLOAD_PROFILE_IMAGE_FAIL,
+    UPLOAD_PROFILE_IMAGE_SUCCESS
 } from "../actions/types";
 
 const INITIAL_STATE = {
@@ -74,7 +79,23 @@ export default (state = INITIAL_STATE, actions) => {
             return { ...state }            
         case  UPDATE_USER_EMAIL_FAIL:
             console.log(actions);
-            return { ...state }            
+            return { ...state }
+        case UPDATE_USER_PASSWORD:
+            console.log(actions);
+            return { ...state }
+        case UPDATE_USER_PASSWORD_FAIL:
+            console.log(actions);
+            return { ...state } 
+        case UPLOAD_PROFILE_IMAGE: 
+            console.log(actions);
+            return { ...state } 
+        case UPLOAD_PROFILE_IMAGE_FAIL:
+            console.log(actions);
+            return { ...state } 
+
+        case UPLOAD_PROFILE_IMAGE_SUCCESS  :
+            console.log(actions);
+            return { ...state, userInfo: actions.payload };          
         default:
             return state;
     }

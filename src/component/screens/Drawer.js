@@ -44,6 +44,11 @@ class Drawer extends Component  {
             return this.state.userinfo.fullname;
         }
     }
+    renderImage = () => {
+        if (this.state.userinfo) {
+            return this.state.userinfo.profileImage
+        }
+    }
     switchValue = () => {
        this.setState(prevState => {
            return {
@@ -83,7 +88,7 @@ class Drawer extends Component  {
                             onPress={Actions.profile_page}    
                         >
                             <View style={styles.profileContainer}>
-                                <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} style={styles.profileImageStyle} />
+                                <Image source={{ uri: this.renderImage() }} style={styles.profileImageStyle} />
                                 <Text style={styles.nameStyle} >{this.renderName()}</Text>
                             </View>
                         </TouchableWithoutFeedback>

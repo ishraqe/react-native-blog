@@ -11,7 +11,12 @@ import {
     UPDATE_USER_NAME_SUCCESS,
     UPDATE_USER_EMAIL,
     UPDATE_USER_EMAIL_SUCCESS,
-    UPDATE_USER_EMAIL_FAIL
+    UPDATE_USER_EMAIL_FAIL,
+    UPDATE_USER_PASSWORD,
+    UPDATE_USER_PASSWORD_FAIL,
+    UPLOAD_PROFILE_IMAGE,
+    UPLOAD_PROFILE_IMAGE_FAIL,
+    UPLOAD_PROFILE_IMAGE_SUCCESS
 } from "./types";
 import firebase from 'firebase';
 import { Actions } from 'react-native-router-flux';
@@ -165,3 +170,95 @@ export const updateUserEmailFail = (dispatch) => {
         type: UPDATE_USER_EMAIL_FAIL
     });
 };
+
+
+export const updateUserPassword = ({ password }) => {
+    return (dispatch) => {
+        dispatch({ type: UPDATE_USER_PASSWORD })
+        var user = firebase.auth().currentUser;
+        console.log(user, password, 'em');
+        user.updatePassword(password)
+        .then(() => {
+            firebase.auth().signOut()
+                .then(() => {
+                    dispatch({ type: USER_LOG_OUT });
+                    AsyncStorage.removeItem('as:auth:user');
+                    Actions.auth();
+                }).catch(() => {
+                    console.log('error');
+                });
+        })
+        .catch(() => updateUserPasswordFail(dispatch));
+    }
+};
+
+export const updateUserPasswordFail = (dispatch) => {
+    dispatch({
+        type: UPDATE_USER_PASSWORD_FAIL
+    });
+};
+
+
+export const uploadUserPhoto = ({ imageUri}) => {
+    const { currentUser } = firebase.auth();
+    return (dispatch) => {
+        dispatch({ type: UPLOAD_PROFILE_IMAGE });
+        this.uploadImage(imageUri)
+            .then(url =>
+                firebase.database().ref('userInfo/' + currentUser.uid).set({ profileImage: url })
+                    .then((userInfo) => updateProfileImageSuccess(dispatch, userInfo))
+            )
+            .catch(error => uploadProfileImageFail(dispatch, error));
+    };
+};
+
+export const updateProfileImageSuccess = (dispatch, userInfo) => {
+    dispatch({ type: UPLOAD_PROFILE_IMAGE_SUCCESS, payload: userInfo });
+};
+
+
+export const uploadProfileImageFail = (dispatch, error) => {
+    dispatch({
+        type: UPLOAD_PROFILE_IMAGE_FAIL,
+        payload: error
+    });
+};
+
+
+uploadImage = (uri) => {
+    return new Promise((resolve, reject) => {
+        const uploadUri = uri;
+        let uploadBlob = null;
+        let mime = 'image/jpg';
+        const imageRef = firebase.storage().ref('uploads').child(uiqueID());
+
+        fs.readFile(uploadUri, 'base64')
+            .then((data) => {
+                return Blob.build(data, { type: `${mime};BASE64` });
+            })
+            .then((blob) => {
+                uploadBlob = blob
+                return imageRef.put(blob, { contentType: mime });
+            })
+            .then(() => {
+                uploadBlob.close();
+                return imageRef.getDownloadURL();
+            })
+            .then((url) => {
+                resolve(url)
+            })
+            .catch((error) => {
+                reject(error)
+            });
+    });
+}
+
+uiqueID = () => {
+    s4 = () => {
+        return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
+    }
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+        s4() + '-' + s4() + s4() + s4();
+}

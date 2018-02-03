@@ -3,10 +3,11 @@ import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity, Dimensions
 import color from '../../../assets/color';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
+import ImagePicker from 'react-native-image-picker';
 import { CustomButton, Input } from '../../common';
 import {connect} from 'react-redux';
 import validate from '../../../Utility/validation';
-import { updateUserName, updateUserEmail} from '../../../store/actions';
+import { updateUserName, updateUserEmail, updateUserPassword, uploadUserPhoto} from '../../../store/actions';
 class Settings extends Component {
   
     constructor(props) {
@@ -14,7 +15,9 @@ class Settings extends Component {
         this.state = {
             viewMode: Dimensions.get('window').height > 500 ? 'potrait' : 'landscape',
             fullnameBoxTouched: false,
-            emailBoxTouched: false,            
+            emailBoxTouched: false,  
+            passwordBoxTouched :  false,
+            pickedImage: null,          
             controls: {
                 email: {
                     value: '',
@@ -65,6 +68,14 @@ class Settings extends Component {
                         },
                         touched: false
                     },
+                    password: {
+                        value: '',
+                        valid: false,
+                        validationRules: {
+                            minLength: 6
+                        },
+                        touched: false
+                    },
                 }
             })
         }
@@ -87,6 +98,12 @@ class Settings extends Component {
                 this.setState({
                     emailBoxTouched: true
                 })
+                break;
+            case 'password':
+                this.setState({
+                    passwordBoxTouched :  true
+                })  
+                break;  
             default:
                 break;
         }
@@ -153,6 +170,78 @@ class Settings extends Component {
             );
         } 
     }
+
+    renderPasswordInput = () => {
+        if (this.state.passwordBoxTouched) {
+            return (
+                <View style={styles.profileInfoWrapper}>
+                    <Text style={styles.label}>New Password</Text>
+                    <Input 
+                        style={styles.input} 
+                        secureTextEntry={true}
+                        placeholder={'Password'}
+                        value={this.state.controls.password.value}
+                        onChangeText={val => this.updateInputState('password', val)}
+                        valid={this.state.controls.password.valid}
+                        touched={this.state.controls.password.touched}  
+                    />
+                </View>
+            );
+        }else {
+            return (
+                <TouchableOpacity
+                    onPress={() => this.changeIntoInput('password')}
+                >
+                    <View style={styles.profileInfoWrapper}>
+                        <Text style={styles.label}>New Password</Text>
+                        <Text style={styles.input}>........</Text>
+                    </View>
+                </TouchableOpacity>
+            );
+        }
+    }
+
+    renderImage = () => {
+        if (this.state.pickedImage) {
+            return (
+                <View style={styles.profileImageContainer}>
+                    <Image source={this.state.pickedImage} style={styles.profileImageStyle} />
+                    <Text style={styles.headerText}>INFO</Text>
+                    <View style={this.state.viewMode === 'potrait' ? styles.potraitIconContainer : styles.landscapeIcontainer}>
+                        <TouchableOpacity
+                            onPress={this.pickImageHandler}
+                        >
+                            <Icon
+                                size={18}
+                                color={color.themeColor}
+                                name={`ios-brush-outline`}
+                                text={`My Account`}
+                            />
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            );
+        }
+        return (
+            <View style={styles.profileImageContainer}>
+                <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} style={styles.profileImageStyle} />
+                <Text style={styles.headerText}>INFO</Text>
+                <View style={this.state.viewMode === 'potrait' ? styles.potraitIconContainer : styles.landscapeIcontainer}>
+                    <TouchableOpacity
+                        onPress={this.pickImageHandler}
+                    >
+                        <Icon
+                            size={18}
+                            color={color.themeColor}
+                            name={`ios-brush-outline`}
+                            text={`My Account`}
+                        />
+                    </TouchableOpacity>
+                </View>
+            </View>
+        );
+    }
+
     updateInputState = (key, val) => {
         this.setState(prevState => {
             return {
@@ -180,6 +269,7 @@ class Settings extends Component {
             });
             Keyboard.dismiss();
         }
+
         if (this.state.controls.email.touched && this.state.controls.email.valid) {
             const email = this.state.controls.email.value;
             this.props.updateEmail({email});
@@ -189,11 +279,42 @@ class Settings extends Component {
             Keyboard.dismiss();
         }
 
+        if (this.state.controls.password.touched && this.state.controls.password.valid) {
+            const password = this.state.controls.password.value;
+            this.props.updatePassword({password});
+            this.setState({
+                passwordBoxTouched: false
+            });
+            Keyboard.dismiss();
+        }
 
-        if (!this.state.controls.fullname.touched && !this.state.controls.email.touched) {
+        if (this.state.pickedImage) {
+            const imageUri = this.state.pickedImage.uri;
+            console.log(imageUri);
+            this.props.updateProfilePhoto({imageUri});
+            
+        }
+
+        if (!this.state.controls.fullname.touched && !this.state.controls.email.touched && !this.state.controls.password.touched && !this.pickedImage ) {
             console.log('not touched');
         }
         
+    }
+
+    pickImageHandler = () => {
+        ImagePicker.showImagePicker({ title: 'Pick an Image' }, res => {
+            if (res.didCancel) {
+                console.log('Cancled');
+            } else if (res.error) {
+                console.log('Error', res.error);
+            } else {
+                this.setState({
+                    pickedImage: {
+                        uri: res.uri
+                    }
+                });
+            }
+        });
     }
 
     render() {
@@ -203,20 +324,7 @@ class Settings extends Component {
         return (
             <View style={{flex:1}}>
                 <ScrollView style={{ backgroundColor: '#fff', marginBottom: 100}}>
-                <View style={styles.profileImageContainer}>
-                        <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} style={styles.profileImageStyle} />
-                        <Text style={styles.headerText}>INFO</Text>
-                        <View style={this.state.viewMode === 'potrait' ? styles.potraitIconContainer : styles.landscapeIcontainer}>
-                            <TouchableOpacity>
-                                <Icon
-                                    size={18}
-                                    color={color.themeColor}
-                                    name={`ios-brush-outline`}
-                                    text={`My Account`}
-                                />
-                            </TouchableOpacity>
-                        </View>
-                </View>
+               {this.renderImage()}
                 <View style={styles.profileInfoContainer}>
                         {this.renderNameInput()}
                         {this.renderEmailInput()}
@@ -227,16 +335,7 @@ class Settings extends Component {
                         <Text style={[styles.headerText, {top: 1}]}>CHANGE PASSWORD</Text>
                     </View>
                     <View style={styles.passwordContainer}>
-                        <TouchableOpacity>
-                            <View style={styles.profileInfoWrapper}>
-                                <Text style={styles.label}>New Password</Text>
-                                <Text style={styles.input}>........</Text>
-                            </View>
-                            <View style={[styles.profileInfoWrapper, {borderBottomColor: '#fff'}]}>
-                                <Text style={styles.label}>Confirm Password</Text>
-                                <Text style={styles.input}>........</Text>
-                            </View>
-                        </TouchableOpacity>
+                       {this.renderPasswordInput()}
                     </View>
                 </ScrollView>
                 <View 
@@ -383,7 +482,9 @@ const mapStateToProps = ({ auth, blog }) => {
 const mapDispatchToProps = dispatch => {
     return {
         updateName: ({ name, userId }) => dispatch(updateUserName({ name, userId })),
-        updateEmail: ({email}) => dispatch(updateUserEmail({email}))
+        updateEmail: ({email}) => dispatch(updateUserEmail({email})),
+        updatePassword: ({ password }) => dispatch(updateUserPassword({password})),
+        updateProfilePhoto: ({ imageUri }) => dispatch(uploadUserPhoto({imageUri}))
     }
 }
 
