@@ -130,13 +130,15 @@ export const logOutUser = () => {
 };
 
 
-export const updateUserName = ({ name, userId}) => {
+export const updateUserName = ({ name, image, userId}) => {
     console.log(name, 'name');
     
     return (dispatch) => {
         dispatch({ type: UPDATE_USER_NAME });
-        firebase.database().ref('userInfo/' + userId).set({fullname: name})
-        .then((userInfo) => updateUserNameSuccess(dispatch, userInfo));
+        firebase.database().ref('userInfo/' + userId).set({
+            fullname: name,
+            profileImage: image
+        }).then((userInfo) => updateUserNameSuccess(dispatch, userInfo));
     }
 };
 
@@ -199,14 +201,14 @@ export const updateUserPasswordFail = (dispatch) => {
 };
 
 
-export const uploadUserPhoto = ({ imageUri}) => {
+export const uploadUserPhoto = ({ name, imageUri}) => {
     const { currentUser } = firebase.auth();
     return (dispatch) => {
         dispatch({ type: UPLOAD_PROFILE_IMAGE });
         this.uploadImage(imageUri)
             .then(url =>
                 firebase.database().ref('userInfo/' + currentUser.uid).set({
-                     
+                    fullname: name,
                     profileImage: url 
                 })
                     .then((userInfo) => updateProfileImageSuccess(dispatch, userInfo))

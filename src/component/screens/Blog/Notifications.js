@@ -43,7 +43,7 @@ class Notifications extends Component {
                         <View style={styles.infoContainer}>
                             <View style={styles.imageContainerWidth}>
                                 <Image
-                                    source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }}
+                                    source={{ uri: item.a[index].usersInfo.profileImage }}
                                     style={styles.profileImageStyle}
                                 />
                             </View>

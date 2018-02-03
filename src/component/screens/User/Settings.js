@@ -263,7 +263,8 @@ class Settings extends Component {
         if (this.state.controls.fullname.touched && this.state.controls.fullname.valid) {
             const userId = this.props.user.uid;
             const name = this.state.controls.fullname.value;
-            this.props.updateName({ name, userId});
+            const image = this.props.userInfo.profileImage;
+            this.props.updateName({ name, image ,userId});
             this.setState({
                 fullnameBoxTouched : false
             });
@@ -290,8 +291,9 @@ class Settings extends Component {
 
         if (this.state.pickedImage) {
             const imageUri = this.state.pickedImage.uri;
+            const name = this.props.userInfo.fullname;
             console.log(imageUri);
-            this.props.updateProfilePhoto({imageUri});
+            this.props.updateProfilePhoto({ name, imageUri});
             
         }
 
@@ -481,10 +483,10 @@ const mapStateToProps = ({ auth, blog }) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        updateName: ({ name, userId }) => dispatch(updateUserName({ name, userId })),
+        updateName: ({ name, image, userId }) => dispatch(updateUserName({ name, image, userId})),
         updateEmail: ({email}) => dispatch(updateUserEmail({email})),
         updatePassword: ({ password }) => dispatch(updateUserPassword({password})),
-        updateProfilePhoto: ({ imageUri }) => dispatch(uploadUserPhoto({imageUri}))
+        updateProfilePhoto: ({ name, imageUri }) => dispatch(uploadUserPhoto({ name, imageUri}))
     }
 }
 

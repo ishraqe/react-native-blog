@@ -29,12 +29,19 @@ class Profile extends Component {
                 info: this.props.usersPost
             });
         }
+        if (this.props.userInfo) {
+            this.setState({
+                userInfo : this.props.userInfo 
+            })
+        }
     }
 
     componentWillReceiveProps(next) {
         this.setState({
-            info: next.usersPost
+            info: next.usersPost,
+            userInfo: next.userInfo 
         });
+
     }
 
     componentDidMount () {
@@ -51,12 +58,12 @@ class Profile extends Component {
                     <View style={styles.profileContainer}>
                         <View style={{flex:2}}>
                             <Image 
-                                source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} 
+                                source={{ uri: this.props.userInfo.profileImage }} 
                                 style={styles.profileImageStyle} 
                             />
-                            <Text style={styles.nameStyle}>Blake Lively</Text>
+                            <Text style={styles.nameStyle}>{this.props.userInfo.fullname}</Text>
                         </View>
-                        <TouchableOpacity style={styles.gradientWrapper}>
+                        {/* <TouchableOpacity style={styles.gradientWrapper}>
                             <View style={styles.gradientWrapper} >
                                 <LinearGradient
                                     colors={[color.gradientFirstColor, color.gradientSecondColor]}
@@ -66,7 +73,7 @@ class Profile extends Component {
                                     <Text style={styles.textStyle}>MAIL</Text>
                                 </LinearGradient>
                             </View>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                     </View>
                     <View style={styles.photoContainer}>
                         <View style={styles.info}>
@@ -225,13 +232,14 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = ({auth, blog}) => {
 
-    const { user } = auth;
+    const { user, userInfo } = auth;
     const usersPost = blog.usersBlog;
-    console.log(usersPost, 'users post');
+    console.log(usersPost, userInfo,'users post');
     
     return {
         user,
-        usersPost
+        usersPost,
+        userInfo
     }
 }
 

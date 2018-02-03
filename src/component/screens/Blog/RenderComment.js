@@ -35,7 +35,7 @@ class RenderComment extends Component {
                     />
                     <Text style={styles.modalText}>Close</Text>
                 </TouchableOpacity>
-                <TouchableOpacity
+                {/* <TouchableOpacity
                     style={styles.modalinsideContainer}
                 >
                     <Icon
@@ -43,7 +43,7 @@ class RenderComment extends Component {
                         name={'ios-create-outline'}
                     />
                     <Text style={styles.modalText}>Edit</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <TouchableOpacity
                     style={styles.modalinsideContainer}
                     onPress={this.delete_comments}
@@ -72,7 +72,7 @@ class RenderComment extends Component {
             >
                 <View style={styles.container}>
                     <View style={styles.imageContainer}>
-                        <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} style={styles.profileImageStyle} />
+                        <Image source={{ uri: commentByInfo.profileImage }} style={styles.profileImageStyle} />
                     </View>
                     <View style={styles.commentContainer}>
                         <View style={styles.nameContainer}>

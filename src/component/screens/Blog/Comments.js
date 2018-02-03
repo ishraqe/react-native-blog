@@ -45,10 +45,12 @@ class Comment extends Component {
             const comment = this.state.comment;
             const userId = this.props.user.uid;
             const userInfo = this.props.userInfo.fullname;
+            const profileImage = this.props.userInfo.profileImage
          
             const user = {
                 userId, 
-                userInfo
+                userInfo,
+                profileImage
             }
             const blogId = this.props.blogId;
             const ownerId = this.props.ownerid;

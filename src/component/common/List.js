@@ -14,14 +14,7 @@ class ListView extends Component {
     renderProfileImage = () => {
         if (this.props.item.values.creatorInfo.profileImage) {
             return (
-                    <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} style={styles.profileImageStyle} />
-            );
-        }else {
-            return (
-                <Icon
-                    style={styles.profileImageStyle}
-                    name={'ios-contact'}
-                />
+                <Image source={{ uri: this.props.item.values.creatorInfo.userInfo.profileImage }} style={styles.profileImageStyle} />
             );
         }
        
@@ -42,7 +35,7 @@ class ListView extends Component {
                             <View style={styles.infoContainer}>
                                 <View style={styles.profileContainer}>
                                     <View style={styles.profileImageContainer}>
-                                        <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} style={styles.profileImageStyle} />
+                                        <Image source={{ uri: creatorInfo.userInfo.profileImage }} style={styles.profileImageStyle} />
                                     </View>
                                     <View style={styles.nameContainerStyle}>
                                         <Text style={styles.nameStyle}>{creatorInfo.userInfo.fullname}</Text>

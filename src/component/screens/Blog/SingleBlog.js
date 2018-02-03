@@ -86,7 +86,7 @@ class SingleBlog extends Component {
                 />
                 <Text style={styles.modalText}>Close</Text>
                 </TouchableOpacity>
-                <TouchableOpacity
+                {/* <TouchableOpacity
                     style={styles.modalinsideContainer}
                 >
                     <Icon
@@ -94,7 +94,7 @@ class SingleBlog extends Component {
                         name={'ios-create-outline'}
                     />
                     <Text style={styles.modalText}>Edit</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <TouchableOpacity
                     style={styles.modalinsideContainer}
                     onPress={this.deleteModalHandler}
@@ -158,7 +158,7 @@ class SingleBlog extends Component {
                             <View style= {styles.profileContainer}>
                                 <View style={styles.profileInfoContainer}>
                                     <View style={styles.profileNameContainer}>
-                                        <Image source={{ uri: 'https://assets.vogue.com/photos/58916d1d85b3959618473e5d/master/pass/00-red-lipstick.jpg' }} style={styles.profileImageStyle} />  
+                                <Image source={{ uri: creatorInfo.userInfo.profileImage }} style={styles.profileImageStyle} />  
                                 <Text style={styles.nameStyle}>{creatorInfo.userInfo.fullname}</Text>
                                     </View>
                                     <Text style={styles.timeStyle} >{moment(createdAt).fromNow()}</Text>

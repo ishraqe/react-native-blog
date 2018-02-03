@@ -295,7 +295,8 @@ export const postComment = ({ comment, user, blogId, ownerId}) => {
                   text: comment,
                   commentByInfo: {
                       id: userId,
-                      name: user.userInfo
+                      name: user.userInfo,
+                      profileImage: user.profileImage
                   },
                   createdAt: timestamp
               }

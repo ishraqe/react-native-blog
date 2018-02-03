@@ -108,7 +108,7 @@ class RouterComponent extends Component {
                             <Scene key="tabbar"
                                 tabBarStyle={{ position: 'relative',
                                  overflow: 'visible',
-                                 paddingLeft: 30 ,
+                                 paddingLeft: 70 ,
                                  backgroundColor: '#fff'
                                 }}
                                 showLabel={true} activeBackgroundColor='#fff'
@@ -120,16 +120,16 @@ class RouterComponent extends Component {
                                     key="landing_page"
                                     component={Landing}
                                     renderLeftButton={()=>this.renderLeftMenuButton()}
-                                    renderRightButton={() => (
-                                        <TouchableOpacity onPress={() => Actions.search_tab()}>
-                                            <Icon
-                                                size={30}
-                                                name={`ios-search-outline`}
-                                                text={`My Account`}
-                                                style={{ color: color.greyColor, marginLeft: 10, marginRight: 10, left: 1, }}
-                                            />
-                                        </TouchableOpacity>
-                                    )}
+                                    // renderRightButton={() => (
+                                    //     <TouchableOpacity onPress={() => Actions.search_tab()}>
+                                    //         <Icon
+                                    //             size={30}
+                                    //             name={`ios-search-outline`}
+                                    //             text={`My Account`}
+                                    //             style={{ color: color.greyColor, marginLeft: 10, marginRight: 10, left: 1, }}
+                                    //         />
+                                    //     </TouchableOpacity>
+                                    // )}
                                     title={'Timeline'}
                                     tabBarLabel={({ focused }) => (
                                         <View>
@@ -137,11 +137,13 @@ class RouterComponent extends Component {
                                                 size={40}
                                                 name={`ios-list-outline`}
                                                 text={`My Account`}
+                                                color={focused ? color.themeColor : null }
                                             />
                                         </View>
                                     )}
+                                   
                                 />
-                                <Scene 
+                                {/* <Scene 
                                     key="search_tab" 
                                     tabBarLabel={({ focused }) => (
                                         <View>
@@ -155,7 +157,7 @@ class RouterComponent extends Component {
                                     labelStyle={Actions.currentScene ? '#3ac665' : 'red'} 
                                     component={Search} title="Search" 
                                     renderLeftButton={() => this.renderLeftMenuButton()}
-                                />
+                                /> */}
                                 <Scene
                                     tabBarLabel={({ focused }) => (
                                     <View>
@@ -163,6 +165,7 @@ class RouterComponent extends Component {
                                             size={40}
                                             name={`ios-add-outline`}
                                             text={`My Account`}
+                                            color={focused ? color.themeColor : null}
                                         />
                                     </View>
                                 )} 
@@ -178,6 +181,7 @@ class RouterComponent extends Component {
                                         size={40}
                                         name={`ios-notifications-outline`}
                                         text={`My Account`}
+                                        color={focused ? color.themeColor : null}
                                     />
                                 </View>
                                 )} 

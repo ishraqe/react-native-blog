@@ -136,7 +136,7 @@ class Drawer extends Component  {
                                 <Text style={[{ fontSize: 19 }, styles.marginTOLeft]}>Settings</Text>
                             </View>
                         </TouchableOpacity>
-                        <View style={styles.switchContainer}>
+                        {/* <View style={styles.switchContainer}>
                             <View style={styles.notificationContainer}>
                                 <Icon
                                     size={25}
@@ -152,7 +152,7 @@ class Drawer extends Component  {
                                 style={{ marginLeft: -40 }}
                                 onValueChange={() => this.setState({ value: !this.state.value })}
                             />
-                        </View>
+                        </View> */}
                         <TouchableOpacity style={{
                             position: 'absolute', bottom: 230, paddingLeft: 10
                             }}>
