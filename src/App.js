@@ -10,12 +10,14 @@ import RouterComponent from './Router';
 import reducers from './store/reducers';
 import color from './assets/color';
 import SplashScreen from 'react-native-splash-screen';
+import { Client } from 'bugsnag-react-native';
 class App extends Component {
     constructor(props) {
         super(props);
         console.ignoredYellowBox = ['Setting a timer'];
     }
     componentWillMount() {
+        const bugsnag = new Client();
         const config = {
             apiKey: "AIzaSyArewexTwIOYZBXnLwt-YAUbiaztDrRyaA",
             authDomain: "blog-react-native.firebaseapp.com",

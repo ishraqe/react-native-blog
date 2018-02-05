@@ -16,7 +16,11 @@ class SingleBlog extends Component {
         comment: ''
     }
 
-    componentWillMount() {
+    async componentDidMount() {
+        if (this.props.post.key) {
+            const blogId = this.props.post.key;
+        await this.props.fetch_Blog_Activity({ blogId });
+        }
         if (this.props.likeActivity && this.props.likeActivity.likes != 0) {
             this.setState({
                 like: this.props.likeActivity.likes,
@@ -31,33 +35,7 @@ class SingleBlog extends Component {
             this.setState({
                 comment: this.props.likeActivity.comments
             });
-        }
-        
-    }
-
-    componentWillReceiveProps(next) {
-        if (next.likeActivity && next.likeActivity.likes != 0) {
-            this.setState({
-                like: next.likeActivity.likes,
-            });
-        } else {
-            this.setState({
-                like: '',
-            }); 
-        }
-
-        if (next.likeActivity && next.likeActivity.comments != 0) {
-            this.setState({
-                comment: next.likeActivity.comments
-            }); 
-        }
-    }
-
-    componentDidMount() {
-        if (this.props.post.key) {
-            const blogId = this.props.post.key;
-            this.props.fetch_Blog_Activity( blogId );
-        }
+        } 
     }
     deleteModalHandler = () => {
         const userId = this.props.post.ownerId;
@@ -72,8 +50,6 @@ class SingleBlog extends Component {
         this.props.give_like({ blogId, userId});
     }
     modalComponent = () => {
-        
-        
         return (  
            <View style={styles.modalMain}>
                 <TouchableOpacity
@@ -86,15 +62,6 @@ class SingleBlog extends Component {
                 />
                 <Text style={styles.modalText}>Close</Text>
                 </TouchableOpacity>
-                {/* <TouchableOpacity
-                    style={styles.modalinsideContainer}
-                >
-                    <Icon
-                        size= {35}
-                        name={'ios-create-outline'}
-                    />
-                    <Text style={styles.modalText}>Edit</Text>
-                </TouchableOpacity> */}
                 <TouchableOpacity
                     style={styles.modalinsideContainer}
                     onPress={this.deleteModalHandler}
@@ -343,9 +310,6 @@ const styles = StyleSheet.create({
         shadowRadius: 2,
         elevation: 1
     }
-
-
-
 });
 
 const mapStateToProps = state => {
@@ -361,7 +325,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         deleteBlog: ({userId, blogId}) => dispatch(deleteBlogPost({userId, blogId})),
-        fetch_Blog_Activity: ( blogId ) => dispatch(fetchBlogActivity( blogId)),
+        fetch_Blog_Activity: ({ blogId }) => dispatch(fetchBlogActivity( {blogId})),
         give_like: ({ blogId, userId }) => dispatch(likeAction({ blogId, userId }))
     };
 }

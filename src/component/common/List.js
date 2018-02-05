@@ -11,14 +11,7 @@ class ListView extends Component {
     onRowPress = () => {
         Actions.single_blog({ post: this.props.item });
     }
-    renderProfileImage = () => {
-        if (this.props.item.values.creatorInfo.profileImage) {
-            return (
-                <Image source={{ uri: this.props.item.values.creatorInfo.userInfo.profileImage }} style={styles.profileImageStyle} />
-            );
-        }
-       
-    }
+
     render() {
         const { imageUrl, blogDescription, creatorInfo, createdAt } = this.props.item.values;
         return (

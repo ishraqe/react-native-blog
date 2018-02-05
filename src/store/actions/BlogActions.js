@@ -275,11 +275,11 @@ export const likeFail = (dispatch, err) => {
     });
 };
 
-export const fetchBlogActivity = (blogId) => {
+export const fetchBlogActivity = ({blogId}) => {
     return (dispatch) => {
         firebase.database().ref('blogActions/' + blogId )
             .on('value', snapshot => {
-                dispatch({ type: BLOG_ACTIVITY_FETCH, payload: snapshot.val() });
+            dispatch({ type: BLOG_ACTIVITY_FETCH, payload: snapshot.val() });
         });
     };
 }
