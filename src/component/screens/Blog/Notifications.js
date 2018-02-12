@@ -69,8 +69,12 @@ class Notifications extends Component {
     render() {
       
         return (
-            <View>
-                <Text>Under developed</Text>
+            <View style={{flex:1, backgroundColor:'#fff', justifyContent:'center', alignItems:'center'}}>
+                <Text style={{
+                    fontFamily: 'DancingScript-Bold',
+                    fontSize: 40,
+                    marginBottom: 4,
+                    color: '#3ac665'}}>Under development !!</Text>
             </View>
             // <FlatList
             //     scrollEventThrottle={16}
