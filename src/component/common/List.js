@@ -9,7 +9,7 @@ import color from '../../assets/color';
 class ListView extends Component {
 
     onRowPress = () => {
-        Actions.single_blog({ post: this.props.item });
+       console.log('pressed');
     }
 
     render() {

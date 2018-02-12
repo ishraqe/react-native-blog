@@ -69,20 +69,22 @@ class Notifications extends Component {
     render() {
       
         return (
-         
-            <FlatList
-                scrollEventThrottle={16}
-                refreshControl={
-                    <RefreshControl
-                        refreshing={this.state.refreshing}
-                        onRefresh={this._onRefresh.bind(this)}
-                    />
-                }
-                data={this.state.notifications}
-                renderItem={this.renderNotificationComponent}
-                keyExtractor={(item, index) => index}
-            >
-            </FlatList>
+            <View>
+                <Text>Under developed</Text>
+            </View>
+            // <FlatList
+            //     scrollEventThrottle={16}
+            //     refreshControl={
+            //         <RefreshControl
+            //             refreshing={this.state.refreshing}
+            //             onRefresh={this._onRefresh.bind(this)}
+            //         />
+            //     }
+            //     data={this.state.notifications}
+            //     renderItem={this.renderNotificationComponent}
+            //     keyExtractor={(item, index) => index}
+            // >
+            // </FlatList>
         );
     }
 }
