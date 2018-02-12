@@ -3,7 +3,7 @@
 
 #### Artisan's story is a social app with a universal timeline. Any registered user can share their thougts via this. Now there is no interaction between single feed'.  In future there will be some like like, comment. 
 
-Download the APK : [Installable APK](https://github.com/shoumma/Mister-Poster/raw/master/apk-releases/mister-poster.apk)
+Download the APK : [Installable APK](https://github.com/ishraqe/react-native-blog/apk/app-release.apk)
 
 ![Preview](./src/assets/inCollage_20180212_202916674.jpg)
 
@@ -51,6 +51,7 @@ In settings user can change name, email, password and profile picture.
 ### Future Development: 
  - Blog Actions (Like, comments )
  - Notifications 
+ - Search
  - [AsyncStorage](https://facebook.github.io/react-native/docs/asyncstorage.html) for storing user information and getting logged in. 
  - [Animation](https://facebook.github.io/react-native/docs/animated.html) 
  
@@ -102,7 +103,7 @@ Now, you have your own copy of this application!
 
 
 ##License
-[MIT License](https://github.com/shoumma/Mister-Poster/blob/master/LICENSE). Do whatever you want to do.
+Gimmi some cash !!, Kidding, Do whatever you want to do.
 
 
 ## Credits
