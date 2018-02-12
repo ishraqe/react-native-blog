@@ -19,12 +19,12 @@ class App extends Component {
     componentWillMount() {
         const bugsnag = new Client();
         const config = {
-            apiKey: "AIzaSyArewexTwIOYZBXnLwt-YAUbiaztDrRyaA",
-            authDomain: "blog-react-native.firebaseapp.com",
-            databaseURL: "https://blog-react-native.firebaseio.com",
-            projectId: "blog-react-native",
-            storageBucket: "blog-react-native.appspot.com",
-            messagingSenderId: "511570097836"
+            apiKey: "",
+            authDomain: "",
+            databaseURL: "",
+            projectId: "",
+            storageBucket: "",
+            messagingSenderId: ""
         };
         if (!firebase.apps.length) {
             firebase.initializeApp(config);
