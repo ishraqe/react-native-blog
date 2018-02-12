@@ -3,7 +3,7 @@
 
 #### Artisan's story is a social app with a universal timeline. Any registered user can share their thougts via this. Now there is no interaction between single feed'.  In future there will be some like like, comment. 
 
-Download the APK : [Installable APK](https://github.com/ishraqe/react-native-blog/apk/app-release.apk)
+Download the APK : [Installable APK](./apk/app-release.apk)
 
 ![Preview](./src/assets/inCollage_20180212_202916674.jpg)
 
@@ -102,7 +102,7 @@ At this point you need to have the configurations for a Firebase App. Just go to
 Now, you have your own copy of this application!
 
 
-##License
+## License
 Gimmi some cash !!, Kidding, Do whatever you want to do.
 
 
